@@ -3,12 +3,13 @@ import {
   CANVAS_HEIGHT,
   CANVAS_WIDTH,
   colorPalette,
+  STATS_BOX_TOP,
 } from "./constants";
 
 export function canvasBackground(context: CanvasRenderingContext2D) {
   const image = new Image(CANVAS_WIDTH, CANVAS_HEIGHT);
   image.src = bgImageUrl;
-  context.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  context.drawImage(image, 0, 0, CANVAS_WIDTH, STATS_BOX_TOP);
 }
 
 export function canvasBoarder(context: CanvasRenderingContext2D) {

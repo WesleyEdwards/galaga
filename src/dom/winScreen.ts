@@ -1,30 +1,22 @@
 import { createButton, setElementToApp } from "./domHelpers";
 
-type ScoreItem = {
-  score: number;
-  name: string;
-};
-
 export function handleWinUi(score: number, playAgain: () => void) {
-  const name = "John Adams";
-  const scoresItems = getScores();
-  const scores = scoresItems.map((item) => item.score);
+  const scores = getScores();
 
   const currHighScore = scores.length === 0 ? 0 : Math.max(...scores);
 
-  scoresItems.push({ score, name });
+  scores.push(score);
 
-  scoresItems.sort((a, b) => b.score - a.score);
-  if (scoresItems.length > 10) {
-    scoresItems.shift();
+  scores.sort((a, b) => b - a);
+  if (scores.length > 10) {
+    scores.shift();
   }
-
-  setScores(scoresItems);
+  setScores(scores);
 
   const message =
     score > currHighScore
       ? `You got a new High Score of ${score}!`
-      : `Name: ${name} -- Score: ${score}`;
+      : `Score: ${score}`;
 
   const congrats = document.createElement("h2");
   congrats.setAttribute("id", "congrats");
@@ -37,9 +29,9 @@ export function handleWinUi(score: number, playAgain: () => void) {
   titleDiv.innerHTML = "High Scores";
   highScoreDiv.appendChild(titleDiv);
 
-  scoresItems.forEach((score) => {
+  scores.forEach((score, index) => {
     const scoresDiv = document.createElement("div");
-    scoresDiv.innerHTML = `${score.score} (${score.name})`;
+    scoresDiv.innerHTML = `${index + 1}: ${score}`;
     highScoreDiv.appendChild(scoresDiv);
   });
 
@@ -55,14 +47,14 @@ export function handleWinUi(score: number, playAgain: () => void) {
   setElementToApp(scoreBoard);
 }
 
-function getScores(): ScoreItem[] {
-  const scores = localStorage.getItem("scores");
+function getScores(): number[] {
+  const scores = localStorage.getItem("blue-scores");
   if (scores) {
     return JSON.parse(scores);
   }
   return [];
 }
 
-function setScores(scores: ScoreItem[]) {
-  localStorage.setItem("scores", JSON.stringify(scores));
+function setScores(scores: number[]) {
+  localStorage.setItem("blue-scores", JSON.stringify(scores));
 }

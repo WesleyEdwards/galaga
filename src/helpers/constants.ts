@@ -1,5 +1,5 @@
 export const bgImageUrl =
-  "https://user-images.githubusercontent.com/97990557/215391290-63ef6d4b-e936-487f-a10a-2e46aeb0516e.png";
+  "https://img.freepik.com/premium-vector/pixel-brick-wall-seamless-pattern-brick-wallpaper-stone-decoration-texture-wall-square-pixel-backdrop-video-game-vector-illustration_102902-3265.jpg";
 export const tsImageUrl =
   "https://user-images.githubusercontent.com/97990557/218295025-10f67eb5-4cbc-454c-bdb4-1931f2d623b5.png";
 
@@ -19,7 +19,7 @@ export const widthFactor: Record<string, number> = {
 type Colors = "walls" | "border";
 
 export const colorPalette: Record<Colors, string> = {
-  walls: "blue",
+  walls: "darkgreen",
   border: "green",
 } as const;
 
