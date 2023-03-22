@@ -10,12 +10,12 @@ export function getCanvasContext(): {
   return { canvas, context };
 }
 
-export function setupCanvas(canvas: HTMLCanvasElement, startOver: () => void) {
+export function setupCanvas(canvas: HTMLCanvasElement, mainMenu: () => void) {
   const mainDiv = document.getElementById("mainDiv")!;
   canvas.height = CANVAS_HEIGHT;
   canvas.width = CANVAS_WIDTH;
 
-  const endButton = createButton("startOver", "Start Over", startOver);
+  const endButton = createButton("mainMenu", "Main Menu", mainMenu);
   endButton.setAttribute("style", "margin-top: 2rem;");
 
   mainDiv.appendChild(canvas);
@@ -33,7 +33,7 @@ export function createButton(id: string, text: string, callback: () => void) {
 export function setElementToApp(div?: HTMLDivElement) {
   const title = document.createElement("h1");
   title.setAttribute("class", "onBackground");
-  title.innerHTML = "Big Blue is You";
+  title.innerHTML = "Galaga";
 
   const mainDiv = createDiv("mainDiv");
   mainDiv.appendChild(title);

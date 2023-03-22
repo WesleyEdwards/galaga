@@ -48,7 +48,7 @@ export function handleWinUi(score: number, playAgain: () => void) {
 }
 
 function getScores(): number[] {
-  const scores = localStorage.getItem("blue-scores");
+  const scores = localStorage.getItem("galaga-scores");
   if (scores) {
     return JSON.parse(scores);
   }
@@ -56,5 +56,5 @@ function getScores(): number[] {
 }
 
 function setScores(scores: number[]) {
-  localStorage.setItem("blue-scores", JSON.stringify(scores));
+  localStorage.setItem("galaga-scores", JSON.stringify(scores));
 }

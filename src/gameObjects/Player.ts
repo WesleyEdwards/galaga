@@ -1,47 +1,61 @@
 import {
-  Direction,
-  Keys,
   CANVAS_WIDTH,
-  tsImageUrl,
-  STATS_BOX_TOP,
   PLAYER_SPEED,
-  PLAYER_WIDTH,
+  CANVAS_HEIGHT,
+  PLAYER_MOST_LEFT_POS,
+  PLAYER_MOST_RIGHT_POS,
+  PLAYER_RADIUS,
+  PLAYER_TOP,
 } from "../helpers/constants";
+import { images } from "../helpers/drawingHelpers";
+import { DrawManager } from "../helpers/DrawManager";
+import { Direction, Keys } from "../helpers/types";
 
 export class Player {
-  private pos: number = CANVAS_WIDTH / 2;
+  private pos: number = CANVAS_WIDTH / 2 - PLAYER_RADIUS / 2;
   private moving: Direction = "none";
+  private drawManager: DrawManager;
 
-  update(keys: Keys) {
-    if (keys.direction === "left") {
-      this.movePlayer("left");
+  constructor(context: CanvasRenderingContext2D) {
+    this.drawManager = new DrawManager(
+      context,
+      PLAYER_RADIUS,
+      PLAYER_RADIUS,
+      images.player
+    );
+  }
+
+  update(keys: Keys, elapsedTime: number) {
+    if (keys.left) {
+      this.movePlayer("left", elapsedTime);
       this.moving = "left";
     }
-    if (keys.direction === "right") {
-      this.movePlayer("right");
+    if (keys.right) {
+      this.movePlayer("right", elapsedTime);
       this.moving = "right";
     }
 
-    if (this.moving !== keys.direction) {
-      this.moving = "none";
+    if (this.moving === "left" && !keys.left) this.moving = "none";
+    if (this.moving === "right" && !keys.right) this.moving = "none";
+  }
+
+  movePlayer(direction: Direction, elapsedTime: number) {
+    if (direction === "left" && this.pos > PLAYER_MOST_LEFT_POS) {
+      this.pos -= PLAYER_SPEED * elapsedTime;
+    }
+    if (
+      direction === "right" &&
+      this.pos < PLAYER_MOST_RIGHT_POS - PLAYER_RADIUS
+    ) {
+      this.pos += PLAYER_SPEED * elapsedTime;
     }
   }
 
-  movePlayer(direction: Direction) {
-    if (direction === "left" && this.pos > 0) this.pos -= PLAYER_SPEED;
-    if (direction === "right" && this.pos < CANVAS_WIDTH - PLAYER_WIDTH)
-      this.pos += PLAYER_SPEED;
+  draw() {
+    this.drawManager.draw(this.pos, CANVAS_HEIGHT - PLAYER_TOP);
   }
 
-  draw(context: CanvasRenderingContext2D) {
-    const image = new Image(PLAYER_WIDTH, PLAYER_WIDTH);
-    image.src = tsImageUrl;
-    context.drawImage(
-      image,
-      this.pos,
-      STATS_BOX_TOP - 150,
-      PLAYER_WIDTH,
-      PLAYER_WIDTH
-    );
+  get centerX() {
+    return this.pos + PLAYER_RADIUS / 2;
   }
 }

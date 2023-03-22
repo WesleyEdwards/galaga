@@ -1,51 +1,29 @@
-export const bgImageUrl =
-  "https://img.freepik.com/premium-vector/pixel-brick-wall-seamless-pattern-brick-wallpaper-stone-decoration-texture-wall-square-pixel-backdrop-video-game-vector-illustration_102902-3265.jpg";
-export const tsImageUrl =
-  "https://user-images.githubusercontent.com/97990557/218295025-10f67eb5-4cbc-454c-bdb4-1931f2d623b5.png";
-
-export type Direction = "left" | "right" | "none";
-
-export interface Coordinates {
-  row: number;
-  col: number;
-}
-
-export const widthFactor: Record<string, number> = {
-  crumbs: 0.16,
-  mainPath: 0.25,
-  hint: 0.25,
-};
-
-type Colors = "walls" | "border";
-
-export const colorPalette: Record<Colors, string> = {
-  walls: "darkgreen",
-  border: "green",
-} as const;
-
-export const timerFont = "30px Arial";
-
-export interface Keys {
-  direction: Direction;
-  escape: boolean;
-}
+import { Keys } from "./types";
 
 export const initialKeyStatus: Keys = {
-  direction: "none",
+  left: false,
+  right: false,
   escape: false,
+  shoot: false,
 };
 
 export const PIXEL_SCALE_FACTOR = 57.6;
 
-export const GRID_WIDTH = 15;
-export const GRID_HEIGHT = 10;
-
 export const TIME_TO_WIN = 7000;
 
-export const STATS_BOX_TOP = PIXEL_SCALE_FACTOR * GRID_HEIGHT;
+// Canvas
+export const CANVAS_WIDTH = 576;
+export const CANVAS_HEIGHT = 576;
+export const CANVAS_BORDER = 10;
 
-export const CANVAS_WIDTH = PIXEL_SCALE_FACTOR * GRID_WIDTH;
-export const CANVAS_HEIGHT = PIXEL_SCALE_FACTOR * GRID_HEIGHT + 100;
+export const PLAYER_MOST_LEFT_POS = CANVAS_BORDER;
+export const PLAYER_MOST_RIGHT_POS = CANVAS_WIDTH - CANVAS_BORDER;
 
-export const PLAYER_SPEED = 10;
-export const PLAYER_WIDTH = 50;
+// Player
+export const PLAYER_SPEED = 0.3;
+export const PLAYER_RADIUS = 50;
+export const PLAYER_TOP = PLAYER_RADIUS * 1.5;
+
+// Bullet
+export const BULLET_SPEED = 0.3;
+export const BULLET_RADIUS = 10;

@@ -16,10 +16,12 @@ function main() {
   }
 
   function render() {
-    gameState?.drawAll(context);
+    gameState?.drawAll();
   }
 
   function gameLoop(timeStamp: number) {
+    if (!gameState) return;
+
     const elapsedTime = initial ? 0 : timeStamp - prevTime;
     initial = false;
     prevTime = timeStamp;
@@ -37,13 +39,13 @@ function main() {
   }
 
   function startGame() {
-    setupCanvas(canvas, startOver);
+    setupCanvas(canvas, mainMenu);
     initial = true;
-    gameState = new GameState();
+    gameState = new GameState(context);
     requestAnimationFrame(gameLoop);
   }
 
-  function startOver() {
+  function mainMenu() {
     prevTime = 0;
     gameState = undefined;
     initializeGameUi(startGame);

@@ -1,15 +1,16 @@
-import { Keys } from "./constants";
+import { Keys } from "./types";
 
 export function addEventListeners(keys: Keys) {
-  window.addEventListener("keydown", ({ key: k }) => {
-    if (k === "ArrowRight") keys.direction = "right";
-    if (k === "ArrowLeft") keys.direction = "left";
-    if (k === " " || k === "Escape") keys.escape = true;
+  window.addEventListener("keydown", ({ key }) => {
+    if (key === "ArrowRight") keys.right = true;
+    if (key === "ArrowLeft") keys.left = true;
+    if (key === " ") keys.shoot = true;
+    if (key === " " || key === "Escape") keys.escape = true;
   });
 
-  window.addEventListener("keyup", ({ key: k }) => {
-    if (k === "ArrowRight") keys.direction = "none";
-    if (k === "ArrowLeft") keys.direction = "none";
+  window.addEventListener("keyup", ({ key }) => {
+    if (key === "ArrowRight") keys.right = false;
+    if (key === "ArrowLeft") keys.left = false;
   });
 }
 
