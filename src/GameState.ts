@@ -28,9 +28,7 @@ export class GameState {
       handleWin(100);
     }
 
-    const moveOptions = this.stage.moveOptions(this.player);
-
-    this.player.update(this.keys, moveOptions);
+    this.player.update(this.keys);
     this.stage.update();
   }
 }

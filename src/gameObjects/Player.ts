@@ -1,61 +1,47 @@
 import {
-  Coordinates,
   Direction,
-  GRID_HEIGHT,
-  GRID_WIDTH,
   Keys,
   CANVAS_WIDTH,
   tsImageUrl,
+  STATS_BOX_TOP,
+  PLAYER_SPEED,
+  PLAYER_WIDTH,
 } from "../helpers/constants";
 
 export class Player {
-  private pos: Coordinates = { row: 0, col: 0 };
-  private width: number;
+  private pos: number = CANVAS_WIDTH / 2;
   private moving: Direction = "none";
-  constructor() {
-    this.width = CANVAS_WIDTH / GRID_WIDTH;
-  }
 
-  update(keys: Keys, canMove: Record<Direction, boolean>) {
-    Object.entries(canMove).map(([key, value]) => {
-      if (keys.direction === key && this.moving !== key && value) {
-        this.movePlayer(key);
-        this.moving = key;
-      }
-    });
+  update(keys: Keys) {
+    if (keys.direction === "left") {
+      this.movePlayer("left");
+      this.moving = "left";
+    }
+    if (keys.direction === "right") {
+      this.movePlayer("right");
+      this.moving = "right";
+    }
 
-    Object.entries(canMove).map(([key]) => {
-      if (this.moving === key && keys.direction !== key) {
-        this.moving = "none";
-      }
-    });
+    if (this.moving !== keys.direction) {
+      this.moving = "none";
+    }
   }
 
   movePlayer(direction: Direction) {
-    if (direction === "up" && this.pos.col > 0) this.pos.col--;
-    if (direction === "down" && this.pos.col < GRID_HEIGHT - 1) this.pos.col++;
-    if (direction === "left" && this.pos.row > 0) this.pos.row--;
-    if (direction === "right" && this.pos.row < GRID_WIDTH - 1) this.pos.row++;
+    if (direction === "left" && this.pos > 0) this.pos -= PLAYER_SPEED;
+    if (direction === "right" && this.pos < CANVAS_WIDTH - PLAYER_WIDTH)
+      this.pos += PLAYER_SPEED;
   }
 
   draw(context: CanvasRenderingContext2D) {
-    const lineWidth = this.width / 10;
-    const additional = lineWidth;
-    const image = new Image(
-      this.width - lineWidth - 10,
-      this.width - lineWidth - 10
-    );
+    const image = new Image(PLAYER_WIDTH, PLAYER_WIDTH);
     image.src = tsImageUrl;
     context.drawImage(
       image,
-      this.pos.row * this.width + additional,
-      this.pos.col * this.width + additional,
-      this.width - additional * 2,
-      this.width - additional * 2
+      this.pos,
+      STATS_BOX_TOP - 150,
+      PLAYER_WIDTH,
+      PLAYER_WIDTH
     );
-  }
-
-  get getPos(): Coordinates {
-    return this.pos;
   }
 }

@@ -3,7 +3,7 @@ export const bgImageUrl =
 export const tsImageUrl =
   "https://user-images.githubusercontent.com/97990557/218295025-10f67eb5-4cbc-454c-bdb4-1931f2d623b5.png";
 
-export type Direction = "up" | "down" | "left" | "right" | "none";
+export type Direction = "left" | "right" | "none";
 
 export interface Coordinates {
   row: number;
@@ -46,3 +46,6 @@ export const STATS_BOX_TOP = PIXEL_SCALE_FACTOR * GRID_HEIGHT;
 
 export const CANVAS_WIDTH = PIXEL_SCALE_FACTOR * GRID_WIDTH;
 export const CANVAS_HEIGHT = PIXEL_SCALE_FACTOR * GRID_HEIGHT + 100;
+
+export const PLAYER_SPEED = 10;
+export const PLAYER_WIDTH = 50;
