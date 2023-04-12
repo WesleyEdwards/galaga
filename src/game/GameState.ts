@@ -9,6 +9,7 @@ import { Player } from "./gameObjects/Player";
 import { BulletManager } from "./gameObjects/BulletManager";
 import { Keys } from "./helpers/types";
 import { colorPalette } from "./helpers/drawingHelpers";
+import { UpdateUiFunctions } from "../components/Types";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
@@ -23,13 +24,23 @@ export class GameState {
     this.context = context;
   }
 
-  updateAll(elapsedTime: number, handleWin: (score: number) => void) {
+  updateAll(
+    elapsedTime: number,
+    paused: boolean,
+    uiFunctions: UpdateUiFunctions
+  ) {
+    if (this.keys.escape) {
+      uiFunctions.toggleModal();
+      this.keys.escape = false;
+    }
+    if (paused) return;
+
     this.player.update(this.keys, elapsedTime);
     this.bulletManager.update(elapsedTime, this.keys, this.player.centerX);
 
-    if (Math.random() < 0.001) {
-      handleWin(parseInt((Math.random() * 100).toString()));
-    }
+    // if (Math.random() < 0.001) {
+    //   uiFunctions.handleWin();
+    // }
   }
 
   drawAll() {
