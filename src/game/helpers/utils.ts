@@ -5,7 +5,7 @@ export function addEventListeners(keys: Keys) {
     if (key === "ArrowRight") keys.right = true;
     if (key === "ArrowLeft") keys.left = true;
     if (key === " ") keys.shoot = true;
-    if (key === " " || key === "Escape") keys.escape = true;
+    if (key === "Escape") keys.escape = true;
   });
 
   window.addEventListener("keyup", ({ key }) => {
