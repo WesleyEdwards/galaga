@@ -20,13 +20,7 @@ export class Opponent {
       opponentSprites[oppType][0]
     );
   }
-  update(timeStamp: number) {
-    this.spriteTimer += timeStamp;
-    if (this.spriteTimer > 100) {
-      this.spriteTimer = 0;
-      this.drawManager.incrementSpriteColumn();
-    }
-  }
+  update(timeStamp: number) {}
   draw() {
     this.drawManager.draw(this.pos.x, this.pos.y);
   }

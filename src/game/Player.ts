@@ -17,12 +17,10 @@ export class Player {
 
   constructor(context: CanvasRenderingContext2D) {
     this.drawManager = new DrawManager(context, PLAYER_WIDTH, PLAYER_WIDTH, {
-      srcX: 109, // 1, with 7 columns
+      srcX: 109,
       srcY: 1,
       srcWidth: 16,
       srcHeight: 16,
-      gap: 2,
-      columns: 1,
     });
   }
 

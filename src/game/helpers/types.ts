@@ -17,8 +17,6 @@ export type SpriteInfo = {
   srcY: number;
   srcWidth: number;
   srcHeight: number;
-  gap: number;
-  columns: number;
 };
 
 export type OpponentType = "bee" | "butterfly" | "bossGalaga";

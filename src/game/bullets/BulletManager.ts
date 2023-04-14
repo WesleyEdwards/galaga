@@ -1,5 +1,6 @@
 import {
-  BULLET_RADIUS,
+  BULLET_HEIGHT,
+  BULLET_WIDTH,
   CANVAS_HEIGHT,
   OPPONENT_WIDTH,
   PLAYER_TOP,
@@ -13,25 +14,21 @@ export class BulletManager {
   bullets: Bullet[] = [];
   private drawManager: DrawManager;
   constructor(context: CanvasRenderingContext2D) {
-    this.drawManager = new DrawManager(
-      context,
-      BULLET_RADIUS * 2,
-      BULLET_RADIUS * 2,
-      {
-        srcX: 307,
-        srcY: 118,
-        srcWidth: 16,
-        srcHeight: 16,
-        gap: 0,
-        columns: 1,
-      }
-    );
+    this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
+      srcX: 313,
+      srcY: 122,
+      srcWidth: 3,
+      srcHeight: 8,
+    });
   }
 
   update(elapsedTime: number, keys: Keys, playerCenterX: number) {
     if (keys.shoot) {
       this.bullets.push(
-        new Bullet({ x: playerCenterX, y: CANVAS_HEIGHT - PLAYER_TOP - 5 })
+        new Bullet({
+          x: playerCenterX - BULLET_WIDTH / 2,
+          y: CANVAS_HEIGHT - PLAYER_TOP - 5,
+        })
       );
       keys.shoot = false;
     }
@@ -47,10 +44,7 @@ export class BulletManager {
 
   draw() {
     this.bullets.forEach((bullet) => {
-      this.drawManager.draw(
-        bullet.pos.x - BULLET_RADIUS,
-        bullet.pos.y - BULLET_RADIUS
-      );
+      this.drawManager.draw(bullet.pos.x, bullet.pos.y);
     });
   }
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {
@@ -58,8 +52,8 @@ export class BulletManager {
     this.bullets.forEach((bullet) => {
       opponents.forEach((opp) => {
         if (
-          bullet.center.x > opp.pos.x &&
-          bullet.center.x < opp.rightX + 20 &&
+          bullet.pos.x >= opp.pos.x &&
+          bullet.pos.x <= opp.rightX &&
           bullet.pos.y > opp.pos.y &&
           bullet.pos.y < opp.pos.y + OPPONENT_WIDTH
         ) {

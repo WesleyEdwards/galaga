@@ -1,10 +1,9 @@
 import { OpponentType, SpriteInfo } from "../helpers/types";
 
 const normalCharProps = {
-  srcX: 1,
+  srcX: 109,
   srcWidth: 16,
   srcHeight: 16,
-  gap: 2,
 };
 
 export const opponentSprites: Record<OpponentType, SpriteInfo[]> = {
@@ -12,26 +11,22 @@ export const opponentSprites: Record<OpponentType, SpriteInfo[]> = {
     {
       ...normalCharProps,
       srcY: 91,
-      columns: 8,
     },
   ],
   butterfly: [
     {
       ...normalCharProps,
       srcY: 73,
-      columns: 8,
     },
   ],
   bossGalaga: [
     {
       ...normalCharProps,
       srcY: 37,
-      columns: 8,
     },
     {
       ...normalCharProps,
       srcY: 55,
-      columns: 8,
     },
   ],
 };

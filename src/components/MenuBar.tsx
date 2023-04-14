@@ -27,6 +27,7 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
             src={life_image}
             style={{
               objectFit: "contain",
+              imageRendering: "pixelated",
             }}
             alt="heart"
             width="50px"
