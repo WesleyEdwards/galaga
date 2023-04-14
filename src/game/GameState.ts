@@ -5,22 +5,25 @@ import {
   initialKeyStatus,
 } from "./helpers/constants";
 import { addEventListeners } from "./helpers/utils";
-import { Player } from "./gameObjects/Player";
-import { BulletManager } from "./gameObjects/BulletManager";
+import { Player } from "./Player";
 import { Keys } from "./helpers/types";
 import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
+import { OpponentManager } from "./opponents/OpponentManager";
+import { BulletManager } from "./bullets/BulletManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
   private player: Player;
   private bulletManager: BulletManager;
+  private opponentManager: OpponentManager;
   private context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
     addEventListeners(this.keys);
     this.player = new Player(context);
     this.bulletManager = new BulletManager(context);
+    this.opponentManager = new OpponentManager(context);
     this.context = context;
   }
 
@@ -37,16 +40,21 @@ export class GameState {
 
     this.player.update(this.keys, elapsedTime);
     this.bulletManager.update(elapsedTime, this.keys, this.player.centerX);
+    this.opponentManager.update(elapsedTime);
 
-    // if (Math.random() < 0.001) {
-    //   uiFunctions.handleWin();
-    // }
+    const opponentsHit = this.bulletManager.checkOpponentCollision(
+      this.opponentManager.opponents
+    );
+    if (opponentsHit.length > 0) {
+      uiFunctions.incrementScore(opponentsHit.length);
+    }
   }
 
   drawAll() {
     this.drawBackground();
     this.player.draw();
     this.bulletManager.draw();
+    this.opponentManager.draw();
   }
 
   drawBackground() {

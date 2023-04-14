@@ -1,12 +1,6 @@
-type SpriteInfo = {
-  srcX: number;
-  srcY: number;
-  srcWidth: number;
-  srcHeight: number;
-  gap: number;
-  columns: number;
-};
+import { SpriteInfo } from "./types";
 
+const outline = true;
 export class DrawManager {
   image: HTMLImageElement;
   context: CanvasRenderingContext2D;
@@ -14,19 +8,19 @@ export class DrawManager {
     context: CanvasRenderingContext2D,
     width: number,
     height: number,
-    private spriteInfo: SpriteInfo
+    private spriteInfo: SpriteInfo,
+    private spriteIndex: number = 0
   ) {
     this.image = new Image(width, height);
     this.image.src = "./assets/galaga-sprites.png";
     this.context = context;
   }
-
-  draw(x: number, y: number, column: number, outline?: boolean) {
+  
+  draw(x: number, y: number) {
     this.context.drawImage(
       this.image,
       this.spriteInfo.srcX +
-        (column % this.spriteInfo.columns) *
-          (this.spriteInfo.srcWidth + this.spriteInfo.gap),
+        this.spriteIndex * (this.spriteInfo.srcWidth + this.spriteInfo.gap),
       this.spriteInfo.srcY,
       this.spriteInfo.srcWidth,
       this.spriteInfo.srcHeight,
@@ -41,5 +35,11 @@ export class DrawManager {
       this.context.lineWidth = 2;
       this.context.strokeRect(x, y, this.image.width, this.image.height);
     }
+  }
+
+  incrementSpriteColumn() {
+    this.spriteIndex < this.spriteInfo.columns - 1
+      ? this.spriteIndex++
+      : (this.spriteIndex = 0);
   }
 }

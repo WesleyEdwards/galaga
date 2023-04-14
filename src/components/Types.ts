@@ -38,4 +38,5 @@ export type EnterGameProps = {
 export type UpdateUiFunctions = {
   handleWin: () => void;
   toggleModal: () => void;
+  incrementScore: (score: number) => void;
 };

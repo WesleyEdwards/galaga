@@ -1,6 +1,12 @@
-import { BULLET_RADIUS, CANVAS_HEIGHT, PLAYER_TOP } from "../helpers/constants";
+import {
+  BULLET_RADIUS,
+  CANVAS_HEIGHT,
+  OPPONENT_WIDTH,
+  PLAYER_TOP,
+} from "../helpers/constants";
 import { DrawManager } from "../helpers/DrawManager";
 import { Keys } from "../helpers/types";
+import { Opponent } from "../opponents/Opponent";
 import { Bullet } from "./Bullet";
 
 export class BulletManager {
@@ -43,9 +49,25 @@ export class BulletManager {
     this.bullets.forEach((bullet) => {
       this.drawManager.draw(
         bullet.pos.x - BULLET_RADIUS,
-        bullet.pos.y - BULLET_RADIUS,
-        0
+        bullet.pos.y - BULLET_RADIUS
       );
     });
+  }
+  checkOpponentCollision(opponents: Opponent[]): Opponent[] {
+    const hitOpponents: Opponent[] = [];
+    this.bullets.forEach((bullet) => {
+      opponents.forEach((opp) => {
+        if (
+          bullet.center.x > opp.pos.x &&
+          bullet.center.x < opp.rightX &&
+          bullet.pos.y > opp.pos.y &&
+          bullet.pos.y < opp.pos.y + OPPONENT_WIDTH
+        ) {
+          hitOpponents.push(opp);
+          this.bullets.splice(this.bullets.indexOf(bullet), 1);
+        }
+      });
+    });
+    return hitOpponents;
   }
 }

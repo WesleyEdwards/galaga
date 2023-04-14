@@ -11,3 +11,14 @@ export type Coordinates = {
   x: number;
   y: number;
 };
+
+export type SpriteInfo = {
+  srcX: number;
+  srcY: number;
+  srcWidth: number;
+  srcHeight: number;
+  gap: number;
+  columns: number;
+};
+
+export type OpponentType = "bee" | "butterfly" | "bossGalaga";

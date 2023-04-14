@@ -12,6 +12,7 @@ export function enterGamePlay(props: EnterGameProps) {
     gameState?.updateAll(elapsedTime, paused, {
       handleWin,
       toggleModal,
+      incrementScore,
     });
   }
 
@@ -37,6 +38,9 @@ export function enterGamePlay(props: EnterGameProps) {
   function toggleModal() {
     paused = !paused;
     props.toggleModal();
+  }
+  function incrementScore(score: number) {
+    props.addScore(score);
   }
 
   const context = setUpUI();
