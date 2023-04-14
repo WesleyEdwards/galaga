@@ -7,7 +7,6 @@ import {
   PLAYER_RADIUS,
   PLAYER_TOP,
 } from "../helpers/constants";
-import { images } from "../helpers/drawingHelpers";
 import { DrawManager } from "../helpers/DrawManager";
 import { Direction, Keys } from "../helpers/types";
 
@@ -17,12 +16,14 @@ export class Player {
   private drawManager: DrawManager;
 
   constructor(context: CanvasRenderingContext2D) {
-    this.drawManager = new DrawManager(
-      context,
-      PLAYER_RADIUS,
-      PLAYER_RADIUS,
-      images.player
-    );
+    this.drawManager = new DrawManager(context, PLAYER_RADIUS, PLAYER_RADIUS, {
+      srcX: 1,
+      srcY: 1,
+      srcWidth: 16,
+      srcHeight: 16,
+      gap: 2,
+      columns: 7,
+    });
   }
 
   update(keys: Keys, elapsedTime: number) {
@@ -52,7 +53,7 @@ export class Player {
   }
 
   draw() {
-    this.drawManager.draw(this.pos, CANVAS_HEIGHT - PLAYER_TOP);
+    this.drawManager.draw(this.pos, CANVAS_HEIGHT - PLAYER_TOP, 6);
   }
 
   get centerX() {

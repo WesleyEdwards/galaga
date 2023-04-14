@@ -26,4 +26,4 @@ export const PLAYER_TOP = PLAYER_RADIUS * 1.5;
 
 // Bullet
 export const BULLET_SPEED = 0.3;
-export const BULLET_RADIUS = 10;
+export const BULLET_RADIUS = 16;

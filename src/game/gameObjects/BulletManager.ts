@@ -1,5 +1,4 @@
 import { BULLET_RADIUS, CANVAS_HEIGHT, PLAYER_TOP } from "../helpers/constants";
-import { images } from "../helpers/drawingHelpers";
 import { DrawManager } from "../helpers/DrawManager";
 import { Keys } from "../helpers/types";
 import { Bullet } from "./Bullet";
@@ -12,7 +11,14 @@ export class BulletManager {
       context,
       BULLET_RADIUS * 2,
       BULLET_RADIUS * 2,
-      images.bullet
+      {
+        srcX: 307,
+        srcY: 118,
+        srcWidth: 16,
+        srcHeight: 16,
+        gap: 0,
+        columns: 1,
+      }
     );
   }
 
@@ -37,7 +43,8 @@ export class BulletManager {
     this.bullets.forEach((bullet) => {
       this.drawManager.draw(
         bullet.pos.x - BULLET_RADIUS,
-        bullet.pos.y - BULLET_RADIUS
+        bullet.pos.y - BULLET_RADIUS,
+        0
       );
     });
   }
