@@ -59,7 +59,7 @@ export class BulletManager {
       opponents.forEach((opp) => {
         if (
           bullet.center.x > opp.pos.x &&
-          bullet.center.x < opp.rightX &&
+          bullet.center.x < opp.rightX + 20 &&
           bullet.pos.y > opp.pos.y &&
           bullet.pos.y < opp.pos.y + OPPONENT_WIDTH
         ) {

@@ -1,6 +1,5 @@
 import { SpriteInfo } from "./types";
 
-const outline = true;
 export class DrawManager {
   image: HTMLImageElement;
   context: CanvasRenderingContext2D;
@@ -15,7 +14,7 @@ export class DrawManager {
     this.image.src = "./assets/galaga-sprites.png";
     this.context = context;
   }
-  
+
   draw(x: number, y: number) {
     this.context.drawImage(
       this.image,
@@ -30,7 +29,7 @@ export class DrawManager {
       this.image.height
     );
 
-    if (outline) {
+    if (import.meta.env.VITE_RED_OUTLINE === "true") {
       this.context.strokeStyle = "red";
       this.context.lineWidth = 2;
       this.context.strokeRect(x, y, this.image.width, this.image.height);

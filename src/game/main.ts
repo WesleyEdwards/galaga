@@ -7,6 +7,7 @@ export function enterGamePlay(props: EnterGameProps) {
   let prevTime = 0;
   let initial = true;
   let paused = false;
+  console.log(import.meta.env.VITE_RED_OUTLINE);
 
   function update(elapsedTime: number) {
     gameState?.updateAll(elapsedTime, paused, {
