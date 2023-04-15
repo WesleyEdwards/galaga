@@ -8,8 +8,7 @@ import { opponentSprites } from "./opponentStats";
 export class Opponent {
   pos: Coordinates;
   private drawManager: DrawManager;
-  private spriteTimer = 0;
-  private path: {x: number, y: number}[];
+  private path: { x: number; y: number }[];
   private pathIndex = 0;
   private speed = 400 / 1000;
   private rotation = 0;
