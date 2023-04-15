@@ -4,7 +4,6 @@ import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
-import * as THREE from 'three';
 
 export class Opponent {
   pos: Coordinates;
@@ -12,7 +11,7 @@ export class Opponent {
   private spriteTimer = 0;
   private path: {x: number, y: number}[];
   private pathIndex = 0;
-  private speed = 320 / 1000;
+  private speed = 400 / 1000;
   private rotation = 0;
   constructor(
     context: CanvasRenderingContext2D,
@@ -26,7 +25,7 @@ export class Opponent {
       OPPONENT_WIDTH,
       opponentSprites[oppType][0]
     );
-    if (oppType == 'bee') this.path = path1();
+    if (oppType == 'bee') this.path = path1({x: 260, y: 170});
     else this.path = [];
   }
   update(timeStamp: number) {
@@ -52,8 +51,14 @@ export class Opponent {
         const moveY = distTraveled * dirY;
         this.pos.x += moveX;
         this.pos.y += moveY;
+        this.rotation = getAngle(this.pos, this.path[this.pathIndex + 1]);
+        console.log(this.rotation);
         
       }
+    }
+
+    else {
+      this.rotation = 0;
     }
   }
   draw() {
@@ -67,5 +72,6 @@ export class Opponent {
 function getAngle(pos: {x: number, y: number}, nextPos: {x: number, y: number}) {
   const dx = nextPos.x - pos.x;
   const dy = nextPos.y - pos.y;
-  return Math.atan2(dy, dx);
+  const angle = Math.atan2(dy, dx) + Math.PI / 2;
+  return angle;
 }
