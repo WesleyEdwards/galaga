@@ -1,21 +1,19 @@
-import { CANVAS_WIDTH } from "../helpers/constants";
+import { getConversions } from "../../utils/paths/PathFollower";
+import { CANVAS_WIDTH, OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../helpers/constants";
 
 export const waveOneBeeStart = { x: (CANVAS_WIDTH / 500) * 300, y: 0 };
+const conversions = getConversions();
 export const waveOneBeeEnd = [
-  { x: 125, y: 100 },
-  { x: 175, y: 100 },
-  { x: 225, y: 100 },
-  { x: 125, y: 150 },
-  { x: 175, y: 150 },
-  { x: 225, y: 150 },
+  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (100 + 2 * OPPONENT_HEIGHT)},
+  { x: conversions.x * 215, y: conversions.y * (100 + 2 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (100 + 3 * OPPONENT_HEIGHT)},
+  { x: conversions.x * 215, y: conversions.y * (100 + 3 * OPPONENT_HEIGHT) },
 ];
 
 export const waveOneButterflyStart = { x: (CANVAS_WIDTH / 500) * 200, y: 0 };
 export const waveOneButterflyEnd = [
-  { x: 325, y: 100 },
-  { x: 375, y: 100 },
-  { x: 425, y: 100 },
-  { x: 325, y: 150 },
-  { x: 375, y: 150 },
-  { x: 425, y: 150 },
+  { x: conversions.x * 215, y: conversions.y * 100 },
+  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 100 },
+  { x: conversions.x * 215, y: conversions.y * (100 + 1 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (100 + 1 * OPPONENT_HEIGHT)},
 ];

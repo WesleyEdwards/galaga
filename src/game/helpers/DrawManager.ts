@@ -10,7 +10,7 @@ export class DrawManager {
     private spriteInfo: SpriteInfo
   ) {
     this.image = new Image();
-    this.image.src = "./assets/galaga-sprites.png";
+    this.image.src = "./assets/galaga-sprites-transparent.png";
     this.image.width = width;
     this.image.height = height;
     this.context = context;
