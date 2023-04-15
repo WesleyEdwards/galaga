@@ -1,8 +1,4 @@
-import {
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
-  entranceInterval,
-} from "../helpers/constants";
+import { entranceInterval } from "../helpers/constants";
 import { Opponent } from "./Opponent";
 import {
   waveOneBeeEnd,
@@ -35,7 +31,7 @@ export class OpponentManager {
       this.opponents.push(
         new Opponent(
           this.context,
-          waveOneBeeStart,
+          { ...waveOneBeeStart },
           waveOneBeeEnd[this.beeCount],
           "bee"
         )
@@ -51,7 +47,7 @@ export class OpponentManager {
       this.opponents.push(
         new Opponent(
           this.context,
-          waveOneButterflyStart,
+          { ...waveOneButterflyStart },
           waveOneButterflyEnd[this.butterflyCount],
           "butterfly"
         )

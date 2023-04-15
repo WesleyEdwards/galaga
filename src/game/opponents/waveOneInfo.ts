@@ -11,7 +11,6 @@ export const waveOneBeeEnd = [
 ];
 
 export const waveOneButterflyStart = { x: (CANVAS_WIDTH / 500) * 200, y: 0 };
-
 export const waveOneButterflyEnd = [
   { x: 325, y: 100 },
   { x: 375, y: 100 },
