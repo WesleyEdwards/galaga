@@ -1,3 +1,5 @@
+import { path1 } from "../../utils/paths/BeePath1";
+import computeDistance from "../../utils/paths/PathFollower";
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
@@ -7,6 +9,10 @@ export class Opponent {
   pos: Coordinates;
   private drawManager: DrawManager;
   private spriteTimer = 0;
+  private path: {x: number, y: number}[];
+  private pathIndex = 0;
+  private speed = 320 / 1000;
+  private rotation = 0;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -19,12 +25,47 @@ export class Opponent {
       OPPONENT_WIDTH,
       opponentSprites[oppType][0]
     );
+    if (oppType == 'bee') this.path = path1();
+    else this.path = [];
   }
-  update(timeStamp: number) {}
+  update(timeStamp: number) {
+    // Follow path, if it exists
+    if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
+      let distTraveled = this.speed * timeStamp;
+      let distRemaining = computeDistance(this.pos.x, this.pos.y, this.path[this.pathIndex + 1].x, this.path[this.pathIndex + 1].y);
+
+      if (distTraveled > distRemaining) {
+        distTraveled -= distRemaining;
+        this.pos.x = this.path[this.pathIndex + 1].x;
+        this.pos.y = this.path[this.pathIndex + 1].y;
+        this.pathIndex++;
+      }
+
+      if (this.pathIndex < this.path.length - 1) {
+        let dirX = this.path[this.pathIndex + 1].x - this.pos.x;
+        let dirY = this.path[this.pathIndex + 1].y - this.pos.y;
+        const dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
+        dirX /= dirMag;
+        dirY /= dirMag;
+        const moveX = distTraveled * dirX;
+        const moveY = distTraveled * dirY;
+        this.pos.x += moveX;
+        this.pos.y += moveY;
+        this.rotation = getAngle(this.pos, this.path[this.pathIndex + 1]);
+      }
+    }
+    
+  }
   draw() {
-    this.drawManager.draw(this.pos.x, this.pos.y);
+    this.drawManager.draw(this.pos.x, this.pos.y, this.rotation);
   }
   get rightX() {
     return this.pos.x + OPPONENT_WIDTH;
   }
+}
+
+function getAngle(pos: {x: number, y: number}, nextPos: {x: number, y: number}) {
+  const dx = nextPos.x - pos.x;
+  const dy = nextPos.y - pos.y;
+  return Math.atan2(dy, dx);
 }

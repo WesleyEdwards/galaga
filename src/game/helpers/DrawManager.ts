@@ -16,7 +16,12 @@ export class DrawManager {
     this.context = context;
   }
 
-  draw(x: number, y: number) {
+  draw(x: number, y: number, rotation=0) {
+    this.context.save();
+
+    this.context.translate(x + this.image.width / 2, y + this.image.height / 2);
+    this.context.rotate(rotation);
+    this.context.translate(-(x + this.image.width / 2), -(y + this.image.height / 2));
     this.context.drawImage(
       this.image,
       this.spriteInfo.srcX,
@@ -28,11 +33,14 @@ export class DrawManager {
       this.width,
       this.height
     );
+    this.context.restore();
+
 
     if (import.meta.env.VITE_RED_OUTLINE === "true") {
       this.context.strokeStyle = "red";
       this.context.lineWidth = 2;
       this.context.strokeRect(x, y, this.image.width, this.image.height);
     }
+
   }
 }

@@ -7,7 +7,7 @@ export class OpponentManager {
     this.opponents = [
       new Opponent(
         context,
-        { x: CANVAS_WIDTH * 0.25, y: CANVAS_HEIGHT / 4 },
+        { x: (CANVAS_WIDTH / 500) * 300, y: 0 },
         "bee"
       ),
       new Opponent(
