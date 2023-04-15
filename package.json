@@ -13,8 +13,11 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.9",
+    "@types/three": "^0.150.1",
+    "cubic-spline": "^3.0.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.151.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

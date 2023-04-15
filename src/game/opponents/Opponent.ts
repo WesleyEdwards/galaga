@@ -4,6 +4,7 @@ import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
+import * as THREE from 'three';
 
 export class Opponent {
   pos: Coordinates;
@@ -51,10 +52,9 @@ export class Opponent {
         const moveY = distTraveled * dirY;
         this.pos.x += moveX;
         this.pos.y += moveY;
-        this.rotation = getAngle(this.pos, this.path[this.pathIndex + 1]);
+        
       }
     }
-    
   }
   draw() {
     this.drawManager.draw(this.pos.x, this.pos.y, this.rotation);
