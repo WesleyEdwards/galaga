@@ -1,5 +1,5 @@
 import { path1 } from "../../utils/paths/BeePath1";
-import computeDistance from "../../utils/paths/PathFollower";
+import { path1Butterfly } from "../../utils/paths/ButterflyPath1";
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
@@ -16,6 +16,7 @@ export class Opponent {
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
+    endPos: Coordinates,
     oppType: OpponentType
   ) {
     this.pos = pos;
@@ -25,7 +26,8 @@ export class Opponent {
       OPPONENT_WIDTH,
       opponentSprites[oppType][0]
     );
-    if (oppType == 'bee') this.path = path1({x: 260, y: 170});
+    if (oppType == 'bee') this.path = path1(endPos);
+    else if (oppType == 'butterfly') this.path = path1Butterfly(endPos)
     else this.path = [];
   }
   update(timeStamp: number) {
@@ -52,8 +54,6 @@ export class Opponent {
         this.pos.x += moveX;
         this.pos.y += moveY;
         this.rotation = getAngle(this.pos, this.path[this.pathIndex + 1]);
-        console.log(this.rotation);
-        
       }
     }
 
@@ -74,4 +74,8 @@ function getAngle(pos: {x: number, y: number}, nextPos: {x: number, y: number}) 
   const dy = nextPos.y - pos.y;
   const angle = Math.atan2(dy, dx) + Math.PI / 2;
   return angle;
+}
+
+function computeDistance(pt1x: number, pt1y: number, pt2x: number, pt2y: number) {
+  return Math.sqrt(Math.pow(pt1x - pt2x, 2) + Math.pow(pt1y - pt2y, 2));
 }
