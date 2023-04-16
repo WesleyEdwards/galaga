@@ -1,5 +1,3 @@
-import { path1 } from "../../utils/paths/BeePath1";
-import { path1Butterfly } from "../../utils/paths/ButterflyPath1";
 import { generateFirstPath } from "../../utils/paths/createPaths";
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
@@ -56,8 +54,8 @@ export class Opponent {
       }
     }
   }
-  draw() {
-    this.drawManager.draw(this.pos.x, this.pos.y, this.rotation);
+  draw(spriteIndex: number) {
+    this.drawManager.draw(this.pos, this.rotation, spriteIndex);
   }
   get rightX() {
     return this.pos.x + OPPONENT_WIDTH;

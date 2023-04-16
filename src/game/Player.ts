@@ -51,7 +51,7 @@ export class Player {
   }
 
   draw() {
-    this.drawManager.draw(this.pos, CANVAS_HEIGHT - PLAYER_TOP);
+    this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
   }
 
   get centerX() {

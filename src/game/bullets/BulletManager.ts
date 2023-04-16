@@ -44,7 +44,7 @@ export class BulletManager {
 
   draw() {
     this.bullets.forEach((bullet) => {
-      this.drawManager.draw(bullet.pos.x, bullet.pos.y);
+      this.drawManager.draw(bullet.pos);
     });
   }
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {

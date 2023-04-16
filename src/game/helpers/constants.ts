@@ -25,11 +25,12 @@ export const PLAYER_WIDTH = 32;
 export const PLAYER_TOP = PLAYER_WIDTH * 1.5;
 
 // Bullet
-export const BULLET_SPEED = 0.3;
+export const BULLET_SPEED = 0.6;
 export const BULLET_WIDTH = 3;
 export const BULLET_HEIGHT = 16;
 
 export const OPPONENT_WIDTH = 32;
+export const OPPONENT_HEIGHT = 32;
 
 
 export const entranceInterval = {
