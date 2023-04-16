@@ -16,7 +16,7 @@ export class DrawManager {
     this.context = context;
   }
 
-  draw(x: number, y: number, rotation=0) {
+  draw(x: number, y: number, rotation=0, offset: number) {
     this.context.save();
 
     this.context.translate(x + this.image.width / 2, y + this.image.height / 2);
@@ -24,7 +24,7 @@ export class DrawManager {
     this.context.translate(-(x + this.image.width / 2), -(y + this.image.height / 2));
     this.context.drawImage(
       this.image,
-      this.spriteInfo.srcX,
+      this.spriteInfo.srcX + (offset * (this.spriteInfo.srcWidth + 2)),
       this.spriteInfo.srcY,
       this.spriteInfo.srcWidth,
       this.spriteInfo.srcHeight,

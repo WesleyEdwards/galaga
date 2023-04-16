@@ -12,6 +12,7 @@ export class Opponent {
   private pathIndex = 0;
   private speed = 400 / 1000;
   private rotation = 0;
+  private spriteIndex = 0;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -29,7 +30,7 @@ export class Opponent {
     else if (oppType == 'butterfly' || oppType == 'bossGalaga') this.path = path2(endPos)
     else this.path = [];
   }
-  update(timeStamp: number) {
+  update(timeStamp: number, spriteIndex: number) {
     // Follow path, if it exists
     if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
       let distTraveled = this.speed * timeStamp;
@@ -59,9 +60,11 @@ export class Opponent {
     else {
       this.rotation = 0;
     }
+
+    this.spriteIndex = spriteIndex;
   }
   draw() {
-    this.drawManager.draw(this.pos.x, this.pos.y, this.rotation);
+    this.drawManager.draw(this.pos.x, this.pos.y, this.rotation, this.spriteIndex);
   }
   get rightX() {
     return this.pos.x + OPPONENT_WIDTH;
