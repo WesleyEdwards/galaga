@@ -1,5 +1,6 @@
 import { path1 } from "../../utils/paths/BeePath1";
 import { path1Butterfly } from "../../utils/paths/ButterflyPath1";
+import { path2Butterfly } from "../../utils/paths/ButterflyPath2";
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
@@ -26,7 +27,7 @@ export class Opponent {
       opponentSprites[oppType][0]
     );
     if (oppType == 'bee') this.path = path1(endPos);
-    else if (oppType == 'butterfly') this.path = path1Butterfly(endPos)
+    else if (oppType == 'butterfly') this.path = path2Butterfly(endPos)
     else this.path = [];
   }
   update(timeStamp: number) {

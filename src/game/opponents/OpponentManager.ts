@@ -1,11 +1,15 @@
 import { entranceInterval } from "../helpers/constants";
 import { Opponent } from "./Opponent";
 import {
-  waveOneBeeEnd,
-  waveOneBeeStart,
-  waveOneButterflyEnd,
-  waveOneButterflyStart,
-} from "./waveOneInfo";
+  beeStartW1S1,
+  beeEndW1S1,
+  butterflyStartW1S1,
+  butterflyEndW1S1,
+} from "./stageOne/waveOneInfo";
+import {
+  butterflyStartW2S1,
+  butterflyEndW2S1,
+} from "./stageOne/waveTwoInfo";
 
 export class OpponentManager {
   opponents: Opponent[] = [];
@@ -26,13 +30,13 @@ export class OpponentManager {
 
     if (
       this.beeTimer > entranceInterval.wave1 &&
-      this.beeCount < waveOneBeeEnd.length
+      this.beeCount < beeEndW1S1.length
     ) {
       this.opponents.push(
         new Opponent(
           this.context,
-          { ...waveOneBeeStart },
-          waveOneBeeEnd[this.beeCount],
+          { ...beeStartW1S1 },
+          beeEndW1S1[this.beeCount],
           "bee"
         )
       );
@@ -42,13 +46,13 @@ export class OpponentManager {
 
     if (
       this.butterflyTimer > entranceInterval.wave1 &&
-      this.butterflyCount < waveOneButterflyEnd.length
+      this.butterflyCount < butterflyEndW1S1.length
     ) {
       this.opponents.push(
         new Opponent(
           this.context,
-          { ...waveOneButterflyStart },
-          waveOneButterflyEnd[this.butterflyCount],
+          { ...butterflyStartW2S1 },
+          butterflyEndW2S1[this.butterflyCount],
           "butterfly"
         )
       );
