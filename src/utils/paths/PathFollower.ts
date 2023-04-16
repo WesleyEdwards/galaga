@@ -1,8 +1,6 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../../game/helpers/constants";
 import { Coordinates } from "../../game/helpers/types";
 
-
-
 export function getConversions() {
     return {
         x: CANVAS_WIDTH / 500,

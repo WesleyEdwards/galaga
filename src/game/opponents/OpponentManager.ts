@@ -9,6 +9,8 @@ import {
 import {
   butterflyStartW2S1,
   butterflyEndW2S1,
+  bossGalagaStartW2S1,
+  bossGalagaEndW2S1,
 } from "./stageOne/waveTwoInfo";
 
 export class OpponentManager {
@@ -19,6 +21,9 @@ export class OpponentManager {
 
   private butterflyTimer = 0;
   private butterflyCount = 0;
+
+  private bossGalagaTimer = 0;
+  private bossGalagaCount = 0;
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
@@ -46,18 +51,32 @@ export class OpponentManager {
 
     if (
       this.butterflyTimer > entranceInterval.wave1 &&
-      this.butterflyCount < butterflyEndW1S1.length
+      (this.butterflyCount < butterflyEndW1S1.length ||
+      this.bossGalagaCount < bossGalagaEndW2S1.length)
     ) {
-      this.opponents.push(
-        new Opponent(
-          this.context,
-          { ...butterflyStartW2S1 },
-          butterflyEndW2S1[this.butterflyCount],
-          "butterfly"
-        )
-      );
-      this.butterflyCount++;
-      this.butterflyTimer = 0;
+      if (this.bossGalagaCount == this.butterflyCount) {
+        this.opponents.push(
+          new Opponent(
+            this.context,
+            { ...bossGalagaStartW2S1 },
+            bossGalagaEndW2S1[this.bossGalagaCount],
+            "bossGalaga"
+          )
+        );
+        this.bossGalagaCount++;
+        this.butterflyTimer = 0;
+      } else {
+        this.opponents.push(
+          new Opponent(
+            this.context,
+            { ...butterflyStartW2S1 },
+            butterflyEndW2S1[this.butterflyCount],
+            "butterfly"
+          )
+        );
+        this.butterflyCount++;
+        this.butterflyTimer = 0;
+      }
     }
 
     this.opponents.forEach((opp) => {

@@ -1,8 +1,7 @@
-import { getConversions, generatePointsOnBezierCurve } from "./PathFollower";
-import { Coordinates } from "../../game/helpers/types";
-import { OPPONENT_HEIGHT } from "../../game/helpers/constants";
+import { getConversions, generatePointsOnBezierCurve } from "../PathFollower";
+import { Coordinates } from "../../../game/helpers/types";
 
-export function path2Butterfly(destination: Coordinates) {
+export function path2(destination: Coordinates) {
     const conversions = getConversions();
     const pts = [
         { x: conversions.x * 0, y: conversions.y * 450},
@@ -18,7 +17,7 @@ export function path2Butterfly(destination: Coordinates) {
         { x: conversions.x * 255, y: conversions.y * 380},
         { x: conversions.x * 280, y: conversions.y * 260},
     ]
-    const smoothCurve =  generatePointsOnBezierCurve(pts, 50);
+    const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
     smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
