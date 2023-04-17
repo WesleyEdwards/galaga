@@ -1,5 +1,6 @@
 import { trail } from "../helpers/waveHelper";
-import { beePathsW1S1, beeStartW1S1, butterflyStartW1S1, butterflyPathsW1S1 } from "./stageOne/WaveOne/waveOneInfo";
+import { beePathsW1S1, beeStartW1S1, butterflyStartW1S1, butterflyPathsW1S1 } from "./stageOne/waveOneInfo";
+import { opponentPathsW2S1, opponentStartW2S1 } from "./stageOne/waveTwoInfo";
 
 export function waveOneStageOne(): trail[] {
     const trails: trail[] = [];
@@ -12,6 +13,16 @@ export function waveOneStageOne(): trail[] {
         butterflyStartW1S1,
         butterflyPathsW1S1,
         ['butterfly', 'butterfly', 'butterfly', 'butterfly']
+    ));
+    return trails;
+}
+
+export function waveTwoStageOne(): trail[] {
+    const trails: trail[] = [];
+    trails.push(new trail(
+        opponentStartW2S1,
+        opponentPathsW2S1(),
+        ['bossGalaga', 'butterfly', 'bossGalaga', 'butterfly', 'bossGalaga', 'butterfly', 'bossGalaga', 'butterfly']
     ));
     return trails;
 }

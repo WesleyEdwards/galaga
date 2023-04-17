@@ -8,9 +8,11 @@ export class wave {
     timers: number[] = [];
     opponentIndex: number[] = [];
     opponentManager: OpponentManager;
+    startTime: number;
     constructor(
         trails: trail[],
         opponentManager: OpponentManager,
+        startTime: number
     ){
         this.trails = trails;
         for (let i = 0; i < trails.length; i++) {
@@ -18,6 +20,7 @@ export class wave {
             this.opponentIndex.push(0);
         }
         this.opponentManager = opponentManager;
+        this.startTime = startTime;
     }
 
     update(elapsedTime: number){
@@ -25,10 +28,6 @@ export class wave {
         for (let i = 0; i < this.trails.length; i++) {
             this.timers[i] += elapsedTime;
             if(this.timers[i] > entranceInterval && this.opponentIndex[i] < this.trails[i].opponentSequence.length){
-                console.log(this.trails[i].startPos);
-                console.log(this.trails[i].opponentSequence[this.opponentIndex[i]]);
-                console.log(this.trails[i].paths[this.opponentIndex[i]]);
-                
                 
                 this.opponentManager.addOpponent(new Opponent(
                     this.opponentManager.context,
