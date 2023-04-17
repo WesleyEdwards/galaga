@@ -1,17 +1,17 @@
 import { Coordinates, OpponentType } from "./types";
 
 export class trail{
-    startPos: { x: number; y: number };
-    path: { x: number; y: number }[];
-    opponentSequence: {type: OpponentType, endPos: Coordinates}[];
+    startPos: Coordinates;
+    paths: Coordinates[][];
+    opponentSequence: OpponentType[];
 
     constructor(
-        startPos: { x: number; y: number },
-        opponentSequence: {type: OpponentType, endPos: Coordinates}[],
-        path: { x: number; y: number }[]
+        startPos: Coordinates,
+        paths: Coordinates[][],
+        opponentSequence: OpponentType[],
     ){
         this.startPos = startPos;
         this.opponentSequence = opponentSequence;
-        this.path = path;
+        this.paths = paths;
     }
 }

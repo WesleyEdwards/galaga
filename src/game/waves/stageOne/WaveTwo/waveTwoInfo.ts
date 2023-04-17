@@ -1,4 +1,4 @@
-import { getConversions } from "../../../utils/paths/PathFollower";
+import { getConversions } from "../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
 
 const conversions = getConversions();

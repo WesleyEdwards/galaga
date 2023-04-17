@@ -11,12 +11,14 @@ import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { BulletManager } from "./bullets/BulletManager";
+import { WaveManager } from "./waves/WaveManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
   private player: Player;
   private bulletManager: BulletManager;
   private opponentManager: OpponentManager;
+  private waveManager: WaveManager;
   private context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -24,6 +26,7 @@ export class GameState {
     this.player = new Player(context);
     this.bulletManager = new BulletManager(context);
     this.opponentManager = new OpponentManager(context);
+    this.waveManager = new WaveManager(this.opponentManager);
     this.context = context;
   }
 
@@ -41,6 +44,7 @@ export class GameState {
     this.player.update(this.keys, elapsedTime);
     this.bulletManager.update(elapsedTime, this.keys, this.player.centerX);
     this.opponentManager.update(elapsedTime);
+    this.waveManager.update(elapsedTime);
 
     const opponentsHit = this.bulletManager.checkOpponentCollision(
       this.opponentManager.opponents

@@ -1,5 +1,5 @@
-import { getConversions, generatePointsOnBezierCurve } from "../PathFollower";
-import { Coordinates } from "../../../game/helpers/types";
+import { getConversions, generatePointsOnBezierCurve } from "../../paths/PathFollower";
+import { Coordinates } from "../../../helpers/types";
 
 const conversions = getConversions();
 

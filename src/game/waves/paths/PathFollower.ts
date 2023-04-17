@@ -1,5 +1,5 @@
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../../game/helpers/constants";
-import { Coordinates } from "../../game/helpers/types";
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../../helpers/constants";
+import { Coordinates } from "../../helpers/types";
 
 export function getConversions() {
     return {

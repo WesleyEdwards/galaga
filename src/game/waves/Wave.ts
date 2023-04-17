@@ -1,12 +1,12 @@
-import { trail } from "../game/helpers/waveHelper";
-import { entranceInterval } from "../game/helpers/constants";
-import { OpponentManager } from "../game/opponents/OpponentManager";
-import { Opponent } from "../game/opponents/Opponent";
+import { trail } from "../helpers/waveHelper";
+import { entranceInterval } from "../helpers/constants";
+import { OpponentManager } from "../opponents/OpponentManager";
+import { Opponent } from "../opponents/Opponent";
 
 export class wave {
     trails: trail[];
     timers: number[] = [];
-    enemyCounts: number[] = [];
+    opponentIndex: number[] = [];
     opponentManager: OpponentManager;
     constructor(
         trails: trail[],
@@ -15,7 +15,7 @@ export class wave {
         this.trails = trails;
         for (let i = 0; i < trails.length; i++) {
             this.timers.push(0);
-            this.enemyCounts.push(0);
+            this.opponentIndex.push(0);
         }
         this.opponentManager = opponentManager;
     }
@@ -23,15 +23,16 @@ export class wave {
     update(elapsedTime: number){
         for (let i = 0; i < this.trails.length; i++) {
             this.timers[i] += elapsedTime;
-            if(this.timers[i] > entranceInterval && this.enemyCounts[i] < this.trails[i].opponentSequence.length){
-                this.opponentManager.opponents.push(new Opponent(
+            if(this.timers[i] > entranceInterval && this.opponentIndex[i] < this.trails[i].opponentSequence.length){
+                this.opponentManager.addOpponent(new Opponent(
                     this.opponentManager.context,
                     this.trails[i].startPos,
-                    this.trails[i].opponentSequence[this.enemyCounts[i]].endPos,
-                    this.trails[i].opponentSequence[this.enemyCounts[i]].type
+                    this.trails[i].opponentSequence[this.opponentIndex[i]],
+                    this.trails[i].paths[i]
                 ));
+
                 this.timers[i] = 0;
-                this.enemyCounts[i]++;
+                this.opponentIndex[i]++;
             }
         }
     }

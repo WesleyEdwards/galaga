@@ -1,7 +1,6 @@
-import { generateFirstPath } from "../../utils/paths/createPaths";
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
-import { Coordinates, OpponentType } from "../helpers/types";
+import { Coordinates, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
@@ -13,8 +12,8 @@ export class Opponent {
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
-    endPos: Coordinates,
-    oppType: OpponentType
+    oppType: OpponentType,
+    path: Path
   ) {
     this.pos = pos;
     this.drawManager = new DrawManager(
@@ -23,7 +22,7 @@ export class Opponent {
       OPPONENT_WIDTH,
       opponentSprites[oppType][0]
     );
-    this.path = generateFirstPath(endPos, oppType);
+    this.path = path;
   }
   update(timeStamp: number) {
     // Follow path, if it exists

@@ -20,3 +20,5 @@ export type SpriteInfo = {
 };
 
 export type OpponentType = "bee" | "butterfly" | "bossGalaga";
+
+export type Path = Coordinates[];
