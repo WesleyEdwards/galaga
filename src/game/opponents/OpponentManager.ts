@@ -38,7 +38,7 @@ export class OpponentManager {
     this.butterflyTimer += elapsedTime;
 
     if (
-      this.beeTimer > entranceInterval.wave1 &&
+      this.beeTimer > entranceInterval &&
       this.beeCount < beeEndW1S1.length
     ) {
       this.opponents.push(
@@ -54,7 +54,7 @@ export class OpponentManager {
     }
 
     if (
-      this.butterflyTimer > entranceInterval.wave1 &&
+      this.butterflyTimer > entranceInterval &&
       (this.butterflyCount < butterflyEndW1S1.length ||
         this.bossGalagaCount < bossGalagaEndW2S1.length)
     ) {

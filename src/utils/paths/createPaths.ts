@@ -1,6 +1,6 @@
 import { Coordinates, OpponentType } from "../../game/helpers/types";
-import { beePath1 } from "./stage1/Wave1";
-import { path2 } from "./stage1/Wave2";
+import { beePath1 } from "./stageOne/Wave1";
+import { path2 } from "./stageOne/Wave2";
 
 const firstPathGenerators: Record<
   OpponentType,
