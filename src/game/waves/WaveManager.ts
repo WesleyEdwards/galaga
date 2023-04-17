@@ -2,6 +2,7 @@ import { OpponentManager } from "../opponents/OpponentManager";
 import { 
     waveOneStageOne,
     waveTwoStageOne,
+    waveThreeStageOne,
 } from "./AllWaves";
 import { wave } from "./Wave";
 
@@ -36,6 +37,11 @@ export class WaveManager {
 
 function generateWaves(opponentManager: OpponentManager): wave[]{
     const waveOne = new wave(waveOneStageOne(), opponentManager, 0);
-    const waveTwo = new wave(waveTwoStageOne(), opponentManager, 3000);
-    return [waveOne, waveTwo];
+    const waveTwo = new wave(waveTwoStageOne(), opponentManager, 2500);
+    const waveThree = new wave(waveThreeStageOne(), opponentManager, 6000);
+    return [
+        waveOne,
+        waveTwo,
+        waveThree
+    ];
 }
