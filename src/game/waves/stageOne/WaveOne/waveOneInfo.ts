@@ -1,6 +1,6 @@
 import { getConversions } from "../../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../../helpers/constants";
-import { beePath1 } from "./waveOnePath";
+import { beePath1, butterflyPath1 } from "./waveOnePath";
 
 const conversions = getConversions();
 export const beeStartW1S1 = { x: conversions.x * 300, y: -OPPONENT_HEIGHT };
@@ -22,4 +22,4 @@ const butterflyEndW1S1 = [
   { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 3 * OPPONENT_HEIGHT},
 ];
 
-export const butterflyPathsW1S1 = butterflyEndW1S1.map((end) => beePath1(end));
+export const butterflyPathsW1S1 = butterflyEndW1S1.map((end) => butterflyPath1(end));

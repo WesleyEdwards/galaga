@@ -1,10 +1,10 @@
-import { DrawManager } from "../helpers/DrawManager";
+  import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
-  pos: Coordinates;
+  pos: Coordinates = {} as Coordinates;
   private drawManager: DrawManager;
   private path: { x: number; y: number }[];
   private pathIndex = 0;
@@ -15,7 +15,8 @@ export class Opponent {
     oppType: OpponentType,
     path: Path
   ) {
-    this.pos = pos;
+    this.pos.x = pos.x;
+    this.pos.y = pos.y;
     this.drawManager = new DrawManager(
       context,
       OPPONENT_WIDTH,
@@ -25,6 +26,7 @@ export class Opponent {
     this.path = path;
   }
   update(timeStamp: number) {
+    
     // Follow path, if it exists
     if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
       let distTraveled = this.speed * timeStamp;

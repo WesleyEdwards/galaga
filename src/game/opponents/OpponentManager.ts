@@ -16,6 +16,10 @@ export class OpponentManager {
   }
 
   update(elapsedTime: number) {
+    for (let i = 0; i < this.opponents.length; i++) {
+      // console.log(`Opponent ${i} position: ${this.opponents[i].pos.x}, ${this.opponents[i].pos.y}`);
+    }
+    
     this.spriteTimer += elapsedTime;
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;
