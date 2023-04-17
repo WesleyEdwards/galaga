@@ -34,6 +34,7 @@ export class wave {
                     this.trails[i].startPos,
                     this.trails[i].opponentSequence[this.opponentIndex[i]],
                     this.trails[i].paths[this.opponentIndex[i]],
+                    this.trails[i].speed,
                 ));
 
                 this.timers[i] = 0;

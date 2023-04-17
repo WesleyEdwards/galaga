@@ -21,7 +21,6 @@ export const butterflyPathsW3S1 = butterflyEndW3S1.map((end) => path(end));
 
 
 function path(destination: Coordinates) {
-  const conversions = getConversions();
   const pts = [
       { x: conversions.x * 500, y: conversions.y * 450},
       { x: conversions.x * 450, y: conversions.y * 440},

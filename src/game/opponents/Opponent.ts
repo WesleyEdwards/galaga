@@ -8,12 +8,13 @@ export class Opponent {
   private drawManager: DrawManager;
   private path: { x: number; y: number }[];
   private pathIndex = 0;
-  private speed = 400 / 1000;
+  private speed: number;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
     oppType: OpponentType,
-    path: Path
+    path: Path,
+    speed: number,
   ) {
     this.pos.x = pos.x;
     this.pos.y = pos.y;
@@ -21,8 +22,9 @@ export class Opponent {
       context,
       OPPONENT_WIDTH,
       OPPONENT_WIDTH,
-      opponentSprites[oppType][0]
+      opponentSprites[oppType][0],
     );
+    this.speed = speed;
     this.path = path;
   }
   update(timeStamp: number) {

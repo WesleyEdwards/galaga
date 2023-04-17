@@ -5,6 +5,8 @@ import {
     waveThreeStageOne,
     waveFourStageOne,
     waveFiveStageOne,
+    waveOneStageTwo,
+    waveTwoStageTwo,
 } from "./AllWaves";
 import { wave } from "./Wave";
 
@@ -38,16 +40,21 @@ export class WaveManager {
 }
 
 function generateWaves(opponentManager: OpponentManager): wave[]{
-    const waveOne = new wave(waveOneStageOne(), opponentManager, 0);
-    const waveTwo = new wave(waveTwoStageOne(), opponentManager, 2500);
-    const waveThree = new wave(waveThreeStageOne(), opponentManager, 6000);
-    const waveFour = new wave(waveFourStageOne(), opponentManager, 10_000);
-    const waveFive = new wave(waveFiveStageOne(), opponentManager, 14_000);
+    const waveOne1 = new wave(waveOneStageOne(), opponentManager, 0);
+    const waveTwo1 = new wave(waveTwoStageOne(), opponentManager, 2500);
+    const waveThree1 = new wave(waveThreeStageOne(), opponentManager, 6000);
+    const waveFour1 = new wave(waveFourStageOne(), opponentManager, 10_000);
+    const waveFive1 = new wave(waveFiveStageOne(), opponentManager, 14_000);
+    
+    const waveOne2 = new wave(waveOneStageTwo(), opponentManager, 0);
+    const waveTwo2 = new wave(waveTwoStageTwo(), opponentManager, 0);
     return [
-        waveOne,
-        waveTwo,
-        waveThree,
-        waveFour,
-        waveFive,
+        // waveOne1,
+        // waveTwo1,
+        // waveThree1,
+        // waveFour1,
+        // waveFive1,
+        // waveOne2,
+        waveTwo2
     ];
 }
