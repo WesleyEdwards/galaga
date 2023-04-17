@@ -23,13 +23,14 @@ function path(destination: Coordinates) {
     const pts = [
         { x: conversions.x * 300, y: conversions.y * 1},
         { x: conversions.x * 300, y: conversions.y * 30},
-        { x: conversions.x * 165, y: conversions.y * 145},
-        { x: conversions.x * 120, y: conversions.y * 190},
-        { x: conversions.x * 105, y: conversions.y * 250},
-        { x: conversions.x * 135, y: conversions.y * 300},
-        { x: conversions.x * 190, y: conversions.y * 320},
-        { x: conversions.x * 250, y: conversions.y * 280},
-        { x: conversions.x * 250, y: conversions.y * 170},
+        { x: conversions.x * 210, y: conversions.y * 115},
+        { x: conversions.x * 130, y: conversions.y * 175},
+        { x: conversions.x * 65, y: conversions.y * 250},
+        { x: conversions.x * 50, y: conversions.y * 320},
+        { x: conversions.x * 75, y: conversions.y * 385},
+        { x: conversions.x * 130, y: conversions.y * 390},
+        { x: conversions.x * 180, y: conversions.y * 375},
+        { x: conversions.x * 230, y: conversions.y * 320},
     ]
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
     smoothCurve.push(destination);
