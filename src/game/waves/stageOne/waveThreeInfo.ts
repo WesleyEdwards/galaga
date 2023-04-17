@@ -1,6 +1,6 @@
 import { getConversions, generatePointsOnBezierCurve } from "../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
-import { Coordinates, Path } from "../../helpers/types";
+import { Coordinates } from "../../helpers/types";
 
 const conversions = getConversions();
 

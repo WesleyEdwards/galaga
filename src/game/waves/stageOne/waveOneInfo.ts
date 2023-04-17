@@ -3,7 +3,7 @@ import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
 import { Coordinates } from "../../helpers/types";
 
 const conversions = getConversions();
-export const beeStartW1S1 = { x: conversions.x * 300, y: -OPPONENT_HEIGHT };
+export const beeStartW1S1 = { x: conversions.x * 300, y: conversions.y * -OPPONENT_HEIGHT };
 const beeEndW1S1 = [
   { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 4 * OPPONENT_HEIGHT },
   { x: conversions.x * 215, y: conversions.y * 4 * OPPONENT_HEIGHT },
@@ -12,7 +12,7 @@ const beeEndW1S1 = [
 ];
 export const beePathsW1S1 = beeEndW1S1.map((end) => beePath(end));
 
-export const butterflyStartW1S1 = { x: conversions.x * 200, y: -OPPONENT_HEIGHT };
+export const butterflyStartW1S1 = { x: conversions.x * 200, y: conversions.y *  -OPPONENT_HEIGHT };
 const butterflyEndW1S1 = [
   { x: conversions.x * 215, y: conversions.y * 2 * OPPONENT_HEIGHT },
   { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 2 * OPPONENT_HEIGHT },

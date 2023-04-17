@@ -4,7 +4,7 @@ import { Coordinates, Path } from "../../helpers/types";
 
 const conversions = getConversions();
 
-export const opponentW2S1 = {x: -OPPONENT_WIDTH, y: conversions.y * 450};
+export const opponentW2S1 = {x: conversions.x * -OPPONENT_WIDTH, y: conversions.y * 450};
 const butterflyEndW2S1 = [
   // Left twobutterflies
   { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
