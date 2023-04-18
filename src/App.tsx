@@ -10,6 +10,19 @@ function App() {
     },
   });
 
+  function playAudio() {
+    const audio = new Audio("/assets/backgroundAudio.mp3");
+    audio.loop = true;
+    audio.volume = 0.1;
+    audio.play();
+    window.removeEventListener("load", playAudio);
+    window.removeEventListener("keydown", playAudio);
+  }
+
+  window.addEventListener("click", playAudio);
+  window.addEventListener("keydown", playAudio);
+
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
