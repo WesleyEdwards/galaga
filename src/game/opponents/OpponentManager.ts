@@ -7,10 +7,6 @@ export class OpponentManager {
   private spriteTimer = 0;
   private spriteIndex = 0;
 
-  private breathInit = 0;
-  private breathTimer = 0;
-  private breathFlag = false;
-
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
   }
@@ -19,17 +15,7 @@ export class OpponentManager {
     this.opponents.push(opponent);
   }
 
-  update(elapsedTime: number) {
-    if (this.breathInit < 16_000 && !this.breathFlag) this.breathInit += elapsedTime;
-    else {
-      if (!this.breathFlag) {
-        this.opponents.forEach((opp) => {
-          opp.state = "breathe-in";
-        });
-      }
-      this.breathFlag = true;
-    }
-    
+  update(elapsedTime: number) {   
     this.spriteTimer += elapsedTime;
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;

@@ -6,7 +6,7 @@ import { opponentSprites } from "./opponentStats";
 export class Opponent {
   pos: Coordinates = {} as Coordinates;
   private drawManager: DrawManager;
-  private path: { x: number; y: number }[];
+  path: Coordinates[];
   private pathIndex = 0;
   private speed: number;
   state: OpponentState;
