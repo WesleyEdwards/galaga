@@ -7,20 +7,20 @@ const conversions = getConversions();
 export const butterflyStartW2S2 = {x: conversions.x * -OPPONENT_WIDTH, y: conversions.y * 450};
 const butterflyEndW2S2 = [
   // Left twobutterflies
-  { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
   // Right two butterflies
-  { x: conversions.x * (215 + 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 + 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
 ]
 export const butterflyPathsW2S2 = butterflyEndW2S2.map((end) => butterflyPath(end));
 
 export const bossGalagaStartW2S2 = {x: conversions.x * -OPPONENT_WIDTH, y: conversions.y * 480};
 const bossGalagaEndW2S2 = [
-  { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 + 0 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 + 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 0 * (0 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
 ]
 export const bossGalagaPathsW2S2 = bossGalagaEndW2S2.map((end) => bossGalagaPath(end));
 

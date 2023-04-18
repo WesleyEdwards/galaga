@@ -5,9 +5,9 @@ import { Coordinates } from "../../helpers/types";
 const conversions = getConversions();
 export const beeStartW1S2 = { x: conversions.x * 300, y: conversions.y * -OPPONENT_HEIGHT };
 const beeEndW1S2 = [
-  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 4 * OPPONENT_HEIGHT },
+  { x: conversions.x * (215 + 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * 4 * OPPONENT_HEIGHT },
   { x: conversions.x * 215, y: conversions.y * 4 * OPPONENT_HEIGHT },
-  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 5 * OPPONENT_HEIGHT },
+  { x: conversions.x * (215 + 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * 5 * OPPONENT_HEIGHT },
   { x: conversions.x * 215, y: conversions.y * 5 * OPPONENT_HEIGHT },
 ];
 export const beePathsW1S2 = beeEndW1S2.map((end) => beePath(end));
@@ -15,9 +15,9 @@ export const beePathsW1S2 = beeEndW1S2.map((end) => beePath(end));
 export const butterflyStartW1S2 = { x: conversions.x * 200, y: conversions.y *  -OPPONENT_HEIGHT };
 const butterflyEndW1S2 = [
   { x: conversions.x * 215, y: conversions.y * 2 * OPPONENT_HEIGHT },
-  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 2 * OPPONENT_HEIGHT },
+  { x: conversions.x * (215 + 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * 2 * OPPONENT_HEIGHT },
   { x: conversions.x * 215, y: conversions.y * 3 * OPPONENT_HEIGHT },
-  { x: conversions.x * (215 + 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * 3 * OPPONENT_HEIGHT},
+  { x: conversions.x * (215 + 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * 3 * OPPONENT_HEIGHT},
 ];
 
 export const butterflyPathsW1S2 = butterflyEndW1S2.map((end) => butterflyPath(end));

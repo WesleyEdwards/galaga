@@ -6,19 +6,19 @@ const conversions = getConversions();
 
 export const innerBeeStartW4S2 = { x: conversions.x * 300, y: conversions.y * -OPPONENT_HEIGHT };
 const innerBeeEndW4S1 = [
-  { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 - 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 - 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 1 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
 ]
 export const innerBeePathsW4S2 = innerBeeEndW4S1.map((end) => innerBeePath(end));
 
 export const outerBeeStartW4S2 = { x: conversions.x * 260, y: conversions.y * -OPPONENT_HEIGHT };
 const outerBeeEndW4S2 = [
-    { x: conversions.x * (215 + 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
 ]
 export const outerBeePathsW4S2 = outerBeeEndW4S2.map((end) => outerBeePath(end));
 

@@ -6,20 +6,20 @@ const conversions = getConversions();
 
 export const innerBeeStartW5S2 = { x: conversions.x * 200, y: conversions.y * -OPPONENT_HEIGHT };
 const innerBeeEndW5S1 = [
-    { x: conversions.x * (215 + 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 5 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 5 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 5 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 5 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
 
 ]
 export const innerBeePathsW5S2 = innerBeeEndW5S1.map((end) => innerBeePath(end));
 
 export const outerBeeStartW5S2 = { x: conversions.x * 240, y: conversions.y * -OPPONENT_HEIGHT };
 const outerBeeEndW5S2 = [
-    { x: conversions.x * (215 - 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 - 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 - 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 - 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (4 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (5 * OPPONENT_HEIGHT) },
 ]
 export const outerBeePathsW5S2 = outerBeeEndW5S2.map((end) => outerBeePath(end));
 

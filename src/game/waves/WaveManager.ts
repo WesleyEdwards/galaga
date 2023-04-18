@@ -52,17 +52,17 @@ function generateWaves(opponentManager: OpponentManager): wave[]{
     const waveOne2 = new wave(waveOneStageTwo(), opponentManager, 0);
     const waveTwo2 = new wave(waveTwoStageTwo(), opponentManager, 2500);
     const waveThree2 = new wave(waveThreeStageTwo(), opponentManager, 6000);
-    const waveFour2 = new wave(waveFourStageTwo(), opponentManager, 0);
-    const waveFive2 = new wave(waveFiveStageTwo(), opponentManager, 2500);
+    const waveFour2 = new wave(waveFourStageTwo(), opponentManager, 10_000);
+    const waveFive2 = new wave(waveFiveStageTwo(), opponentManager, 14_000);
     return [
         // waveOne1,
         // waveTwo1,
         // waveThree1,
         // waveFour1,
         // waveFive1,
-        // waveOne2,
-        // waveTwo2,
-        // waveThree2,
+        waveOne2,
+        waveTwo2,
+        waveThree2,
         waveFour2,
         waveFive2,
     ];

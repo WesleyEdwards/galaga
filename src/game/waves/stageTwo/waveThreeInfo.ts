@@ -7,21 +7,21 @@ const conversions = getConversions();
 export const innerButterflyStartW3S2 = {x: conversions.x * (500 + OPPONENT_WIDTH), y: conversions.y * 450};
 const innerButterflyEndW3S2 = [
   // Left two butterflies
-  { x: conversions.x * (215 - 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 - 2 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 - 2 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
   // Right two butterflies
-  { x: conversions.x * (215 + 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-  { x: conversions.x * (215 + 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+  { x: conversions.x * (215 + 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
 ]
 export const innerButterflyPathsW3S2 = innerButterflyEndW3S2.map((end) => innerButterflyPath(end));
 
 export const outerButterflyStartW3S2 = {x: conversions.x * (500 + OPPONENT_WIDTH), y: conversions.y * 480};
 const outerButterflyEndW3S2 = [
-    { x: conversions.x * (215 - 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 - 3 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 - 3 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
     // Right two butterflies
-    { x: conversions.x * (215 + 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
-    { x: conversions.x * (215 + 4 * (10 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (2 * OPPONENT_HEIGHT) },
+    { x: conversions.x * (215 + 4 * (0 + OPPONENT_WIDTH)), y: conversions.y * (3 * OPPONENT_HEIGHT) },
 ]
 export const outerButterflyPathsW3S2 = outerButterflyEndW3S2.map((end) => outerButterflyPath(end));
 
