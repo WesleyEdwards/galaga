@@ -7,6 +7,7 @@ import { opponentPathsW2S1, opponentStartW2S1 } from "./stageOne/waveTwoInfo";
 import { beePathsW1S2, beeStartW1S2, butterflyPathsW1S2, butterflyStartW1S2 } from "./stageTwo/waveOneInfo";
 import { innerButterflyPathsW3S2, innerButterflyStartW3S2, outerButterflyPathsW3S2, outerButterflyStartW3S2 } from "./stageTwo/waveThreeInfo";
 import { bossGalagaPathsW2S2, bossGalagaStartW2S2, butterflyPathsW2S2, butterflyStartW2S2 } from "./stageTwo/waveTwoInfo";
+import { innerBeePathsW4S2, innerBeeStartW4S2, outerBeePathsW4S2, outerBeeStartW4S2 } from "./stageTwo/waveFourInfo";
 
 export function waveOneStageOne(): trail[] {
     const trails: trail[] = [];
@@ -106,6 +107,21 @@ export function waveThreeStageTwo(): trail[] {
         outerButterflyPathsW3S2,
         ['butterfly', 'butterfly', 'butterfly', 'butterfly'],
         485 / 1000,
+    ));
+    return trails;
+}
+
+export function waveFourStageTwo(): trail[] {
+    const trails: trail[] = [];
+    trails.push(new trail(
+        innerBeeStartW4S2,
+        innerBeePathsW4S2,
+        ['bee', 'bee', 'bee', 'bee']
+    ));
+    trails.push(new trail(
+        outerBeeStartW4S2,
+        outerBeePathsW4S2,
+        ['bee', 'bee', 'bee', 'bee']
     ));
     return trails;
 }
