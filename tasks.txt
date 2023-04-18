@@ -5,8 +5,6 @@ Wesley:
 - Maybe some scoring
 
 Landon:
-- Customize controls
-- Sounds / Music
 - General UI/UX
 
 Jared:
@@ -18,7 +16,6 @@ Jared:
 All files served to the browser from a server, this includes the "dynamic loading" as I have demonstrated in class.
  - Works on Firefox and Chrome/Edge
  - User configuration
-Configurable controls and game options, persisted to the browser
  - Animated Sprites
 
 For the enemy ships
@@ -35,7 +32,7 @@ Enemies flying in according to a pattern
  - Wave 1 & 2
  - Challenging Stage
  - Enemy Attacks
- - Sound & Music
+ - Sound
  menu interface/presentation
 
 OutcomeSpace themed background
