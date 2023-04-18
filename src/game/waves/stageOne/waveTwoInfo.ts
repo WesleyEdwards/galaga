@@ -15,7 +15,7 @@ const butterflyEndW2S1 = [
 ]
 const butterflyPaths = butterflyEndW2S1.map((end) => path(end));
 
-export const opponentStartW2S1 = {x: -OPPONENT_WIDTH, y: conversions.y * 450};
+export const opponentStartW2S1 = {x: conversions.x * -OPPONENT_WIDTH, y: conversions.y * 450};
 const bossGalagaEndW2S1 = [
   { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
   { x: conversions.x * (215 + 0 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },

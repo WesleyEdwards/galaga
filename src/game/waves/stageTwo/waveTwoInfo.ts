@@ -1,6 +1,6 @@
 import { getConversions, generatePointsOnBezierCurve } from "../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
-import { Coordinates, Path } from "../../helpers/types";
+import { Coordinates } from "../../helpers/types";
 
 const conversions = getConversions();
 
@@ -15,7 +15,7 @@ const butterflyEndW2S2 = [
 ]
 export const butterflyPathsW2S2 = butterflyEndW2S2.map((end) => butterflyPath(end));
 
-export const bossGalagaStartW2S2 = {x: -OPPONENT_WIDTH, y: conversions.y * 480};
+export const bossGalagaStartW2S2 = {x: conversions.x * -OPPONENT_WIDTH, y: conversions.y * 480};
 const bossGalagaEndW2S2 = [
   { x: conversions.x * (215 - 1 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
   { x: conversions.x * (215 + 0 * (10 + OPPONENT_WIDTH)), y: conversions.y * (1 * OPPONENT_HEIGHT) },
@@ -49,7 +49,6 @@ function butterflyPath(destination: Coordinates) {
 }
 
 function bossGalagaPath(destination: Coordinates) {
-    // These points follow on the outside of the loop formed by the butterfly path
     const pts = [
         { x: conversions.x * 0, y: conversions.y * 480},
         { x: conversions.x * 65, y: conversions.y * 470},
