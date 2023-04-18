@@ -15,7 +15,7 @@ function App() {
     audio.loop = true;
     audio.volume = 0.1;
     audio.play();
-    window.removeEventListener("load", playAudio);
+    window.removeEventListener("click", playAudio);
     window.removeEventListener("keydown", playAudio);
   }
 
