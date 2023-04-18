@@ -27,7 +27,9 @@ export class wave {
         // i refers to the index of the specific line of enemies
         for (let i = 0; i < this.trails.length; i++) {
             this.timers[i] += elapsedTime;
-            if(this.timers[i] > entranceInterval && this.opponentIndex[i] < this.trails[i].opponentSequence.length){
+            //Kickstart the wave by immediately adding an enemy
+            if (this.opponentIndex[i] == 0) this.timers[i] = entranceInterval;
+            if(this.timers[i] >= entranceInterval && this.opponentIndex[i] < this.trails[i].opponentSequence.length){
                 
                 this.opponentManager.addOpponent(new Opponent(
                     this.opponentManager.context,

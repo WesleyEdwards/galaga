@@ -21,8 +21,9 @@ export class WaveManager {
     stageIndex: number;
     stageElapsedTime: number;
     opponentManager: OpponentManager;
-    lastOneInPlace: boolean;
+    isBreathing: boolean = false;
     displayStageNumber: boolean = true;
+
     constructor(
         opponentManager: OpponentManager,
     ){
@@ -31,7 +32,6 @@ export class WaveManager {
         this.stageElapsedTime = 0;
         this.allWaves = generateWaves(opponentManager, this.stageIndex);
         this.currentWave = 0;
-        this.lastOneInPlace = false;
     }
 
     update(elapsedTime: number){
@@ -45,9 +45,8 @@ export class WaveManager {
             this.allWaves = generateWaves(this.opponentManager, this.stageIndex);
             this.activeWaves = [];
             this.stageElapsedTime = 0;
+            this.isBreathing = false;
         }
-
-        //TODO: If last enemy is in place, start breathing
        
         //TODO: If a new stage just began, show stage number
         if (this.displayStageNumber) {
@@ -70,6 +69,16 @@ export class WaveManager {
             for (let i = 0; i < this.activeWaves.length; i++) {
                 this.activeWaves[i].update(elapsedTime);
             }
+        }
+
+        //TODO: If last enemy is in place, start breathing
+        if (!this.isBreathing &&
+             this.currentWave == this.allWaves.length && 
+             this.activeWaves[this.currentWave - 1].opponentIndex[0] == this.activeWaves[this.currentWave - 1].trails[0].opponentSequence.length && 
+             this.opponentManager.lastOneInPlace()
+        ) {
+            this.isBreathing = true;
+            this.opponentManager.startBreathing();
         }
     }
 }

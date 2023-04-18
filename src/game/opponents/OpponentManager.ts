@@ -15,6 +15,19 @@ export class OpponentManager {
     this.opponents.push(opponent);
   }
 
+  startBreathing() {
+    this.opponents.forEach((opp) => {
+      opp.state = "breathe-in";
+    });
+  }
+
+  lastOneInPlace(): boolean {
+    for (let i = 0; i < this.opponents.length; i++) {
+      if (this.opponents[i].state !== "stationary") return false;
+    }
+    return true;
+  }
+
   update(elapsedTime: number) {   
     this.spriteTimer += elapsedTime;
     if (this.spriteTimer >= 500) {

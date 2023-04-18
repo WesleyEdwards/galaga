@@ -1,4 +1,4 @@
-  import { DrawManager } from "../helpers/DrawManager";
+import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_HEIGHT, OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
@@ -11,6 +11,7 @@ export class Opponent {
   private speed: number;
   state: OpponentState;
   private breathTimer = 0;
+  private oppType: OpponentType;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -28,6 +29,7 @@ export class Opponent {
     );
     this.speed = speed;
     this.path = path;
+    this.oppType = oppType;
     this.state = "entrance";
   }
   update(timeStamp: number) {
@@ -57,6 +59,10 @@ export class Opponent {
         const moveY = distTraveled * dirY;
         this.pos.x += moveX;
         this.pos.y += moveY;
+      }
+      //In final position
+      if (this.pos.x == this.path[this.path.length - 1].x && this.pos.y == this.path[this.path.length - 1].y) {
+        this.state = "stationary";
       }
     }
 
