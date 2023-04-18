@@ -1,33 +1,39 @@
-import { generateFirstPath } from "../../utils/paths/createPaths";
-import { DrawManager } from "../helpers/DrawManager";
-import { OPPONENT_WIDTH } from "../helpers/constants";
-import { Coordinates, OpponentType } from "../helpers/types";
+  import { DrawManager } from "../helpers/DrawManager";
+import { OPPONENT_HEIGHT, OPPONENT_WIDTH } from "../helpers/constants";
+import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
-  pos: Coordinates;
+  pos: Coordinates = {} as Coordinates;
   private drawManager: DrawManager;
   private path: { x: number; y: number }[];
   private pathIndex = 0;
-  private speed = 400 / 1000;
+  private speed: number;
+  state: OpponentState;
+  private breathTimer = 0;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
-    endPos: Coordinates,
-    oppType: OpponentType
+    oppType: OpponentType,
+    path: Path,
+    speed: number,
   ) {
-    this.pos = pos;
+    this.pos.x = pos.x;
+    this.pos.y = pos.y;
     this.drawManager = new DrawManager(
       context,
       OPPONENT_WIDTH,
       OPPONENT_WIDTH,
-      opponentSprites[oppType][0]
+      opponentSprites[oppType][0],
     );
-    this.path = generateFirstPath(endPos, oppType);
+    this.speed = speed;
+    this.path = path;
+    this.state = "entrance";
   }
   update(timeStamp: number) {
+    
     // Follow path, if it exists
-    if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
+    if (this.pathIndex < this.path.length - 1 && this.state === "entrance") {
       let distTraveled = this.speed * timeStamp;
       let distRemaining = computeDistance(
         this.pos,
@@ -53,6 +59,38 @@ export class Opponent {
         this.pos.y += moveY;
       }
     }
+
+    else if (this.state === "attack") {
+      //attack
+    }
+
+    else if (this.state === "breathe-in") {
+      if (this.breathTimer < 2000) {
+        const posX = this.pos.x + OPPONENT_WIDTH / 2;
+        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
+        this.pos.x += ((posX - 250) / 250 * .3);
+        this.pos.y += (posY / 250) * .4;
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        this.state = "breathe-out";
+      }
+    }
+
+    else if (this.state === "breathe-out") {
+      if (this.breathTimer < 2000) {
+        const posX = this.pos.x + OPPONENT_WIDTH / 2;
+        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
+        this.pos.x -= ((posX - 250) / 250) * .3;
+        this.pos.y -= (posY / 250) * .4;
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        this.state = "breathe-in";
+      }
+    }
+
+    
   }
   draw(spriteIndex: number) {
     this.drawManager.draw(this.pos, this.rotation, spriteIndex);
