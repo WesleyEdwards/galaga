@@ -9,6 +9,7 @@ import {
     waveTwoStageTwo,
     waveThreeStageTwo,
     waveFourStageTwo,
+    waveFiveStageTwo,
 } from "./AllWaves";
 import { wave } from "./Wave";
 
@@ -52,6 +53,7 @@ function generateWaves(opponentManager: OpponentManager): wave[]{
     const waveTwo2 = new wave(waveTwoStageTwo(), opponentManager, 2500);
     const waveThree2 = new wave(waveThreeStageTwo(), opponentManager, 6000);
     const waveFour2 = new wave(waveFourStageTwo(), opponentManager, 0);
+    const waveFive2 = new wave(waveFiveStageTwo(), opponentManager, 2500);
     return [
         // waveOne1,
         // waveTwo1,
@@ -62,5 +64,6 @@ function generateWaves(opponentManager: OpponentManager): wave[]{
         // waveTwo2,
         // waveThree2,
         waveFour2,
+        waveFive2,
     ];
 }
