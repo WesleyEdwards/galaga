@@ -20,7 +20,7 @@ export class OpponentManager {
   }
 
   update(elapsedTime: number) {
-    if (this.breathInit < 4_000 && !this.breathFlag) this.breathInit += elapsedTime;
+    if (this.breathInit < 16_000 && !this.breathFlag) this.breathInit += elapsedTime;
     else {
       if (!this.breathFlag) {
         this.opponents.forEach((opp) => {
