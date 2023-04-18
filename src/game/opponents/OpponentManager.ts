@@ -24,7 +24,7 @@ export class OpponentManager {
     else {
       if (!this.breathFlag) {
         this.opponents.forEach((opp) => {
-          opp.state = "breathe-out";
+          opp.state = "breathe-in";
         });
       }
       this.breathFlag = true;

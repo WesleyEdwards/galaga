@@ -1,5 +1,5 @@
   import { DrawManager } from "../helpers/DrawManager";
-import { OPPONENT_WIDTH } from "../helpers/constants";
+import { OPPONENT_HEIGHT, OPPONENT_WIDTH } from "../helpers/constants";
 import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
@@ -64,11 +64,25 @@ export class Opponent {
       //attack
     }
 
+    else if (this.state === "breathe-in") {
+      if (this.breathTimer < 2000) {
+        const posX = this.pos.x + OPPONENT_WIDTH / 2;
+        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
+        this.pos.x += ((posX - 250) / 250 * .3);
+        this.pos.y += (posY / 250) * .4;
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        this.state = "breathe-out";
+      }
+    }
+
     else if (this.state === "breathe-out") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
-        this.pos.x += ((posX - 250) / 250) * .3;
-        this.pos.y += .2;
+        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
+        this.pos.x -= ((posX - 250) / 250) * .3;
+        this.pos.y -= (posY / 250) * .4;
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
@@ -76,17 +90,7 @@ export class Opponent {
       }
     }
 
-    else if (this.state === "breathe-in") {
-      if (this.breathTimer < 2000) {
-        const posX = this.pos.x + OPPONENT_WIDTH / 2;
-        this.pos.x -= ((posX - 250) / 250) * .3;
-        this.pos.y -= .2;
-        this.breathTimer += timeStamp;
-      } else {
-        this.breathTimer = 0;
-        this.state = "breathe-out";
-      }
-    }
+    
   }
   draw(spriteIndex: number) {
     this.drawManager.draw(this.pos, this.rotation, spriteIndex);
