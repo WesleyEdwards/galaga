@@ -1,6 +1,6 @@
   import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_WIDTH } from "../helpers/constants";
-import { Coordinates, OpponentType, Path } from "../helpers/types";
+import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
@@ -9,6 +9,8 @@ export class Opponent {
   private path: { x: number; y: number }[];
   private pathIndex = 0;
   private speed: number;
+  state: OpponentState;
+  private breathTimer = 0;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -26,11 +28,12 @@ export class Opponent {
     );
     this.speed = speed;
     this.path = path;
+    this.state = "entrance";
   }
   update(timeStamp: number) {
     
     // Follow path, if it exists
-    if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
+    if (this.pathIndex < this.path.length - 1 && this.state === "entrance") {
       let distTraveled = this.speed * timeStamp;
       let distRemaining = computeDistance(
         this.pos,
@@ -54,6 +57,34 @@ export class Opponent {
         const moveY = distTraveled * dirY;
         this.pos.x += moveX;
         this.pos.y += moveY;
+      }
+    }
+
+    else if (this.state === "attack") {
+      //attack
+    }
+
+    else if (this.state === "breathe-out") {
+      if (this.breathTimer < 2000) {
+        const posX = this.pos.x + OPPONENT_WIDTH / 2;
+        this.pos.x += ((posX - 250) / 250) * .3;
+        this.pos.y += .2;
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        this.state = "breathe-in";
+      }
+    }
+
+    else if (this.state === "breathe-in") {
+      if (this.breathTimer < 2000) {
+        const posX = this.pos.x + OPPONENT_WIDTH / 2;
+        this.pos.x -= ((posX - 250) / 250) * .3;
+        this.pos.y -= .2;
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        this.state = "breathe-out";
       }
     }
   }
