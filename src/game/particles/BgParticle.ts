@@ -8,7 +8,7 @@ export class BgParticle {
 
   constructor(pos: Coordinates, color: string) {
     this.pos = pos;
-    this.radius = 2;
+    this.radius = Math.random() * 2;
     this.color = color;
     this.dy = 0.1;
   }
