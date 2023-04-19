@@ -12,6 +12,7 @@ export class Opponent {
   state: OpponentState;
   private breathTimer = 0;
   private oppType: OpponentType;
+  restingPos: Coordinates;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -31,6 +32,9 @@ export class Opponent {
     this.path = path;
     this.oppType = oppType;
     this.state = "entrance";
+    this.restingPos = {} as Coordinates;
+    this.restingPos.x = path[path.length - 1].x;
+    this.restingPos.y = path[path.length - 1].y;
   }
   update(timeStamp: number) {
     
