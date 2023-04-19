@@ -49,6 +49,5 @@ export const initialBgParticles: BgParticle[] = new Array(100)
   .map(() => {
     const x = generateRandomInt(0, CANVAS_WIDTH);
     const y = generateRandomInt(0, CANVAS_HEIGHT);
-    const color = `rgba(255, 255, 255, ${generateRandomInt(0, 100) / 100})`;
-    return new BgParticle({ x, y }, color);
+    return new BgParticle({ x, y }, "white");
   });
