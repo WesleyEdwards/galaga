@@ -24,11 +24,10 @@ export class OpponentManager {
     this.breathing = true;
   }
 
-  handleHit(index: number) {
-    const opp = this.opponents[index];
-    opp.handleHit();
-    if (opp.lives == 0) {
-      this.opponents.splice(index, 1);
+  handleHit(opp: Opponent) {
+    const died = opp.handleHit();
+    if (died) {
+      this.opponents.splice(this.opponents.indexOf(opp), 1);
     }
   }
 
@@ -47,17 +46,17 @@ export class OpponentManager {
     return true;
   }
 
-  update(elapsedTime: number) {   
+  update(elapsedTime: number) {
     this.spriteTimer += elapsedTime;
     if (!this.breathing) {
       this.enemyDriftTimer += elapsedTime;
-      
+
       this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
       if (this.enemyDriftTimer >= 2000) {
         this.enemyDriftDirection *= -1;
         this.enemyDriftTimer = 0;
       }
-    } else if (!this.breathingFlag){
+    } else if (!this.breathingFlag) {
       if (Math.abs(this.enemyOffset) < 1) {
         this.enemyOffset = 0;
         this.breathingFlag = true;
@@ -65,7 +64,8 @@ export class OpponentManager {
           opp.state = "breathe-in";
         });
       } else {
-        this.enemyOffset -= 0.05 * elapsedTime * (this.enemyOffset / Math.abs(this.enemyOffset));
+        this.enemyOffset -=
+          0.05 * elapsedTime * (this.enemyOffset / Math.abs(this.enemyOffset));
       }
     }
     if (this.spriteTimer >= 500) {
@@ -79,7 +79,7 @@ export class OpponentManager {
         opp.pos.x = opp.restingPosX + this.enemyOffset;
       } else if (opp.state === "entrance") {
         opp.path[opp.path.length - 1].x = opp.restingPosX + this.enemyOffset;
-      } 
+      }
     });
   }
 

@@ -1,8 +1,8 @@
 
 
 Wesley:
-- As much image/rendering stuff as possible without interfering with Jared's work
-- Maybe some scoring
+- Particles
+- Background unless someone else does it first
 
 Landon:
 - General UI/UX
@@ -15,7 +15,6 @@ Jared:
 
 All files served to the browser from a server, this includes the "dynamic loading" as I have demonstrated in class.
  - Works on Firefox and Chrome/Edge
- - User configuration
  - Animated Sprites
 
 For the enemy ships
