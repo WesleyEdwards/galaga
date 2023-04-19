@@ -31,6 +31,14 @@ export class OpponentManager {
     return true;
   }
 
+  handleHit(index: number) {
+    const opp = this.opponents[index];
+    opp.handleHit();
+    if (opp.lives <= 0) {
+      this.opponents.splice(index, 1);
+    }
+  }
+
   update(elapsedTime: number) {   
     this.spriteTimer += elapsedTime;
     this.enemyDriftTimer += elapsedTime;
@@ -47,9 +55,9 @@ export class OpponentManager {
     this.opponents.forEach((opp) => {
       opp.update(elapsedTime);
       if (opp.state === "stationary") {
-        opp.pos.x = opp.restingPos.x + this.enemyOffset;
+        opp.pos.x = opp.restingPosX + this.enemyOffset;
       } else if (opp.state === "entrance") {
-        opp.path[opp.path.length - 1].x = opp.restingPos.x + this.enemyOffset;
+        opp.path[opp.path.length - 1].x = opp.restingPosX + this.enemyOffset;
       } 
     });
   }

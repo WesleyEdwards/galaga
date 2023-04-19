@@ -4,15 +4,15 @@ import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
-  pos: Coordinates = {} as Coordinates;
   private drawManager: DrawManager;
-  path: Coordinates[];
   private pathIndex = 0;
   private speed: number;
-  state: OpponentState;
   private breathTimer = 0;
-  private oppType: OpponentType;
-  restingPos: Coordinates;
+  lives = 1;
+  path: Coordinates[];
+  state: OpponentState;
+  pos: Coordinates = {} as Coordinates;
+  restingPosX: number;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -30,11 +30,9 @@ export class Opponent {
     );
     this.speed = speed;
     this.path = path;
-    this.oppType = oppType;
     this.state = "entrance";
-    this.restingPos = {} as Coordinates;
-    this.restingPos.x = path[path.length - 1].x;
-    this.restingPos.y = path[path.length - 1].y;
+    this.restingPosX = path[path.length - 1].x;
+    if (oppType === "bossGalaga") this.lives = 2;
   }
   update(timeStamp: number) {
     
@@ -98,10 +96,16 @@ export class Opponent {
         this.breathTimer = 0;
         this.state = "breathe-in";
       }
-    }
-
-    
+    }   
   }
+
+  handleHit() {
+    this.lives--;
+    if (this.lives === 0) {
+      this.path[this.path.length - 1].x = this.restingPosX ;
+    }
+  }
+  
   draw(spriteIndex: number) {
     this.drawManager.draw(this.pos, this.rotation, spriteIndex);
   }
