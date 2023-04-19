@@ -103,6 +103,8 @@ export class Opponent {
     this.lives--;
     if (this.lives === 0) {
       this.path[this.path.length - 1].x = this.restingPosX ;
+    } else {
+      this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
     }
   }
   
