@@ -6,10 +6,9 @@ export class OpponentManager {
 
   private spriteTimer = 0;
   private spriteIndex = 0;
-
-  private breathInit = 0;
-  private breathTimer = 0;
-  private breathFlag = false;
+  private enemyDriftDirection = 1;
+  private enemyDriftTimer = 0;
+  private enemyOffset = -50;
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
@@ -19,18 +18,27 @@ export class OpponentManager {
     this.opponents.push(opponent);
   }
 
-  update(elapsedTime: number) {
-    if (this.breathInit < 4_000 && !this.breathFlag) this.breathInit += elapsedTime;
-    else {
-      if (!this.breathFlag) {
-        this.opponents.forEach((opp) => {
-          opp.state = "breathe-in";
-        });
-      }
-      this.breathFlag = true;
+  startBreathing() {
+    this.opponents.forEach((opp) => {
+      opp.state = "breathe-in";
+    });
+  }
+
+  lastOneInPlace(): boolean {
+    for (let i = 0; i < this.opponents.length; i++) {
+      if (this.opponents[i].state !== "stationary") return false;
     }
-    
+    return true;
+  }
+
+  update(elapsedTime: number) {   
     this.spriteTimer += elapsedTime;
+    this.enemyDriftTimer += elapsedTime;
+    this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
+    if (this.enemyDriftTimer >= 2000) {
+      this.enemyDriftDirection *= -1;
+      this.enemyDriftTimer = 0;
+    }
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;
       this.spriteTimer = 0;
@@ -38,6 +46,11 @@ export class OpponentManager {
 
     this.opponents.forEach((opp) => {
       opp.update(elapsedTime);
+      if (opp.state === "stationary") {
+        opp.pos.x = opp.restingPos.x + this.enemyOffset;
+      } else if (opp.state === "entrance") {
+        opp.path[opp.path.length - 1].x = opp.restingPos.x + this.enemyOffset;
+      } 
     });
   }
 

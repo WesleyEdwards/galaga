@@ -34,3 +34,5 @@ export const OPPONENT_HEIGHT = 32;
 
 
 export const entranceInterval = 100
+
+export const MAX_WAVES = 2;
