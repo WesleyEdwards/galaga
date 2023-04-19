@@ -12,6 +12,7 @@ import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { BulletManager } from "./bullets/BulletManager";
 import { WaveManager } from "./waves/WaveManager";
+import { ParticleManager } from "./particles/ParticleManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
@@ -19,6 +20,7 @@ export class GameState {
   private bulletManager: BulletManager;
   private opponentManager: OpponentManager;
   private waveManager: WaveManager;
+  private particleManager: ParticleManager;
   private context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -27,6 +29,7 @@ export class GameState {
     this.bulletManager = new BulletManager(context);
     this.opponentManager = new OpponentManager(context);
     this.waveManager = new WaveManager(this.opponentManager);
+    this.particleManager = new ParticleManager(context);
     this.context = context;
   }
 
@@ -45,16 +48,17 @@ export class GameState {
     this.bulletManager.update(elapsedTime, this.keys, this.player.centerX);
     this.opponentManager.update(elapsedTime);
     this.waveManager.update(elapsedTime);
+    this.particleManager.update(elapsedTime);
 
     const opponentsHit = this.bulletManager.checkOpponentCollision(
       this.opponentManager.opponents
     );
     if (opponentsHit.length > 0) {
       uiFunctions.incrementScore(opponentsHit.length);
-      for (let i = 0; i < opponentsHit.length; i++) {
-        let index = this.opponentManager.opponents.indexOf(opponentsHit[i]);
-        this.opponentManager.handleHit(index);
-      }
+      opponentsHit.forEach((opp) => {
+        this.particleManager.opponentDeath(opp);
+        this.opponentManager.handleHit(opp);
+      });
     }
   }
 
@@ -63,6 +67,7 @@ export class GameState {
     this.player.draw();
     this.bulletManager.draw();
     this.opponentManager.draw();
+    this.particleManager.draw();
   }
 
   drawBackground() {
