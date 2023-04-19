@@ -1,12 +1,12 @@
 import { getConversions, generatePointsOnBezierCurve } from "../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
-import { Coordinates, Path } from "../../helpers/types";
+import { Coordinates } from "../../helpers/types";
 import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const beeStartW5S1 = { x: convX * 200, y: convY * -OPPONENT_HEIGHT };
-const beeEndW5S1 = [
+const beeStart = { x: convX * 200, y: convY * -OPPONENT_HEIGHT };
+const beeEnd = [
   { x: convX * (215 - 3 * (10 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 3 * (10 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 4 * (10 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
@@ -17,7 +17,7 @@ const beeEndW5S1 = [
   { x: convX * (215 + 5 * (10 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
   { x: convX * (215 + 5 * (10 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
 ]
-const beePathsW5S1 = beeEndW5S1.map((end) => path(end));
+const beePaths = beeEnd.map((end) => path(end));
 
 
 function path(destination: Coordinates) {
@@ -41,8 +41,8 @@ function path(destination: Coordinates) {
 
 export const waveFiveInfo: WaveInfo = [
   {
-    start: beeStartW5S1,
-    paths: beePathsW5S1,
-    end: beeEndW5S1,
+    start: beeStart,
+    paths: beePaths,
+    end: beeEnd,
   }
 ]

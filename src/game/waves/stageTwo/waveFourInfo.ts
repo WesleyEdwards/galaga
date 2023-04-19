@@ -5,23 +5,23 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const innerBeeStartW4S2 = { x: convX * 300, y: convY * -OPPONENT_HEIGHT };
+const innerBeeStart = { x: convX * 300, y: convY * -OPPONENT_HEIGHT };
 const innerBeeEndW4S1 = [
   { x: convX * (215 - 1 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 1 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 2 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 2 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
 ]
-const innerBeePathsW4S2 = innerBeeEndW4S1.map((end) => innerBeePath(end));
+const innerBeePaths = innerBeeEndW4S1.map((end) => innerBeePath(end));
 
-const outerBeeStartW4S2 = { x: convX * 260, y: convY * -OPPONENT_HEIGHT };
-const outerBeeEndW4S2 = [
+const outerBeeStart = { x: convX * 260, y: convY * -OPPONENT_HEIGHT };
+const outerBeeEnd = [
     { x: convX * (215 + 2 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 2 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 3 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 3 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
 ]
-const outerBeePathsW4S2 = outerBeeEndW4S2.map((end) => outerBeePath(end));
+const outerBeePaths = outerBeeEnd.map((end) => outerBeePath(end));
 
 
 function innerBeePath(destination: Coordinates) {
@@ -63,12 +63,12 @@ function outerBeePath(destination: Coordinates) {
 }
 
 export const waveFourInfo: WaveInfo = [{
-        start: innerBeeStartW4S2,
-        paths: innerBeePathsW4S2,
+        start: innerBeeStart,
+        paths: innerBeePaths,
         end: innerBeeEndW4S1,
     }, {
-        start: outerBeeStartW4S2,
-        paths: outerBeePathsW4S2,
-        end: outerBeeEndW4S2,
+        start: outerBeeStart,
+        paths: outerBeePaths,
+        end: outerBeeEnd,
     }
 ]

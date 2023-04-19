@@ -5,8 +5,8 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const innerButterflyStartW3S2 = {x: convX * (500 + OPPONENT_WIDTH), y: convY * 450};
-const innerButterflyEndW3S2 = [
+const innerButterflyStart = {x: convX * (500 + OPPONENT_WIDTH), y: convY * 450};
+const innerButterflyEnd = [
   // Left two butterflies
   { x: convX * (215 - 2 * (0 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT) },
   { x: convX * (215 - 2 * (0 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT) },
@@ -14,17 +14,17 @@ const innerButterflyEndW3S2 = [
   { x: convX * (215 + 3 * (0 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT) },
   { x: convX * (215 + 3 * (0 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT) },
 ]
-const innerButterflyPathsW3S2 = innerButterflyEndW3S2.map((end) => innerButterflyPath(end));
+const innerButterflyPaths = innerButterflyEnd.map((end) => innerButterflyPath(end));
 
-const outerButterflyStartW3S2 = {x: convX * (500 + OPPONENT_WIDTH), y: convY * 480};
-const outerButterflyEndW3S2 = [
+const outerButterflyStart = {x: convX * (500 + OPPONENT_WIDTH), y: convY * 480};
+const outerButterflyEnd = [
     { x: convX * (215 - 3 * (0 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT) },
     { x: convX * (215 - 3 * (0 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT) },
     // Right two butterflies
     { x: convX * (215 + 4 * (0 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 4 * (0 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT) },
 ]
-const outerButterflyPathsW3S2 = outerButterflyEndW3S2.map((end) => outerButterflyPath(end));
+const outerButterflyPaths = outerButterflyEnd.map((end) => outerButterflyPath(end));
 
 function innerButterflyPath(destination: Coordinates) {
   const pts = [
@@ -74,12 +74,12 @@ function outerButterflyPath(destination: Coordinates) {
 }
 
 export const waveThreeInfo: WaveInfo = [{
-    start: innerButterflyStartW3S2,
-    paths: innerButterflyPathsW3S2,
-    end: innerButterflyEndW3S2,
+    start: innerButterflyStart,
+    paths: innerButterflyPaths,
+    end: innerButterflyEnd,
   }, {
-    start: outerButterflyStartW3S2,
-    paths: outerButterflyPathsW3S2,
-    end: outerButterflyEndW3S2,
+    start: outerButterflyStart,
+    paths: outerButterflyPaths,
+    end: outerButterflyEnd,
   }
 ]

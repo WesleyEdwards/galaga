@@ -5,24 +5,24 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const beeStartW1S2 = { x: convX * 300, y: convY * -OPPONENT_HEIGHT };
-const beeEndW1S2 = [
+const beeStart = { x: convX * 300, y: convY * -OPPONENT_HEIGHT };
+const beeEnd = [
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 4 * OPPONENT_HEIGHT },
   { x: convX * 215, y: convY * 4 * OPPONENT_HEIGHT },
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 5 * OPPONENT_HEIGHT },
   { x: convX * 215, y: convY * 5 * OPPONENT_HEIGHT },
 ];
-const beePathsW1S2 = beeEndW1S2.map((end) => beePath(end));
+const beePaths = beeEnd.map((end) => beePath(end));
 
-const butterflyStartW1S2 = { x: convX * 200, y: convY *  -OPPONENT_HEIGHT };
-const butterflyEndW1S2 = [
+const butterflyStart = { x: convX * 200, y: convY *  -OPPONENT_HEIGHT };
+const butterflyEnd = [
   { x: convX * 215, y: convY * 2 * OPPONENT_HEIGHT },
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 2 * OPPONENT_HEIGHT },
   { x: convX * 215, y: convY * 3 * OPPONENT_HEIGHT },
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 3 * OPPONENT_HEIGHT},
 ];
 
-const butterflyPathsW1S2 = butterflyEndW1S2.map((end) => butterflyPath(end));
+const butterflyPaths = butterflyEnd.map((end) => butterflyPath(end));
 
 
 function butterflyPath(destination: Coordinates) {
@@ -68,11 +68,11 @@ function beePath(destination: Coordinates) {
 }
 
 export const waveOneInfo: WaveInfo = [{
-    start: beeStartW1S2,
-    paths: beePathsW1S2,
-    end: beeEndW1S2,
+    start: beeStart,
+    paths: beePaths,
+    end: beeEnd,
   }, {
-    start: butterflyStartW1S2,
-    paths: butterflyPathsW1S2,
-    end: butterflyEndW1S2,
+    start: butterflyStart,
+    paths: butterflyPaths,
+    end: butterflyEnd,
   }]

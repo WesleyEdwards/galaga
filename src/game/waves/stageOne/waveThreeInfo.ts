@@ -8,11 +8,11 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const butterflyStartW3S1 = {
+const butterflyStart = {
   x: convX * 500 + OPPONENT_WIDTH,
   y: convY * 450,
 };
-const butterflyEndW3S1 = [
+const butterflyEnd = [
   // Left two butterflies
   {x: convX * (215 - 2 * (10 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT), },
   {x: convX * (215 - 2 * (10 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT), },
@@ -24,7 +24,7 @@ const butterflyEndW3S1 = [
   {x: convX * (215 + 4 * (10 + OPPONENT_WIDTH)), y: convY * (2 * OPPONENT_HEIGHT), },
   {x: convX * (215 + 4 * (10 + OPPONENT_WIDTH)), y: convY * (3 * OPPONENT_HEIGHT), },
 ];
-const butterflyPathsW3S1 = butterflyEndW3S1.map((end) => path(end));
+const butterflyPaths = butterflyEnd.map((end) => path(end));
 
 function path(destination: Coordinates) {
   const pts = [
@@ -50,8 +50,8 @@ function path(destination: Coordinates) {
 
 export const waveThreeInfo: WaveInfo = [
     {
-      start: butterflyStartW3S1,
-      end: butterflyEndW3S1,
-      paths: butterflyPathsW3S1,
+      start: butterflyStart,
+      end: butterflyEnd,
+      paths: butterflyPaths,
     },
   ]

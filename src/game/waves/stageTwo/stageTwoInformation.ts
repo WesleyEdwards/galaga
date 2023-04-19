@@ -12,7 +12,7 @@ const waveOne = [
     "bee",
     "bee",
   ]),
-  new trail(waveOneInfo[0].start, waveOneInfo[0].paths, [
+  new trail(waveOneInfo[1].start, waveOneInfo[1].paths, [
     "butterfly",
     "butterfly",
     "butterfly",

@@ -5,24 +5,24 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const innerBeeStartW5S2 = { x: convX * 200, y: convY * -OPPONENT_HEIGHT };
-const innerBeeEndW5S1 = [
+const innerBeeStart = { x: convX * 200, y: convY * -OPPONENT_HEIGHT };
+const innerBeeEnd = [
     { x: convX * (215 + 4 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 4 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 5 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 + 5 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
 
 ]
-const innerBeePathsW5S2 = innerBeeEndW5S1.map((end) => innerBeePath(end));
+const innerBeePaths = innerBeeEnd.map((end) => innerBeePath(end));
 
-const outerBeeStartW5S2 = { x: convX * 240, y: convY * -OPPONENT_HEIGHT };
-const outerBeeEndW5S2 = [
+const outerBeeStart = { x: convX * 240, y: convY * -OPPONENT_HEIGHT };
+const outerBeeEnd = [
     { x: convX * (215 - 3 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 - 3 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
     { x: convX * (215 - 4 * (0 + OPPONENT_WIDTH)), y: convY * (4 * OPPONENT_HEIGHT) },
     { x: convX * (215 - 4 * (0 + OPPONENT_WIDTH)), y: convY * (5 * OPPONENT_HEIGHT) },
 ]
-const outerBeePathsW5S2 = outerBeeEndW5S2.map((end) => outerBeePath(end));
+const outerBeePaths = outerBeeEnd.map((end) => outerBeePath(end));
 
 
 function innerBeePath(destination: Coordinates) {
@@ -64,12 +64,12 @@ function outerBeePath(destination: Coordinates) {
 }
 
 export const waveFiveInfo: WaveInfo = [{
-        start: innerBeeStartW5S2,
-        paths: innerBeePathsW5S2,
-        end: innerBeeEndW5S1,
+        start: innerBeeStart,
+        paths: innerBeePaths,
+        end: innerBeeEnd,
     }, {
-        start: outerBeeStartW5S2,
-        paths: outerBeePathsW5S2,
-        end: outerBeeEndW5S2,
+        start: outerBeeStart,
+        paths: outerBeePaths,
+        end: outerBeeEnd,
     }
 ]
