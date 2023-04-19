@@ -53,7 +53,7 @@ export class GameState {
       uiFunctions.incrementScore(opponentsHit.length);
       for (let i = 0; i < opponentsHit.length; i++) {
         let index = this.opponentManager.opponents.indexOf(opponentsHit[i]);
-        this.opponentManager.opponents.splice(index, 1);
+        this.opponentManager.handleHit(index);
       }
     }
   }

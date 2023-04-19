@@ -5,7 +5,7 @@ import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 
-const beeStart = { x: convX * 300, y: convY * -OPPONENT_HEIGHT };
+const beeStart = { x: convX * 200, y: convY * -OPPONENT_HEIGHT };
 const beeEnd = [
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 4 * OPPONENT_HEIGHT },
   { x: convX * 215, y: convY * 4 * OPPONENT_HEIGHT },
@@ -14,7 +14,7 @@ const beeEnd = [
 ];
 const beePaths = beeEnd.map((end) => beePath(end));
 
-const butterflyStart = { x: convX * 200, y: convY *  -OPPONENT_HEIGHT };
+const butterflyStart = { x: convX * 300, y: convY *  -OPPONENT_HEIGHT };
 const butterflyEnd = [
   { x: convX * 215, y: convY * 2 * OPPONENT_HEIGHT },
   { x: convX * (215 + 1 * (0 + OPPONENT_WIDTH)), y: convY * 2 * OPPONENT_HEIGHT },
@@ -26,6 +26,27 @@ const butterflyPaths = butterflyEnd.map((end) => butterflyPath(end));
 
 
 function butterflyPath(destination: Coordinates) {
+    const pts = [
+      { x: convX * 300, y: convY * 1},
+      { x: convX * 300, y: convY * 30},
+      { x: convX * 210, y: convY * 115},
+      { x: convX * 130, y: convY * 175},
+      { x: convX * 65, y: convY * 250},
+      { x: convX * 50, y: convY * 320},
+      { x: convX * 75, y: convY * 385},
+      { x: convX * 130, y: convY * 390},
+      { x: convX * 180, y: convY * 375},
+      { x: convX * 230, y: convY * 320},
+      { x: convX * 250, y: convY * 280},
+      { x: convX * 250, y: convY * 170},
+    ]
+    const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
+    smoothCurve.push(destination);
+    smoothCurve.push({x: destination.x, y: destination.y + 1});
+    return smoothCurve;
+}
+
+function beePath(destination: Coordinates) {
     const pts = [
       { x: convX * 200, y: convY * 1},
       { x: convX * 200, y: convY * 30},
@@ -39,27 +60,6 @@ function butterflyPath(destination: Coordinates) {
       { x: convX * 270, y: convY * 320},
       { x: convX * 250, y: convY * 280},
       { x: convX * 250, y: convY * 170},
-    ]
-    const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
-    smoothCurve.push({x: destination.x, y: destination.y + 1});
-    return smoothCurve;
-}
-
-function beePath(destination: Coordinates) {
-    const pts = [
-        { x: convX * 300, y: convY * 1},
-        { x: convX * 300, y: convY * 30},
-        { x: convX * 210, y: convY * 115},
-        { x: convX * 130, y: convY * 175},
-        { x: convX * 65, y: convY * 250},
-        { x: convX * 50, y: convY * 320},
-        { x: convX * 75, y: convY * 385},
-        { x: convX * 130, y: convY * 390},
-        { x: convX * 180, y: convY * 375},
-        { x: convX * 230, y: convY * 320},
-        { x: convX * 250, y: convY * 280},
-        { x: convX * 250, y: convY * 170},
     ]
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
     smoothCurve.push(destination);

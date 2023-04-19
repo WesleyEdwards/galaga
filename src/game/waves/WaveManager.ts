@@ -36,6 +36,7 @@ export class WaveManager {
       this.activeWaves = [];
       this.stageElapsedTime = 0;
       this.isBreathing = false;
+      this.opponentManager.resetState();
     }
 
     //TODO: If a new stage just began, show stage number
