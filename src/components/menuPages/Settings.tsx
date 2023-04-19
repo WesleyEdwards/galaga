@@ -22,7 +22,9 @@ const defaultScheme = {
 export const Settings: FC<ScreenProps> = ({ onBack }) => {
   const [controlScheme, setControlScheme] = useState(defaultScheme);
   const [controlToChange, setControlToChange] = useState<controlKey>("left");
-  const [keyToChange, setKeyToChange] = useState<string>("Click to select new key");
+  const [keyToChange, setKeyToChange] = useState<string>(
+    "Click to select new key"
+  );
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export const Settings: FC<ScreenProps> = ({ onBack }) => {
       );
       setControlScheme(parsedControlScheme);
     } else {
-      const newScheme = {...defaultScheme};
+      const newScheme = { ...defaultScheme };
       newScheme[key] = value;
       localStorage.setItem("controlScheme", JSON.stringify(newScheme));
       setControlScheme(newScheme);
@@ -58,68 +60,92 @@ export const Settings: FC<ScreenProps> = ({ onBack }) => {
     setKeyToChange("Press new key for control");
     const keyPress = (e: KeyboardEvent) => {
       e.preventDefault();
-      if(e.key === "Escape" || Object.values(controlScheme).includes(e.key) || (Object.values(controlScheme).includes("Space") && e.key === " ")){
+      if (
+        e.key === "Escape" ||
+        Object.values(controlScheme).includes(e.key) ||
+        (Object.values(controlScheme).includes("Space") && e.key === " ")
+      ) {
         setError(true);
         setKeyToChange("Invalid Key");
         return;
       }
       if (e.key === " ") {
         setKeyToChange("Space");
-      }else{
+      } else {
         setKeyToChange(e.key);
       }
       window.removeEventListener("keydown", keyPress);
-    }
+    };
     window.addEventListener("keydown", keyPress);
   }
 
   return (
-    <Stack>
+    <>
       <ScreenHeader title="Settings" backToMenu={() => onBack("menu")} />
-      <Typography variant="body1" textAlign="center">
-        Move Left - {controlScheme.left}
-      </Typography>
-      <Typography variant="body1" textAlign="center">
-        Move Right - {controlScheme.right}
-      </Typography>
-      <Typography variant="body1" textAlign="center">
-        Shoot - {controlScheme.shoot}
-      </Typography>
-      <FormControl fullWidth>
-        <InputLabel>Control to Change</InputLabel>
-        <Select
-          value={controlToChange}
-          label="Control"
-          onChange={(e) => setControlToChange(e.target.value as controlKey)}
+      <Stack justifyContent="center" alignItems="center" gap="1rem">
+        <Stack direction="row" gap="2rem">
+          <Stack direction="column">
+            <Typography align="center">Move Left</Typography>
+            <Typography align="center">Move Right</Typography>
+            <Typography align="center">Shoot</Typography>
+          </Stack>
+          <Stack direction="column">
+            <Typography>-</Typography>
+            <Typography>-</Typography>
+            <Typography>-</Typography>
+          </Stack>
+          <Stack direction="column">
+            <Typography align="center">{controlScheme.left}</Typography>
+            <Typography align="center">{controlScheme.right}</Typography>
+            <Typography align="center">{controlScheme.shoot}</Typography>
+          </Stack>
+        </Stack>
+        <FormControl fullWidth sx={{ maxWidth: "12rem" }}>
+          <InputLabel>Control to Change</InputLabel>
+          <Select
+            value={controlToChange}
+            label="Control to Change"
+            onChange={(e) => setControlToChange(e.target.value as controlKey)}
+          >
+            <MenuItem value={"left"}>Move Left</MenuItem>
+            <MenuItem value={"right"}>Move Right</MenuItem>
+            <MenuItem value={"shoot"}>Shoot</MenuItem>
+          </Select>
+        </FormControl>
+        <Button
+          onClick={() => {
+            remapButtonClick();
+          }}
         >
-          <MenuItem value={"left"}>Move Left</MenuItem>
-          <MenuItem value={"right"}>Move Right</MenuItem>
-          <MenuItem value={"shoot"}>Shoot</MenuItem>
-        </Select>
-      </FormControl>
-      <Button
-        onClick={() => {
-          remapButtonClick();
-        }}
-      >
-        {keyToChange}
-      </Button>
-      <Button
-        disabled={keyToChange === "Click to select new key" || keyToChange === "Press new key for control" || keyToChange === "Escape" || error}
-        onClick={() => {
-          setControl(controlToChange, keyToChange);
-          setKeyToChange("Click to select new key");
-        }}
-      >
-        Remap Selected Control
-      </Button>
-      <Button onClick={() => {
-        localStorage.setItem("controlScheme", JSON.stringify(defaultScheme));
-        setControlScheme(defaultScheme);
-      }}>
-        Reset Controls to Default
-      </Button>
-    </Stack>
+          {keyToChange}
+        </Button>
+        <Button
+          disabled={
+            keyToChange === "Click to select new key" ||
+            keyToChange === "Press new key for control" ||
+            keyToChange === "Escape" ||
+            error
+          }
+          onClick={() => {
+            setControl(controlToChange, keyToChange);
+            setKeyToChange("Click to select new key");
+          }}
+        >
+          Remap Selected Control
+        </Button>
+        <Button
+          onClick={() => {
+            localStorage.setItem(
+              "controlScheme",
+              JSON.stringify(defaultScheme)
+            );
+            setControlScheme(defaultScheme);
+          }}
+        >
+          Reset Controls to Default
+        </Button>
+      </Stack>
+    </>
   );
 };
 
