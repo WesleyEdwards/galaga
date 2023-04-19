@@ -1,16 +1,28 @@
 import { Keys } from "./types";
 
 export function addEventListeners(keys: Keys) {
-  window.addEventListener("keydown", ({ key }) => {
-    if (key === "ArrowRight") keys.right = true;
-    if (key === "ArrowLeft") keys.left = true;
-    if (key === " ") keys.shoot = true;
-    if (key === "Escape") keys.escape = true;
+  const defaultControlScheme = {
+    left: "ArrowLeft",
+    right: "ArrowRight",
+    shoot: "Space",
+  };
+  const controlScheme = localStorage.getItem("controlScheme");
+  let parsedControlScheme = defaultControlScheme;
+  if (controlScheme) {
+    parsedControlScheme = JSON.parse(controlScheme);
+  } else {
+    localStorage.setItem("controlScheme", JSON.stringify(defaultControlScheme));
+  }
+  window.addEventListener("keydown", (e) => {
+    if (e.key === parsedControlScheme.right || (parsedControlScheme.right === "Space" && e.key === " ")) keys.right = true;
+    if (e.key === parsedControlScheme.left || (parsedControlScheme.left === "Space" && e.key === " ")) keys.left = true;
+    if (!e.repeat && (e.key === parsedControlScheme.shoot || (parsedControlScheme.shoot === "Space" && e.key === " "))) keys.shoot = true;
+    if (e.key === "Escape") keys.escape = true;
   });
 
-  window.addEventListener("keyup", ({ key }) => {
-    if (key === "ArrowRight") keys.right = false;
-    if (key === "ArrowLeft") keys.left = false;
+  window.addEventListener("keyup", (e) => {
+    if (e.key === parsedControlScheme.right || (parsedControlScheme.right === "Space" && e.key === " ")) keys.right = false;
+    if (e.key === parsedControlScheme.left || (parsedControlScheme.left === "Space" && e.key === " ")) keys.left = false;
   });
 }
 

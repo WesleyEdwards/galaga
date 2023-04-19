@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import { GameButton } from "./GameButton";
 import About from "./menuPages/About";
 import Help from "./menuPages/Help";
+import Settings from "./menuPages/Settings";
 import { HighScores } from "./menuPages/HighScores";
 import { WinScreen, LoseScreen } from "./menuPages/WinLoseScreens";
 import { MenuButton, Page, ScreenProps } from "./Types";
@@ -19,6 +20,7 @@ const RenderMap: Record<InfoPages, FC<ScreenProps>> = {
   highScores: HighScores,
   help: Help,
   about: About,
+  settings: Settings,
   lose: LoseScreen,
   win: WinScreen,
 };
@@ -33,6 +35,7 @@ export const GalagaMenu: FC<GalagaMenuProps> = (props) => {
     { text: "High Scores", onClick: () => setSelected("highScores") },
     { text: "Help", onClick: () => setSelected("help") },
     { text: "About", onClick: () => setSelected("about") },
+    { text: "Settings", onClick: () => setSelected("settings") },
   ];
 
   return (
