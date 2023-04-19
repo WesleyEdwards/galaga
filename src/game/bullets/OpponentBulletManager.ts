@@ -18,7 +18,7 @@ export class OpponentBulletManager{
   constructor(context: CanvasRenderingContext2D) {
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
       srcX: 313,
-      srcY: 122,
+      srcY: 140,
       srcWidth: 3,
       srcHeight: 8,
     });
@@ -51,16 +51,17 @@ export class OpponentBulletManager{
   }
   
   checkPlayerCollision(player: Player): boolean {
+    let collision = false;
     this.bullets.forEach((bullet) => {
       if (
         bullet.pos.y >= CANVAS_HEIGHT - PLAYER_TOP &&
-        bullet.pos.y <= CANVAS_HEIGHT - PLAYER_BOTTOM &&
+        bullet.pos.y - BULLET_HEIGHT <= CANVAS_HEIGHT - PLAYER_BOTTOM &&
         bullet.pos.x >= player.centerX - PLAYER_WIDTH / 2 &&
         bullet.pos.x <= player.centerX + PLAYER_WIDTH / 2
       ){
-        return true;
+        collision = true;
       }
     });
-    return false;
+    return collision;
   }
 }
