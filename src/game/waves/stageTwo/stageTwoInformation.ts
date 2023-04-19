@@ -1,19 +1,18 @@
-import { Coordinates } from "../../helpers/types";
 import { trail } from "../../helpers/waveHelper";
-import { waveFiveInfo } from "./waveFiveInfo";
+import { waveFiveInfo } from "./waveFive";
 import { waveFourInfo } from "./waveFourInfo";
 import { waveOneInfo } from "./waveOneInfo";
 import { waveThreeInfo } from "./waveThreeInfo";
 import { waveTwoInfo } from "./waveTwoInfo";
 
-const waveOne: trail[] = [
+const waveOne = [
   new trail(waveOneInfo[0].start, waveOneInfo[0].paths, [
     "bee",
     "bee",
     "bee",
     "bee",
   ]),
-  new trail(waveOneInfo[1].start, waveOneInfo[1].paths, [
+  new trail(waveOneInfo[0].start, waveOneInfo[0].paths, [
     "butterfly",
     "butterfly",
     "butterfly",
@@ -23,31 +22,30 @@ const waveOne: trail[] = [
 
 const waveTwo = [
   new trail(waveTwoInfo[0].start, waveTwoInfo[0].paths, [
-    "bossGalaga",
     "butterfly",
-    "bossGalaga",
     "butterfly",
-    "bossGalaga",
     "butterfly",
-    "bossGalaga",
     "butterfly",
   ]),
+  new trail(
+    waveTwoInfo[1].start,
+    waveTwoInfo[1].paths,
+    ["bossGalaga", "bossGalaga", "bossGalaga", "bossGalaga"],
+    485 / 1000
+  ),
 ];
 
 const waveThree = [
   new trail(
     waveThreeInfo[0].start,
     waveThreeInfo[0].paths,
-    [
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-    ]
+    ["butterfly", "butterfly", "butterfly", "butterfly"]
+  ),
+  new trail(
+    waveThreeInfo[1].start,
+    waveThreeInfo[1].paths,
+    ["butterfly", "butterfly", "butterfly", "butterfly"],
+    485 / 1000
   ),
 ];
 
@@ -57,6 +55,8 @@ const waveFour = [
     "bee",
     "bee",
     "bee",
+  ]),
+  new trail(waveFourInfo[1].start, waveFourInfo[1].paths, [
     "bee",
     "bee",
     "bee",
@@ -70,6 +70,8 @@ const waveFive = [
     "bee",
     "bee",
     "bee",
+  ]),
+  new trail(waveFiveInfo[1].start, waveFiveInfo[1].paths, [
     "bee",
     "bee",
     "bee",
@@ -77,7 +79,7 @@ const waveFive = [
   ]),
 ];
 
-export const stageOneTrailInfo: trail[][] = [
+export const stageTwoTrailInfo: trail[][] = [
   waveOne,
   waveTwo,
   waveThree,

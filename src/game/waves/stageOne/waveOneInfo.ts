@@ -4,7 +4,7 @@ import {
 } from "../paths/PathFollower";
 import { OPPONENT_WIDTH, OPPONENT_HEIGHT } from "../../helpers/constants";
 import { Coordinates } from "../../helpers/types";
-import { WaveInfo } from "./stageOneInformation";
+import { WaveInfo } from "../AllWaves";
 
 const { x: convX, y: convY } = getConversions();
 const beeStart = {
@@ -86,18 +86,15 @@ function beePath(destination: Coordinates) {
   return smoothCurve;
 }
 
-export const waveOneInformation: WaveInfo = {
-  waveNumber: 1,
-  trailInfo: [
-    {
-      start: beeStart,
-      end: beeEnd,
-      paths: beePaths,
-    },
-    {
-      start: butterflyStart,
-      end: butterflyEnd,
-      paths: butterflyPaths,
-    },
-  ],
-};
+export const waveOneInfo: WaveInfo = [
+  {
+    start: beeStart,
+    end: beeEnd,
+    paths: beePaths,
+  },
+  {
+    start: butterflyStart,
+    end: butterflyEnd,
+    paths: butterflyPaths,
+  },
+];
