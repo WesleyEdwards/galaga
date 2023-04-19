@@ -9,6 +9,8 @@ export class OpponentManager {
   private enemyDriftDirection = 1;
   private enemyDriftTimer = 0;
   private enemyOffset = -50;
+  private breathingFlag = false;
+  private breathing = false;
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
@@ -19,9 +21,23 @@ export class OpponentManager {
   }
 
   startBreathing() {
-    this.opponents.forEach((opp) => {
-      opp.state = "breathe-in";
-    });
+    this.breathing = true;
+  }
+
+  handleHit(index: number) {
+    const opp = this.opponents[index];
+    opp.handleHit();
+    if (opp.lives == 0) {
+      this.opponents.splice(index, 1);
+    }
+  }
+
+  resetState() {
+    this.enemyDriftDirection = 1;
+    this.enemyDriftTimer = 0;
+    this.enemyOffset = -50;
+    this.breathingFlag = false;
+    this.breathing = false;
   }
 
   lastOneInPlace(): boolean {
@@ -31,21 +47,26 @@ export class OpponentManager {
     return true;
   }
 
-  handleHit(index: number) {
-    const opp = this.opponents[index];
-    opp.handleHit();
-    if (opp.lives <= 0) {
-      this.opponents.splice(index, 1);
-    }
-  }
-
   update(elapsedTime: number) {   
     this.spriteTimer += elapsedTime;
-    this.enemyDriftTimer += elapsedTime;
-    this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
-    if (this.enemyDriftTimer >= 2000) {
-      this.enemyDriftDirection *= -1;
-      this.enemyDriftTimer = 0;
+    if (!this.breathing) {
+      this.enemyDriftTimer += elapsedTime;
+      
+      this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
+      if (this.enemyDriftTimer >= 2000) {
+        this.enemyDriftDirection *= -1;
+        this.enemyDriftTimer = 0;
+      }
+    } else if (!this.breathingFlag){
+      if (Math.abs(this.enemyOffset) < 1) {
+        this.enemyOffset = 0;
+        this.breathingFlag = true;
+        this.opponents.forEach((opp) => {
+          opp.state = "breathe-in";
+        });
+      } else {
+        this.enemyOffset -= 0.05 * elapsedTime * (this.enemyOffset / Math.abs(this.enemyOffset));
+      }
     }
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;
