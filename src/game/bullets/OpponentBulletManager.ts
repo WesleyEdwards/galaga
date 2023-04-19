@@ -2,7 +2,7 @@ import {
     BULLET_HEIGHT,
     BULLET_WIDTH,
     CANVAS_HEIGHT,
-    OPPONENT_WIDTH,
+    OPPONENT_HEIGHT,
     PLAYER_BOTTOM,
     PLAYER_TOP,
     PLAYER_WIDTH,
@@ -10,10 +10,10 @@ import {
 import { DrawManager } from "../helpers/DrawManager";
 import { Opponent } from "../opponents/Opponent";
 import { Player } from "../Player";
-import { EnemyBullet } from "./EnemyBullet";
+import { OpponentBullet } from "./OpponentBullet";
 
-export class EnemyBulletManager{
-  bullets: EnemyBullet[] = [];
+export class OpponentBulletManager{
+  bullets: OpponentBullet[] = [];
   drawManager: DrawManager;
   constructor(context: CanvasRenderingContext2D) {
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
@@ -25,6 +25,14 @@ export class EnemyBulletManager{
   }
 
   update(elapsedTime: number, opponent?: Opponent) {
+    if (opponent) {
+      this.bullets.push(
+        new OpponentBullet({
+          x: opponent.centerX - BULLET_WIDTH / 2,
+          y: opponent.pos.y + OPPONENT_HEIGHT,
+        })
+      );
+    }
 
 
     this.bullets.forEach((bullet) => {
@@ -35,6 +43,13 @@ export class EnemyBulletManager{
       this.bullets.shift();
     }
   }
+
+  draw() {
+    this.bullets.forEach((bullet) => {
+      this.drawManager.draw(bullet.pos);
+    });
+  }
+  
   checkPlayerCollision(player: Player): boolean {
     this.bullets.forEach((bullet) => {
       if (

@@ -11,13 +11,14 @@ import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
+import { OpponentBulletManager } from "./bullets/OpponentBulletManager";
 import { WaveManager } from "./waves/WaveManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
   private player: Player;
   private playerBulletManager: PlayerBulletManager;
-  private enemyBulletManager: PlayerBulletManager;
+  private opponentBulletManager: OpponentBulletManager;
   private opponentManager: OpponentManager;
   private waveManager: WaveManager;
   private context: CanvasRenderingContext2D;
@@ -26,9 +27,9 @@ export class GameState {
     addEventListeners(this.keys);
     this.player = new Player(context);
     this.playerBulletManager = new PlayerBulletManager(context);
-    this.enemyBulletManager = new PlayerBulletManager(context);
+    this.opponentBulletManager = new OpponentBulletManager(context);
     this.opponentManager = new OpponentManager(context);
-    this.waveManager = new WaveManager(this.opponentManager);
+    this.waveManager = new WaveManager(this.opponentManager, this.opponentBulletManager);
     this.context = context;
   }
 
@@ -57,6 +58,10 @@ export class GameState {
         let index = this.opponentManager.opponents.indexOf(opponentsHit[i]);
         this.opponentManager.handleHit(index);
       }
+    }
+    const playerHit = this.opponentBulletManager.checkPlayerCollision(this.player);
+    if (playerHit) {
+      this.player.handleHit();
     }
   }
 

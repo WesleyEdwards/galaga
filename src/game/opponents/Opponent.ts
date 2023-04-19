@@ -114,6 +114,9 @@ export class Opponent {
   get rightX() {
     return this.pos.x + OPPONENT_WIDTH;
   }
+  get centerX() {
+    return this.pos.x + OPPONENT_WIDTH / 2;
+  }
   get rotation() {
     if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
       return getAngle(this.pos, this.path[this.pathIndex + 1]);

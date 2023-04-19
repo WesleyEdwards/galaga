@@ -50,6 +50,10 @@ export class Player {
     }
   }
 
+  handleHit() {
+    console.log("I should be dead right now!");
+  }
+
   draw() {
     this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
   }

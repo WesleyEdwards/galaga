@@ -42,6 +42,12 @@ export class PlayerBulletManager {
     }
   }
 
+  draw() {
+    this.bullets.forEach((bullet) => {
+      this.drawManager.draw(bullet.pos);
+    });
+  }
+
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {
     const hitOpponents: Opponent[] = [];
     this.bullets.forEach((bullet) => {

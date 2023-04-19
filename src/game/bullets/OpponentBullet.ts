@@ -1,7 +1,7 @@
 import { Coordinates } from "../helpers/types";
 import { Bullet } from "./Bullet";
 
-export class EnemyBullet extends Bullet {
+export class OpponentBullet extends Bullet {
   constructor(pos: Coordinates) {
     super(pos);
   }
