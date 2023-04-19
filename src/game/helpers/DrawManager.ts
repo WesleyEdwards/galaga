@@ -44,4 +44,7 @@ export class DrawManager {
     }
 
   }
+  changeSprite(spriteInfo: SpriteInfo) {
+    this.spriteInfo = spriteInfo;
+  }
 }
