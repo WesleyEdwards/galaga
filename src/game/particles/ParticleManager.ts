@@ -1,4 +1,4 @@
-import { OpponentType } from "../helpers/types";
+import { Coordinates, OpponentType } from "../helpers/types";
 import { Opponent } from "../opponents/Opponent";
 import { Particle } from "./Particle";
 
@@ -32,13 +32,20 @@ export class ParticleManager {
     }
   }
 
-  createOpponentParticles(opponent: Opponent) {
+  opponentDeath(opponent: Opponent) {
     for (let i = 0; i < 40; i++) {
       const color =
         oppColors[opponent.type][
           Math.floor(Math.random() * oppColors[opponent.type].length)
         ];
       const particle = new Particle(opponent.center, color);
+      this.particles.push(particle);
+    }
+  }
+
+  playerDeath(pos: Coordinates) {
+    for (let i = 0; i < 40; i++) {
+      const particle = new Particle(pos, "#ffffff");
       this.particles.push(particle);
     }
   }
