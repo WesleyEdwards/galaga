@@ -70,6 +70,7 @@ export class Opponent {
 
     else if (this.state === "attack") {
       //attack
+      this.pos.x = this.restingPosX;
     }
 
     else if (this.state === "breathe-in") {
@@ -106,6 +107,10 @@ export class Opponent {
     } else {
       this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
     }
+  }
+
+  startAttackRun() {
+    this.state = "attack";
   }
   
   draw(spriteIndex: number) {

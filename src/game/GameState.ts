@@ -69,6 +69,7 @@ export class GameState {
     this.drawBackground();
     this.player.draw();
     this.playerBulletManager.draw();
+    this.opponentBulletManager.draw();
     this.opponentManager.draw();
   }
 

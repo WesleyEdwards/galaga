@@ -26,6 +26,12 @@ export class WaveManager {
 
   update(elapsedTime: number) {
     this.stageElapsedTime += elapsedTime;
+    if (this.stageElapsedTime >= 20_000 && this.opponentManager.attackerCount < 2) {
+      const attacker = this.opponentManager.chooseAttacker();
+      this.opponentBulletManager.update(elapsedTime, attacker)
+    } else {
+      this.opponentBulletManager.update(elapsedTime);
+    }
     //Begin next stage
     if (
       this.opponentManager.opponents.length === 0 &&
