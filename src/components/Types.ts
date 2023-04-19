@@ -25,6 +25,7 @@ export type Page =
   | "help"
   | "about"
   | "lose"
+  | "settings"
   | "win";
 
 export type EnterGameProps = {
