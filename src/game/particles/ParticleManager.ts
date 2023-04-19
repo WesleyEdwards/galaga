@@ -1,15 +1,12 @@
 import { Coordinates, OpponentType } from "../helpers/types";
+import { initialBgParticles, oppColors } from "../helpers/utils";
 import { Opponent } from "../opponents/Opponent";
+import { BgParticle } from "./BgParticle";
 import { Particle } from "./Particle";
-
-const oppColors: Record<OpponentType, string[]> = {
-  bee: ["#ffff00", "#0068de", "#ff0000"],
-  butterfly: ["#ff0000", "#0068de", "#dedede"],
-  bossGalaga: ["#0068de", "#9700de", "#ff00de"],
-};
 
 export class ParticleManager {
   private particles: Particle[] = [];
+  private bgParticles: BgParticle[] = initialBgParticles;
   private context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -24,11 +21,17 @@ export class ParticleManager {
         i--;
       }
     }
+    for (let i = 0; i < this.bgParticles.length; i++) {
+      this.bgParticles[i].update(elapsedTime);
+    }
   }
 
   draw() {
     for (let i = 0; i < this.particles.length; i++) {
       this.particles[i].draw(this.context);
+    }
+    for (let i = 0; i < this.bgParticles.length; i++) {
+      this.bgParticles[i].draw(this.context);
     }
   }
 
