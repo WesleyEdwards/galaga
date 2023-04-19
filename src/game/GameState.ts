@@ -10,13 +10,14 @@ import { Keys } from "./helpers/types";
 import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
-import { BulletManager } from "./bullets/BulletManager";
+import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
 import { WaveManager } from "./waves/WaveManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
   private player: Player;
-  private bulletManager: BulletManager;
+  private playerBulletManager: PlayerBulletManager;
+  private enemyBulletManager: PlayerBulletManager;
   private opponentManager: OpponentManager;
   private waveManager: WaveManager;
   private context: CanvasRenderingContext2D;
@@ -24,7 +25,8 @@ export class GameState {
   constructor(context: CanvasRenderingContext2D) {
     addEventListeners(this.keys);
     this.player = new Player(context);
-    this.bulletManager = new BulletManager(context);
+    this.playerBulletManager = new PlayerBulletManager(context);
+    this.enemyBulletManager = new PlayerBulletManager(context);
     this.opponentManager = new OpponentManager(context);
     this.waveManager = new WaveManager(this.opponentManager);
     this.context = context;
@@ -42,11 +44,11 @@ export class GameState {
     if (paused) return;
 
     this.player.update(this.keys, elapsedTime);
-    this.bulletManager.update(elapsedTime, this.keys, this.player.centerX);
+    this.playerBulletManager.update(elapsedTime, this.keys, this.player.centerX);
     this.opponentManager.update(elapsedTime);
     this.waveManager.update(elapsedTime);
 
-    const opponentsHit = this.bulletManager.checkOpponentCollision(
+    const opponentsHit = this.playerBulletManager.checkOpponentCollision(
       this.opponentManager.opponents
     );
     if (opponentsHit.length > 0) {
@@ -61,7 +63,7 @@ export class GameState {
   drawAll() {
     this.drawBackground();
     this.player.draw();
-    this.bulletManager.draw();
+    this.playerBulletManager.draw();
     this.opponentManager.draw();
   }
 

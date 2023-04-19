@@ -5,27 +5,27 @@ import {
   OPPONENT_WIDTH,
   PLAYER_TOP,
 } from "../helpers/constants";
-import { DrawManager } from "../helpers/DrawManager";
 import { Keys } from "../helpers/types";
 import { Opponent } from "../opponents/Opponent";
-import { Bullet } from "./Bullet";
+import { PlayerBullet } from "./PlayerBullet";
+import { DrawManager } from "../helpers/DrawManager";
 
-export class BulletManager {
-  bullets: Bullet[] = [];
-  private drawManager: DrawManager;
+export class PlayerBulletManager {
+  bullets: PlayerBullet[] = [];
+  drawManager: DrawManager;
   constructor(context: CanvasRenderingContext2D) {
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
       srcX: 313,
       srcY: 122,
       srcWidth: 3,
       srcHeight: 8,
-    });
+      });
   }
 
   update(elapsedTime: number, keys: Keys, playerCenterX: number) {
     if (keys.shoot) {
       this.bullets.push(
-        new Bullet({
+        new PlayerBullet({
           x: playerCenterX - BULLET_WIDTH / 2,
           y: CANVAS_HEIGHT - PLAYER_TOP - 5,
         })
@@ -42,11 +42,6 @@ export class BulletManager {
     }
   }
 
-  draw() {
-    this.bullets.forEach((bullet) => {
-      this.drawManager.draw(bullet.pos);
-    });
-  }
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {
     const hitOpponents: Opponent[] = [];
     this.bullets.forEach((bullet) => {

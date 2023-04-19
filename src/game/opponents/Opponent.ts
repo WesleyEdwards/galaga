@@ -122,6 +122,7 @@ export class Opponent {
   }
 }
 
+//ChatGPT generated this, I added the pi/2 offset
 function getAngle(pos: Coordinates, nextPos: Coordinates) {
   const dx = nextPos.x - pos.x;
   const dy = nextPos.y - pos.y;
