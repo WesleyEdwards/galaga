@@ -27,7 +27,7 @@ export class WaveManager {
   update(elapsedTime: number) {
     this.stageElapsedTime += elapsedTime;
     //Check entering waves for attacks 
-    if (this.activeWaves.length > 0) {
+    if (this.activeWaves.length > 0 && this.stageIndex == 1) {
       const currentAttackers = this.activeWaves[this.activeWaves.length - 1].getAttackers();
       if (currentAttackers.length > 0) {
         currentAttackers.forEach((attacker) => {
