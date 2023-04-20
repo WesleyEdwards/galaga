@@ -78,6 +78,7 @@ export class Opponent {
       }
     } else if (this.state === "attack") {
       //attack
+      this.pos.x = this.restingPosX;
     } else if (this.state === "breathe-in") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
@@ -109,14 +110,22 @@ export class Opponent {
     audio.play();
     this.lives--;
     this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
+    if (this.lives === 0) this.path[this.path.length - 1].x = this.restingPosX;
     return this.lives === 0;
   }
 
+  startAttackRun() {
+    this.state = "attack";
+  }
+  
   draw(spriteIndex: number) {
     this.drawManager.draw(this.pos, this.rotation, spriteIndex);
   }
   get rightX() {
     return this.pos.x + OPPONENT_WIDTH;
+  }
+  get centerX() {
+    return this.pos.x + OPPONENT_WIDTH / 2;
   }
   get rotation() {
     if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
@@ -142,6 +151,7 @@ export class Opponent {
   }
 }
 
+//ChatGPT generated this, I added the pi/2 offset
 function getAngle(pos: Coordinates, nextPos: Coordinates) {
   const dx = nextPos.x - pos.x;
   const dy = nextPos.y - pos.y;

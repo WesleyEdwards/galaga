@@ -11,6 +11,7 @@ export class OpponentManager {
   private enemyOffset = -50;
   private breathingFlag = false;
   private breathing = false;
+  attackerCount = 0;
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
@@ -28,6 +29,18 @@ export class OpponentManager {
     const died = opp.handleHit();
     if (died) {
       this.opponents.splice(this.opponents.indexOf(opp), 1);
+    }
+  }
+
+  chooseAttacker() {
+    if (this.opponents.length > this.attackerCount) {
+      this.attackerCount++;
+      let index = Math.floor(Math.random() * this.opponents.length);
+      while (this.opponents[index].state === "attack") {
+        index = Math.floor(Math.random() * this.opponents.length);
+      }
+      this.opponents[index].state = "attack";
+      return this.opponents[index];
     }
   }
 
