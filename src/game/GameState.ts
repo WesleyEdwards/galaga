@@ -31,12 +31,8 @@ export class GameState {
     this.playerBulletManager = new PlayerBulletManager(context);
     this.opponentBulletManager = new OpponentBulletManager(context);
     this.opponentManager = new OpponentManager(context);
-<<<<<<< HEAD
     this.waveManager = new WaveManager(this.opponentManager, this.opponentBulletManager);
-=======
-    this.waveManager = new WaveManager(this.opponentManager);
     this.particleManager = new ParticleManager(context);
->>>>>>> main
     this.context = context;
   }
 
