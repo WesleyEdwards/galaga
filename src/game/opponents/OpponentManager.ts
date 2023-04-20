@@ -93,10 +93,25 @@ export class OpponentManager {
       this.spriteTimer = 0;
     }
 
-    if (this.breathing && this.attackerCount < 2) {
-      const opp = this.chooseAttacker();
-      if (opp) {
-        this.bulletManager.addBullet(opp);
+    if (this.breathing) {
+      if (this.attackerCount < 2) {
+        const opp = this.chooseAttacker();
+        if (opp) {
+          this.bulletManager.addBullet(opp);
+          opp.shotsFired++;
+        }
+      } else {
+        const attackers = this.opponents.filter((opp) => opp.state === "attack");        
+        attackers.forEach((opp) => {
+          if (opp.shotsFired == 1 && opp.shotTimer >= 100) {
+            this.bulletManager.addBullet(opp);
+            opp.shotsFired++;
+          } else if (opp.shotsFired == 2 && opp.shotTimer >= 4100) {
+            this.bulletManager.addBullet(opp);
+            opp.shotsFired = 1;
+            opp.shotTimer = 0;
+          }
+        });
       }
     }
 

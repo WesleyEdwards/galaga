@@ -17,6 +17,8 @@ export class Opponent {
   private audio = new Audio();
   private attackPath: Coordinates[] = [];
   private activePath: Coordinates[] = [];
+  shotsFired = 0;
+  shotTimer = 0;
   type: OpponentType;
   lives = 1;
   path: Coordinates[];
@@ -58,6 +60,7 @@ export class Opponent {
       //   this.state = "stationary";
       // }
     } else if (this.state === "attack") {
+      this.shotTimer += timeStamp;
       if (this.attackPath.length === 0) {
         this.attackPath = getAttackPath(this.pos);
         this.activePath = this.attackPath;
