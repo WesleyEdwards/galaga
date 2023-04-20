@@ -17,14 +17,18 @@ export class Opponent {
   private audio = new Audio();
   private attackPath: Coordinates[] = [];
   private activePath: Coordinates[] = [];
+  private breathingOffsetX = 0;
+  private breathingOffsetY = 0;
+  private secondaryState: OpponentState | "" = "";
   shotsFired = 0;
   shotTimer = 0;
   type: OpponentType;
   lives = 1;
   path: Coordinates[];
-  state: OpponentState;
+  state: OpponentState | "";
   pos: Coordinates = {} as Coordinates;
   restingPosX: number;
+  restingPosY: number;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -45,6 +49,7 @@ export class Opponent {
     this.path = path;
     this.state = "entrance";
     this.restingPosX = path[path.length - 1].x;
+    this.restingPosY = path[path.length - 1].y;
     if (oppType === "bossGalaga") this.lives = 2;
     this.activePath = path;
   }
@@ -66,30 +71,50 @@ export class Opponent {
         this.activePath = this.attackPath;
         this.pathIndex = 0;
       }
-      this.followPath(timeStamp, () => {this.pathIndex = 0;});
+      this.followPath(timeStamp, () => {
+        this.attackPath = [];
+        this.activePath = this.path;
+        this.pathIndex = 0;
+        this.state = this.secondaryState;
+        this.secondaryState = "";
+        console.log(this.state);
+        
+        
+      });
 
 
-    } else if (this.state === "breathe-in") {
+    } 
+    if (this.state === "breathe-in" || this.secondaryState === "breathe-in") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x += ((posX - 250) / 250) * 0.3;
-        this.pos.y += (posY / 250) * 0.4;
+        // this.pos.x += ((posX - 250) / 250) * 0.3;
+        // this.pos.y += (posY / 250) * 0.4;
+        this.breathingOffsetX += ((posX - 250) / 250) * 0.3;
+        this.breathingOffsetY += (posY / 250) * 0.4;
+        this.pos.x = this.restingPosX + this.breathingOffsetX;
+        this.pos.y = this.restingPosY + this.breathingOffsetY;
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
         this.state = "breathe-out";
+        this.secondaryState = "breathe-out";
       }
-    } else if (this.state === "breathe-out") {
+    } else if (this.state === "breathe-out" || this.secondaryState === "breathe-out") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x -= ((posX - 250) / 250) * 0.3;
-        this.pos.y -= (posY / 250) * 0.4;
+        // this.pos.x -= ((posX - 250) / 250) * 0.3;
+        // this.pos.y -= (posY / 250) * 0.4;
+        this.breathingOffsetX -= ((posX - 250) / 250) * 0.3;
+        this.breathingOffsetY -= (posY / 250) * 0.4;
+        this.pos.x = this.restingPosX + this.breathingOffsetX;
+        this.pos.y = this.restingPosY + this.breathingOffsetY;
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
         this.state = "breathe-in";
+        this.secondaryState = "breathe-in";
       }
     }
   }
@@ -105,6 +130,7 @@ export class Opponent {
   }
 
   startAttackRun() {
+    this.secondaryState = this.state;
     this.state = "attack";
   }
 
