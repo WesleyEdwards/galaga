@@ -54,8 +54,8 @@ export class GameState {
       this.opponentManager.opponents
     );
     if (opponentsHit.length > 0) {
-      uiFunctions.incrementScore(opponentsHit.length);
       opponentsHit.forEach((opp) => {
+        uiFunctions.incrementScore(opp.score)
         this.particleManager.opponentDeath(opp);
         this.opponentManager.handleHit(opp);
       });

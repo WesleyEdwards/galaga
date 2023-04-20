@@ -130,6 +130,16 @@ export class Opponent {
       y: this.pos.y + OPPONENT_HEIGHT / 2,
     };
   }
+
+  get score(): number{
+    if(this.type === "bee"){
+      return this.state === "entrance" || this.state === "attack" ? 100 : 50;
+    }
+    else if(this.type === "butterfly"){
+      return this.state === "entrance" || this.state === "attack" ? 160 : 80;
+    }
+    return this.state === "entrance" || this.state === "attack" ? 400 : 150;
+  }
 }
 
 function getAngle(pos: Coordinates, nextPos: Coordinates) {
