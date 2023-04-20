@@ -6,6 +6,7 @@ import {
   OpponentType,
   Path,
 } from "../helpers/types";
+import { getAttackPath } from "./AttackPatterns";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
@@ -14,6 +15,7 @@ export class Opponent {
   private speed: number;
   private breathTimer = 0;
   private audio = new Audio();
+  private attackPath: Coordinates[] = [];
   type: OpponentType;
   lives = 1;
   path: Coordinates[];
@@ -77,8 +79,51 @@ export class Opponent {
         this.state = "stationary";
       }
     } else if (this.state === "attack") {
-      //attack
-      this.pos.x = this.restingPosX;
+           
+      
+      if (this.attackPath.length === 0) {
+        this.attackPath = getAttackPath(this.pos);
+        this.pathIndex = 0;
+      }
+
+      if (this.pathIndex < this.attackPath.length - 1) {
+        let distTraveled = this.speed * timeStamp;
+        let distRemaining = computeDistance(
+          this.pos,
+          this.attackPath[this.pathIndex + 1]
+        );
+  
+        if (distTraveled > distRemaining) {
+          distTraveled -= distRemaining;
+          this.pos.x = this.attackPath[this.pathIndex + 1].x;
+          this.pos.y = this.attackPath[this.pathIndex + 1].y;
+          this.pathIndex++;
+        }
+  
+        if (this.pathIndex < this.attackPath.length - 1) {
+          let dirX = this.attackPath[this.pathIndex + 1].x - this.pos.x;
+          let dirY = this.attackPath[this.pathIndex + 1].y - this.pos.y;
+          const dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
+          dirX /= dirMag;
+          dirY /= dirMag;
+          const moveX = distTraveled * dirX;
+          const moveY = distTraveled * dirY;
+          this.pos.x += moveX;
+          this.pos.y += moveY;
+        } else {
+          console.log("complete!");
+          
+        }
+        //In final position
+        if (
+          this.pos.x == this.path[this.path.length - 1].x &&
+          this.pos.y == this.path[this.path.length - 1].y
+        ) {
+          this.state = "stationary";
+        }
+      }
+
+
     } else if (this.state === "breathe-in") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
@@ -116,6 +161,10 @@ export class Opponent {
 
   startAttackRun() {
     this.state = "attack";
+  }
+
+  followPath(path: Coordinates[]) {
+
   }
   
   draw(spriteIndex: number) {

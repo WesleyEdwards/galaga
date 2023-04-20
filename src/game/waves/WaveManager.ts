@@ -55,7 +55,7 @@ export class WaveManager {
       this.opponentManager.resetState();
     }
 
-    //TODO: If a new stage just began, show stage number
+    //If a new stage just began, show stage number
     if (this.displayStageNumber) {
       if (this.stageElapsedTime > 2000) {
         this.displayStageNumber = false;
@@ -76,7 +76,7 @@ export class WaveManager {
       }
     }
 
-    //TODO: If last enemy is in place, start breathing
+    //Breathing
     if (
       !this.isBreathing &&
       this.currentWave == this.allWaves.length &&

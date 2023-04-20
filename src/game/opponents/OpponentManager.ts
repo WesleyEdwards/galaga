@@ -11,7 +11,7 @@ export class OpponentManager {
   private enemyOffset = -50;
   private breathingFlag = false;
   private breathing = false;
-  attackerCount = 0;
+  private attackerCount = 0;
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
@@ -28,6 +28,8 @@ export class OpponentManager {
   handleHit(opp: Opponent) {
     const died = opp.handleHit();
     if (died) {
+      const opponent = this.opponents[this.opponents.indexOf(opp)];
+      if (opponent.state === "attack") this.attackerCount--;
       this.opponents.splice(this.opponents.indexOf(opp), 1);
     }
   }
@@ -61,29 +63,37 @@ export class OpponentManager {
 
   update(elapsedTime: number) {
     this.spriteTimer += elapsedTime;
+    //Drifting
     if (!this.breathing) {
       this.enemyDriftTimer += elapsedTime;
-
       this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
       if (this.enemyDriftTimer >= 2000) {
         this.enemyDriftDirection *= -1;
         this.enemyDriftTimer = 0;
       }
+    //Breathing
     } else if (!this.breathingFlag) {
       if (Math.abs(this.enemyOffset) < 1) {
         this.enemyOffset = 0;
         this.breathingFlag = true;
         this.opponents.forEach((opp) => {
-          opp.state = "breathe-in";
+          if (opp.state !== "attack") opp.state = "breathe-in";
         });
       } else {
         this.enemyOffset -=
           0.05 * elapsedTime * (this.enemyOffset / Math.abs(this.enemyOffset));
       }
     }
+    //Sprite animation
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;
       this.spriteTimer = 0;
+    }
+
+    if (this.breathing && this.attackerCount < 1) {
+      console.log("Choosing attacker!");
+      
+      this.chooseAttacker();
     }
 
     this.opponents.forEach((opp) => {
