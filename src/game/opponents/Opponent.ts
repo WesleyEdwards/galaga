@@ -110,6 +110,7 @@ export class Opponent {
     audio.play();
     this.lives--;
     this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
+    if (this.lives === 0) this.path[this.path.length - 1].x = this.restingPosX;
     return this.lives === 0;
   }
 
