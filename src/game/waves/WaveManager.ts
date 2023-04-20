@@ -1,3 +1,4 @@
+import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { MAX_WAVES } from "../helpers/constants";
 import { OpponentManager } from "../opponents/OpponentManager";
 import { generateWaves } from "./AllWaves";
@@ -10,11 +11,13 @@ export class WaveManager {
   stageIndex: number;
   stageElapsedTime: number;
   opponentManager: OpponentManager;
+  opponentBulletManager: OpponentBulletManager;
   isBreathing: boolean = false;
   displayStageNumber: boolean = true;
 
-  constructor(opponentManager: OpponentManager) {
+  constructor(opponentManager: OpponentManager, opponentBulletManager: OpponentBulletManager) {
     this.opponentManager = opponentManager;
+    this.opponentBulletManager = opponentBulletManager;
     this.stageIndex = 0;
     this.stageElapsedTime = 0;
     this.allWaves = generateWaves(opponentManager, this.stageIndex);
@@ -23,6 +26,14 @@ export class WaveManager {
 
   update(elapsedTime: number) {
     this.stageElapsedTime += elapsedTime;
+    if (this.stageElapsedTime >= 20_000 && this.opponentManager.attackerCount < 2) {
+      const attacker = this.opponentManager.chooseAttacker();
+      if (attacker) {
+        this.opponentBulletManager.update(elapsedTime, attacker)
+      }
+    } else {
+      this.opponentBulletManager.update(elapsedTime);
+    }
     //Begin next stage
     if (
       this.opponentManager.opponents.length === 0 &&

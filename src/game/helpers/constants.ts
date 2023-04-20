@@ -23,6 +23,7 @@ export const PLAYER_MOST_RIGHT_POS = CANVAS_WIDTH - CANVAS_BORDER;
 export const PLAYER_SPEED = 0.3;
 export const PLAYER_WIDTH = 32;
 export const PLAYER_TOP = PLAYER_WIDTH * 1.5;
+export const PLAYER_BOTTOM = PLAYER_TOP - PLAYER_WIDTH;
 
 // Bullet
 export const BULLET_SPEED = 0.6;
