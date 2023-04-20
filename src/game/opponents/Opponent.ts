@@ -1,6 +1,11 @@
 import { DrawManager } from "../helpers/DrawManager";
 import { OPPONENT_HEIGHT, OPPONENT_WIDTH } from "../helpers/constants";
-import { Coordinates, OpponentState, OpponentType, Path } from "../helpers/types";
+import {
+  Coordinates,
+  OpponentState,
+  OpponentType,
+  Path,
+} from "../helpers/types";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
@@ -8,6 +13,8 @@ export class Opponent {
   private pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
+  private audio = new Audio();
+  type: OpponentType;
   lives = 1;
   path: Coordinates[];
   state: OpponentState;
@@ -18,15 +25,16 @@ export class Opponent {
     pos: Coordinates,
     oppType: OpponentType,
     path: Path,
-    speed: number,
+    speed: number
   ) {
     this.pos.x = pos.x;
     this.pos.y = pos.y;
+    this.type = oppType;
     this.drawManager = new DrawManager(
       context,
       OPPONENT_WIDTH,
       OPPONENT_WIDTH,
-      opponentSprites[oppType][0],
+      opponentSprites[oppType][0]
     );
     this.speed = speed;
     this.path = path;
@@ -35,7 +43,6 @@ export class Opponent {
     if (oppType === "bossGalaga") this.lives = 2;
   }
   update(timeStamp: number) {
-    
     // Follow path, if it exists
     if (this.pathIndex < this.path.length - 1 && this.state === "entrance") {
       let distTraveled = this.speed * timeStamp;
@@ -63,50 +70,47 @@ export class Opponent {
         this.pos.y += moveY;
       }
       //In final position
-      if (this.pos.x == this.path[this.path.length - 1].x && this.pos.y == this.path[this.path.length - 1].y) {
+      if (
+        this.pos.x == this.path[this.path.length - 1].x &&
+        this.pos.y == this.path[this.path.length - 1].y
+      ) {
         this.state = "stationary";
       }
-    }
-
-    else if (this.state === "attack") {
+    } else if (this.state === "attack") {
       //attack
       this.pos.x = this.restingPosX;
-    }
-
-    else if (this.state === "breathe-in") {
+    } else if (this.state === "breathe-in") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x += ((posX - 250) / 250 * .3);
-        this.pos.y += (posY / 250) * .4;
+        this.pos.x += ((posX - 250) / 250) * 0.3;
+        this.pos.y += (posY / 250) * 0.4;
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
         this.state = "breathe-out";
       }
-    }
-
-    else if (this.state === "breathe-out") {
+    } else if (this.state === "breathe-out") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x -= ((posX - 250) / 250) * .3;
-        this.pos.y -= (posY / 250) * .4;
+        this.pos.x -= ((posX - 250) / 250) * 0.3;
+        this.pos.y -= (posY / 250) * 0.4;
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
         this.state = "breathe-in";
       }
-    }   
+    }
   }
 
-  handleHit() {
+  handleHit(): boolean {
+    const audio = new Audio("assets/enemydeath.wav");
+    audio.volume = 0.2;
+    audio.play();
     this.lives--;
-    if (this.lives === 0) {
-      this.path[this.path.length - 1].x = this.restingPosX ;
-    } else {
-      this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
-    }
+    this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
+    return this.lives === 0;
   }
 
   startAttackRun() {
@@ -127,6 +131,22 @@ export class Opponent {
       return getAngle(this.pos, this.path[this.pathIndex + 1]);
     }
     return 0;
+  }
+  get center(): Coordinates {
+    return {
+      x: this.pos.x + OPPONENT_WIDTH / 2,
+      y: this.pos.y + OPPONENT_HEIGHT / 2,
+    };
+  }
+
+  get score(): number{
+    if(this.type === "bee"){
+      return this.state === "entrance" || this.state === "attack" ? 100 : 50;
+    }
+    else if(this.type === "butterfly"){
+      return this.state === "entrance" || this.state === "attack" ? 160 : 80;
+    }
+    return this.state === "entrance" || this.state === "attack" ? 400 : 150;
   }
 }
 

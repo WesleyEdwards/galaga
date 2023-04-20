@@ -1,4 +1,6 @@
-import { Keys } from "./types";
+import { BgParticle } from "../particles/BgParticle";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./constants";
+import { Keys, OpponentType } from "./types";
 
 export function addEventListeners(keys: Keys) {
   const defaultControlScheme = {
@@ -35,3 +37,17 @@ export function debounceLog(val: any) {
 export function generateRandomInt(min: number, max: number): number {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
+
+export const oppColors: Record<OpponentType, string[]> = {
+  bee: ["#ffff00", "#0068de", "#ff0000"],
+  butterfly: ["#ff0000", "#0068de", "#dedede"],
+  bossGalaga: ["#0068de", "#9700de", "#ff00de"],
+};
+
+export const initialBgParticles: BgParticle[] = new Array(100)
+  .fill(0)
+  .map(() => {
+    const x = generateRandomInt(0, CANVAS_WIDTH);
+    const y = generateRandomInt(0, CANVAS_HEIGHT);
+    return new BgParticle({ x, y }, "white");
+  });

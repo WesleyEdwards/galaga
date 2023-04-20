@@ -35,20 +35,16 @@ const waveTwo = [
 ];
 
 const waveThree = [
-  new trail(
-    waveThreeInfo[0].start,
-    waveThreeInfo[0].paths,
-    [
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-      "butterfly",
-    ]
-  ),
+  new trail(waveThreeInfo[0].start, waveThreeInfo[0].paths, [
+    "butterfly",
+    "butterfly",
+    "butterfly",
+    "butterfly",
+    "butterfly",
+    "butterfly",
+    "butterfly",
+    "butterfly",
+  ]),
 ];
 
 const waveFour = [
