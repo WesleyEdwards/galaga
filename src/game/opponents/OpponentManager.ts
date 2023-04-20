@@ -34,14 +34,16 @@ export class OpponentManager {
     }
   }
 
-  chooseAttacker(): Opponent {
-    this.attackerCount++;
-    let index = Math.floor(Math.random() * this.opponents.length);
-    while (this.opponents[index].state === "attack") {
-      index = Math.floor(Math.random() * this.opponents.length);
+  chooseAttacker() {
+    if (this.opponents.length > this.attackerCount) {
+      this.attackerCount++;
+      let index = Math.floor(Math.random() * this.opponents.length);
+      while (this.opponents[index].state === "attack") {
+        index = Math.floor(Math.random() * this.opponents.length);
+      }
+      this.opponents[index].state = "attack";
+      return this.opponents[index];
     }
-    this.opponents[index].state = "attack";
-    return this.opponents[index];
   }
 
   resetState() {

@@ -26,7 +26,7 @@ export const PLAYER_TOP = PLAYER_WIDTH * 1.5;
 export const PLAYER_BOTTOM = PLAYER_TOP - PLAYER_WIDTH;
 
 // Bullet
-export const BULLET_SPEED = 0.06;
+export const BULLET_SPEED = 0.6;
 export const BULLET_WIDTH = 3;
 export const BULLET_HEIGHT = 16;
 
