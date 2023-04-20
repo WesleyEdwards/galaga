@@ -90,7 +90,7 @@ export class OpponentManager {
       this.spriteTimer = 0;
     }
 
-    if (this.breathing && this.attackerCount < 1) {
+    if (this.breathing && this.attackerCount < 2) {
       console.log("Choosing attacker!");
       
       this.chooseAttacker();
