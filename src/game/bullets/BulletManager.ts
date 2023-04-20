@@ -24,6 +24,9 @@ export class BulletManager {
 
   update(elapsedTime: number, keys: Keys, playerCenterX: number) {
     if (keys.shoot) {
+      const a = new Audio("assets/Ship Shot.wav");
+      a.volume = 0.1;
+      a.play();
       this.bullets.push(
         new Bullet({
           x: playerCenterX - BULLET_WIDTH / 2,

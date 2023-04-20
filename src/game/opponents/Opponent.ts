@@ -13,6 +13,7 @@ export class Opponent {
   private pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
+  private audio = new Audio();
   type: OpponentType;
   lives = 1;
   path: Coordinates[];
@@ -103,6 +104,9 @@ export class Opponent {
   }
 
   handleHit(): boolean {
+    const audio = new Audio("assets/enemydeath.wav");
+    audio.volume = 0.2;
+    audio.play();
     this.lives--;
     this.drawManager.changeSprite(opponentSprites["bossGalaga"][1]);
     return this.lives === 0;
