@@ -1,3 +1,4 @@
+import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { Opponent } from "./Opponent";
 
 export class OpponentManager {
@@ -12,9 +13,11 @@ export class OpponentManager {
   private breathingFlag = false;
   private breathing = false;
   private attackerCount = 0;
+  private bulletManager: OpponentBulletManager;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager) {
     this.context = context;
+    this.bulletManager = bulletManager;
   }
 
   addOpponent(opponent: Opponent) {
@@ -41,7 +44,7 @@ export class OpponentManager {
       while (this.opponents[index].state === "attack") {
         index = Math.floor(Math.random() * this.opponents.length);
       }
-      this.opponents[index].state = "attack";
+      this.opponents[index].startAttackRun();
       return this.opponents[index];
     }
   }
@@ -91,9 +94,10 @@ export class OpponentManager {
     }
 
     if (this.breathing && this.attackerCount < 2) {
-      console.log("Choosing attacker!");
-      
-      this.chooseAttacker();
+      const opp = this.chooseAttacker();
+      if (opp) {
+        this.bulletManager.addBullet(opp);
+      }
     }
 
     this.opponents.forEach((opp) => {

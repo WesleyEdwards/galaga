@@ -49,23 +49,21 @@ export class Opponent {
   update(timeStamp: number) {
     // Follow path, if it exists
     if (this.state === "entrance") {
-      this.followPath(timeStamp);
+      this.followPath(timeStamp, () => {this.state = "stationary";});
       //In final position
-      if (
-        this.pos.x == this.path[this.path.length - 1].x &&
-        this.pos.y == this.path[this.path.length - 1].y
-      ) {
-        this.state = "stationary";
-      }
+      // if (
+      //   this.pos.x == this.path[this.path.length - 1].x &&
+      //   this.pos.y == this.path[this.path.length - 1].y
+      // ) {
+      //   this.state = "stationary";
+      // }
     } else if (this.state === "attack") {
-           
-      
       if (this.attackPath.length === 0) {
         this.attackPath = getAttackPath(this.pos);
         this.activePath = this.attackPath;
         this.pathIndex = 0;
       }
-      this.followPath(timeStamp);
+      this.followPath(timeStamp, () => {this.pathIndex = 0;});
 
 
     } else if (this.state === "breathe-in") {
@@ -107,8 +105,8 @@ export class Opponent {
     this.state = "attack";
   }
 
-  followPath(timeStamp: number) {
-    if (this.pathIndex < this.path.length - 1) {
+  followPath(timeStamp: number, onCompletion: () => void) {
+    if (this.pathIndex < this.activePath.length - 1) {
       let distTraveled = this.speed * timeStamp;
       let distRemaining = computeDistance(
         this.pos,
@@ -132,6 +130,8 @@ export class Opponent {
         const moveY = distTraveled * dirY;
         this.pos.x += moveX;
         this.pos.y += moveY;
+      } else {
+        onCompletion();
       }
     }
   }
