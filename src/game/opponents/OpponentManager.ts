@@ -13,6 +13,7 @@ export class OpponentManager {
   private breathingFlag = false;
   private breathing = false;
   private attackerCount = 0;
+  private attackerTimer = 0;
   private bulletManager: OpponentBulletManager;
 
   constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager) {
@@ -94,7 +95,9 @@ export class OpponentManager {
     }
 
     if (this.breathing) {
-      if (this.attackerCount < 2) {
+      this.attackerTimer += elapsedTime;
+      if (this.attackerCount < 2 && this.attackerTimer >= 3000) {
+        this.attackerTimer = 0;
         const opp = this.chooseAttacker();
         if (opp) {
           this.bulletManager.addBullet(opp);
@@ -121,6 +124,9 @@ export class OpponentManager {
         opp.pos.x = opp.restingPosX + this.enemyOffset;
       } else if (opp.state === "entrance") {
         opp.path[opp.path.length - 1].x = opp.restingPosX + this.enemyOffset;
+      } else if (opp.state === "attack") {
+        console.log(opp.pathIndex);
+        
       }
     });
   }

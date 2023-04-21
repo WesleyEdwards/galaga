@@ -11,7 +11,7 @@ import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
   private drawManager: DrawManager;
-  private pathIndex = 0;
+  pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
   private audio = new Audio();
@@ -54,17 +54,14 @@ export class Opponent {
     this.activePath = path;
   }
   update(timeStamp: number) {
+    if (this.state == "attack") {console.log("--------------------"); console.log("Initial " + this.pathIndex);}
     // Follow path, if it exists
     if (this.state === "entrance") {
       this.followPath(timeStamp, () => {this.state = "stationary";});
-      //In final position
-      // if (
-      //   this.pos.x == this.path[this.path.length - 1].x &&
-      //   this.pos.y == this.path[this.path.length - 1].y
-      // ) {
-      //   this.state = "stationary";
-      // }
+      
     } else if (this.state === "attack") {
+      console.log("Attack pre-path " + this.pathIndex);
+      
       this.shotTimer += timeStamp;
       if (this.attackPath.length === 0) {
         this.attackPath = getAttackPath(this.pos);
@@ -72,51 +69,53 @@ export class Opponent {
         this.pathIndex = 0;
       }
       this.followPath(timeStamp, () => {
+        // console.log(this.state);
+        // console.log(this.secondaryState);
+        
         this.attackPath = [];
         this.activePath = this.path;
         this.pathIndex = 0;
         this.state = this.secondaryState;
         this.secondaryState = "";
-        console.log(this.state);
-        
-        
       });
-
-
+      console.log("Attack post-path " +this.pathIndex);
+      
     } 
     if (this.state === "breathe-in" || this.secondaryState === "breathe-in") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        // this.pos.x += ((posX - 250) / 250) * 0.3;
-        // this.pos.y += (posY / 250) * 0.4;
         this.breathingOffsetX += ((posX - 250) / 250) * 0.3;
         this.breathingOffsetY += (posY / 250) * 0.4;
-        this.pos.x = this.restingPosX + this.breathingOffsetX;
-        this.pos.y = this.restingPosY + this.breathingOffsetY;
+        if (this.state == "breathe-in") {
+          this.pos.x = this.restingPosX + this.breathingOffsetX;
+          this.pos.y = this.restingPosY + this.breathingOffsetY;
+        }
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
-        this.state = "breathe-out";
-        this.secondaryState = "breathe-out";
+        if (this.state === "breathe-in") this.state = "breathe-out";
+        else this.secondaryState = "breathe-out";
       }
     } else if (this.state === "breathe-out" || this.secondaryState === "breathe-out") {
       if (this.breathTimer < 2000) {
         const posX = this.pos.x + OPPONENT_WIDTH / 2;
         const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        // this.pos.x -= ((posX - 250) / 250) * 0.3;
-        // this.pos.y -= (posY / 250) * 0.4;
         this.breathingOffsetX -= ((posX - 250) / 250) * 0.3;
         this.breathingOffsetY -= (posY / 250) * 0.4;
-        this.pos.x = this.restingPosX + this.breathingOffsetX;
-        this.pos.y = this.restingPosY + this.breathingOffsetY;
+        if (this.state == "breathe-out") {
+          this.pos.x = this.restingPosX + this.breathingOffsetX;
+          this.pos.y = this.restingPosY + this.breathingOffsetY;
+        }
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
-        this.state = "breathe-in";
-        this.secondaryState = "breathe-in";
+        if (this.state === "breathe-out") this.state = "breathe-in";
+        else this.secondaryState = "breathe-in";
       }
     }
+    if (this.state == "attack") {"End " +console.log(this.pathIndex);}
+
   }
 
   handleHit(): boolean {
