@@ -1,3 +1,4 @@
+import { AttractManager } from "./AttractManager";
 import {
   CANVAS_WIDTH,
   PLAYER_SPEED,
@@ -14,8 +15,10 @@ export class Player {
   private pos: number = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
   private moving: Direction = "none";
   private drawManager: DrawManager;
+  private attract: AttractManager | undefined;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, attract: boolean) {
+    if (attract) this.attract = new AttractManager();
     this.drawManager = new DrawManager(context, PLAYER_WIDTH, PLAYER_WIDTH, {
       srcX: 109,
       srcY: 1,
@@ -25,6 +28,12 @@ export class Player {
   }
 
   update(keys: Keys, elapsedTime: number) {
+    if (this.attract) {
+      this.attract.update(elapsedTime);
+      const currentMove = this.attract.getCurrentMoving();
+      this.movePlayer(currentMove, elapsedTime);
+    }
+
     if (keys.left) {
       this.movePlayer("left", elapsedTime);
       this.moving = "left";

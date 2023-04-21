@@ -25,9 +25,10 @@ export class GameState {
   private particleManager: ParticleManager;
   private context: CanvasRenderingContext2D;
 
-  constructor(context: CanvasRenderingContext2D) {
-    addEventListeners(this.keys);
-    this.player = new Player(context);
+  constructor(context: CanvasRenderingContext2D, attract: boolean) {
+    if (!attract) addEventListeners(this.keys);
+
+    this.player = new Player(context, attract);
     this.playerBulletManager = new PlayerBulletManager(context);
     this.opponentBulletManager = new OpponentBulletManager(context);
     this.opponentManager = new OpponentManager(context, this.opponentBulletManager);

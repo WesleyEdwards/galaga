@@ -14,7 +14,9 @@ import { fetchImage } from "../utils/miscFunctions";
 import { enterGamePlay } from "../game/main";
 import { CANVAS_WIDTH } from "../game/helpers/constants";
 
-export const GameEntry: FC = () => {
+export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
+  setPlaying: setRootPlaying,
+}) => {
   const [play, setPlay] = useState(false);
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>({ ...initGameInfo });
@@ -35,10 +37,12 @@ export const GameEntry: FC = () => {
   const enterGame = () => {
     setGameInfo({ ...initGameInfo });
     setPlay(true);
+    setRootPlaying(true);
   };
 
   const exitGame = (state: Page) => {
     setPlay(false);
+    setRootPlaying(false);
     setCanvasRef(false);
     setInitialPage(state);
   };
