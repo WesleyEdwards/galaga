@@ -96,7 +96,7 @@ export class OpponentManager {
 
     if (this.breathing) {
       this.attackerTimer += elapsedTime;
-      if (this.attackerCount < 2 && this.attackerTimer >= 3000) {
+      if (this.attackerCount < 2 && this.attackerTimer >= 1000) {
         this.attackerTimer = 0;
         const opp = this.chooseAttacker();
         if (opp) {
@@ -124,9 +124,6 @@ export class OpponentManager {
         opp.pos.x = opp.restingPosX + this.enemyOffset;
       } else if (opp.state === "entrance") {
         opp.path[opp.path.length - 1].x = opp.restingPosX + this.enemyOffset;
-      } else if (opp.state === "attack") {
-        console.log(opp.pathIndex);
-        
       }
     });
   }
