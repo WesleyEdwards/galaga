@@ -1,3 +1,4 @@
+import { AttractManager } from "./AttractManager";
 import {
   CANVAS_WIDTH,
   PLAYER_SPEED,
@@ -14,8 +15,12 @@ export class Player {
   private pos: number = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
   private moving: Direction = "none";
   private drawManager: DrawManager;
+  private attract: AttractManager | undefined;
+  private deathTimer: number | undefined = undefined; // undefined if playing
+  private lives: number = 2;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, attract: boolean) {
+    if (attract) this.attract = new AttractManager();
     this.drawManager = new DrawManager(context, PLAYER_WIDTH, PLAYER_WIDTH, {
       srcX: 109,
       srcY: 1,
@@ -24,7 +29,14 @@ export class Player {
     });
   }
 
-  update(keys: Keys, elapsedTime: number) {
+  update(keys: Keys, elapsedTime: number, justDied: boolean) {
+    this.checkDeathState(elapsedTime, justDied);
+
+    if (this.attract) {
+      this.attract.update(elapsedTime);
+      this.movePlayer(this.attract.currentMoving, elapsedTime);
+    }
+
     if (keys.left) {
       this.movePlayer("left", elapsedTime);
       this.moving = "left";
@@ -38,7 +50,7 @@ export class Player {
     if (this.moving === "right" && !keys.right) this.moving = "none";
   }
 
-  movePlayer(direction: Direction, elapsedTime: number) {
+  private movePlayer(direction: Direction, elapsedTime: number) {
     if (direction === "left" && this.pos > PLAYER_MOST_LEFT_POS) {
       this.pos -= PLAYER_SPEED * elapsedTime;
     }
@@ -50,15 +62,36 @@ export class Player {
     }
   }
 
-  handleHit() {
-    console.log("I should be dead right now!");
+  private handleHit() {
+    this.lives--;
+    const audio = new Audio("assets/playerdeath.wav");
+    audio.volume = 0.1;
+    audio.play();
+    this.deathTimer = 0;
+    this.pos = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
+  }
+
+  private checkDeathState(elapsedTime: number, justDied: boolean) {
+    if (justDied) this.handleHit();
+    if (this.deathTimer === undefined) return;
+    this.deathTimer += elapsedTime;
+    if (this.deathTimer > 5000) this.deathTimer = undefined;
   }
 
   draw() {
+    if (this.isDead) return;
     this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
   }
 
-  get centerX() {
+  get centerX(): number | undefined {
+    if (this.isDead) return undefined;
     return this.pos + PLAYER_WIDTH / 2;
+  }
+  get isDead() {
+    return this.deathTimer !== undefined;
+  }
+
+  get endGame() {
+    return this.lives === 1;
   }
 }

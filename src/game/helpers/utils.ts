@@ -51,3 +51,11 @@ export const initialBgParticles: BgParticle[] = new Array(100)
     const y = generateRandomInt(0, CANVAS_HEIGHT);
     return new BgParticle({ x, y }, "white");
   });
+
+
+  export const emptyGameFunctions = {
+    decrementLife: () => {},
+    addScore: () => {},
+    onWin: () => {},
+    toggleModal: () => {},
+  }

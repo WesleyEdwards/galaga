@@ -2,7 +2,7 @@ import { GameState } from "./GameState";
 import { EnterGameProps } from "../components/Types";
 import { setUpUI } from "./helpers/drawingHelpers";
 
-export function enterGamePlay(props: EnterGameProps) {
+export function enterGamePlay(props: EnterGameProps, attract: boolean = false) {
   let gameState: GameState;
   let prevTime = 0;
   let initial = true;
@@ -13,6 +13,7 @@ export function enterGamePlay(props: EnterGameProps) {
       handleWin,
       toggleModal,
       incrementScore,
+      playerDeath,
     });
   }
 
@@ -42,8 +43,11 @@ export function enterGamePlay(props: EnterGameProps) {
   function incrementScore(score: number) {
     props.addScore(score);
   }
+  function playerDeath() {
+    props.decrementLife();
+  }
 
-  const context = setUpUI();
-  gameState = new GameState(context);
+  const context = setUpUI(attract);
+  gameState = new GameState(context, attract);
   requestAnimationFrame(gameLoop);
 }
