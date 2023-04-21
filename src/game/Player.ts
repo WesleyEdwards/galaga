@@ -17,6 +17,7 @@ export class Player {
   private drawManager: DrawManager;
   private attract: AttractManager | undefined;
   private deathTimer: number | undefined = undefined; // undefined if playing
+  private lives: number = 2;
 
   constructor(context: CanvasRenderingContext2D, attract: boolean) {
     if (attract) this.attract = new AttractManager();
@@ -28,8 +29,8 @@ export class Player {
     });
   }
 
-  update(keys: Keys, elapsedTime: number) {
-    this.checkDeathState(elapsedTime);
+  update(keys: Keys, elapsedTime: number, justDied: boolean) {
+    this.checkDeathState(elapsedTime, justDied);
 
     if (this.attract) {
       this.attract.update(elapsedTime);
@@ -49,7 +50,7 @@ export class Player {
     if (this.moving === "right" && !keys.right) this.moving = "none";
   }
 
-  movePlayer(direction: Direction, elapsedTime: number) {
+  private movePlayer(direction: Direction, elapsedTime: number) {
     if (direction === "left" && this.pos > PLAYER_MOST_LEFT_POS) {
       this.pos -= PLAYER_SPEED * elapsedTime;
     }
@@ -61,7 +62,8 @@ export class Player {
     }
   }
 
-  handleHit() {
+  private handleHit() {
+    this.lives--;
     const audio = new Audio("assets/playerdeath.wav");
     audio.volume = 0.1;
     audio.play();
@@ -69,15 +71,16 @@ export class Player {
     this.pos = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
   }
 
-  draw() {
-    if (this.isDead) return;
-    this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
-  }
-
-  checkDeathState(elapsedTime: number) {
+  private checkDeathState(elapsedTime: number, justDied: boolean) {
+    if (justDied) this.handleHit();
     if (this.deathTimer === undefined) return;
     this.deathTimer += elapsedTime;
     if (this.deathTimer > 5000) this.deathTimer = undefined;
+  }
+
+  draw() {
+    if (this.isDead) return;
+    this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
   }
 
   get centerX(): number | undefined {
@@ -86,5 +89,9 @@ export class Player {
   }
   get isDead() {
     return this.deathTimer !== undefined;
+  }
+
+  get endGame() {
+    return this.lives === 0;
   }
 }

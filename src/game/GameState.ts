@@ -24,6 +24,7 @@ export class GameState {
   private waveManager: WaveManager;
   private particleManager: ParticleManager;
   private context: CanvasRenderingContext2D;
+  private state: "playing" | "gameOver" = "playing";
 
   constructor(context: CanvasRenderingContext2D, attract: boolean) {
     if (!attract) addEventListeners(this.keys);
@@ -48,11 +49,13 @@ export class GameState {
     }
     if (paused) return;
 
-    this.player.update(this.keys, elapsedTime);
+    
     this.playerBulletManager.update(elapsedTime, this.keys, this.player.centerX);
     this.opponentManager.update(elapsedTime);
     this.waveManager.update(elapsedTime);
     this.particleManager.update(elapsedTime);
+    
+    if (this.state === "gameOver") return;
 
     const opponentsHit = this.playerBulletManager.checkOpponentCollision(
       this.opponentManager.opponents
@@ -66,8 +69,16 @@ export class GameState {
     }
     const playerHitByBullet = this.opponentBulletManager.checkPlayerCollision(this.player);
     const playerHitByOpponent = this.opponentManager.checkPlayerCollision(this.player);
-    if (playerHitByBullet || playerHitByOpponent) {
-      this.player.handleHit();
+    const justDied = playerHitByBullet || playerHitByOpponent
+
+    if (justDied) {
+      this.particleManager.playerDeath(this.player.centerX!)
+      uiFunctions.playerDeath();
+    }
+    this.player.update(this.keys, elapsedTime, justDied);
+    
+    if (this.player.endGame) {
+      this.state = "gameOver";
     }
   }
 

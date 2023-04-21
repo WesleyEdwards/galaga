@@ -40,4 +40,5 @@ export type UpdateUiFunctions = {
   handleWin: () => void;
   toggleModal: () => void;
   incrementScore: (score: number) => void;
+  playerDeath: () => void;
 };

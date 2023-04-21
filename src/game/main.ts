@@ -13,6 +13,7 @@ export function enterGamePlay(props: EnterGameProps, attract: boolean = false) {
       handleWin,
       toggleModal,
       incrementScore,
+      playerDeath,
     });
   }
 
@@ -41,6 +42,9 @@ export function enterGamePlay(props: EnterGameProps, attract: boolean = false) {
   }
   function incrementScore(score: number) {
     props.addScore(score);
+  }
+  function playerDeath() {
+    props.decrementLife();
   }
 
   const context = setUpUI(attract);
