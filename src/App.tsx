@@ -19,9 +19,16 @@ function App() {
   const [attractMode, setAttractMode] = useState<boolean>();
   const playingRef = useRef(false);
   const [refresh, setRefresh] = useState(0);
+  const audioPlayingRef = useRef(false);
 
   const handleKeyDown = () => {
+    if (audioPlayingRef.current === true) return;
     playAudio();
+    setRefresh((refresh) => refresh + 1);
+    audioPlayingRef.current = true;
+  };
+
+  const handleMouseDown = () => {
     setRefresh((refresh) => refresh + 1);
   };
 
@@ -36,7 +43,7 @@ function App() {
     const audio = new Audio("/assets/backgroundAudio.mp3");
     audio.loop = true;
     audio.volume = 0.1;
-    audio.play();
+    audio.play().catch(() => (audioPlayingRef.current = false));
   }
 
   useEffect(() => {
@@ -46,19 +53,19 @@ function App() {
       if (playingRef.current) return;
       setAttractMode(true);
       possiblyAttract();
-    }, 5000);
+    }, 10_000);
 
-    return () => {
-      clearTimeout(cleanup);
-    };
+    return () => clearTimeout(cleanup);
   }, [attractMode]);
 
   useEffect(() => {
     window.addEventListener("click", handleKeyDown);
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousemove", handleMouseDown);
     return () => {
-      window.removeEventListener("click", playAudio);
-      window.removeEventListener("keydown", playAudio);
+      window.removeEventListener("click", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousemove", handleMouseDown);
     };
   }, []);
 
