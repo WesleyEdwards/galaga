@@ -1,4 +1,3 @@
-import { Coordinates } from "../../helpers/types";
 import { trail } from "../../helpers/waveHelper";
 import { waveFiveInfo } from "./waveFiveInfo";
 import { waveFourInfo } from "./waveFourInfo";
