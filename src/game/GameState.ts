@@ -31,7 +31,7 @@ export class GameState {
     this.player = new Player(context, attract);
     this.playerBulletManager = new PlayerBulletManager(context, attract);
     this.opponentBulletManager = new OpponentBulletManager(context);
-    this.opponentManager = new OpponentManager(context, this.opponentBulletManager);
+    this.opponentManager = new OpponentManager(context, this.opponentBulletManager, this.player);
     this.waveManager = new WaveManager(this.opponentManager, this.opponentBulletManager);
     this.particleManager = new ParticleManager(context);
     this.context = context;
@@ -64,8 +64,9 @@ export class GameState {
         this.opponentManager.handleHit(opp);
       });
     }
-    const playerHit = this.opponentBulletManager.checkPlayerCollision(this.player);
-    if (playerHit) {
+    const playerHitByBullet = this.opponentBulletManager.checkPlayerCollision(this.player);
+    const playerHitByOpponent = this.opponentManager.checkPlayerCollision(this.player);
+    if (playerHitByBullet || playerHitByOpponent) {
       this.player.handleHit();
     }
   }

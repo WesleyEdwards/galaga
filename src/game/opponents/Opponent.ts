@@ -12,7 +12,7 @@ import { opponentSprites } from "./opponentStats";
 export class Opponent {
   private drawManager: DrawManager;
   private prevPos = { x: 0, y: 0 };
-  pathIndex = 0;
+  private pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
   private audio = new Audio();
