@@ -16,6 +16,7 @@ export class Player {
   private moving: Direction = "none";
   private drawManager: DrawManager;
   private attract: AttractManager | undefined;
+  private deathTimer: number | undefined = undefined; // undefined if playing
 
   constructor(context: CanvasRenderingContext2D, attract: boolean) {
     if (attract) this.attract = new AttractManager();
@@ -28,6 +29,8 @@ export class Player {
   }
 
   update(keys: Keys, elapsedTime: number) {
+    this.checkDeathState(elapsedTime);
+
     if (this.attract) {
       this.attract.update(elapsedTime);
       this.movePlayer(this.attract.currentMoving, elapsedTime);
@@ -59,17 +62,29 @@ export class Player {
   }
 
   handleHit() {
-    const audio = new Audio("assets/playerdeath.wav")
+    const audio = new Audio("assets/playerdeath.wav");
     audio.volume = 0.1;
     audio.play();
-    console.log("I should be dead right now!");
+    this.deathTimer = 0;
+    this.pos = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
   }
 
   draw() {
+    if (this.isDead) return;
     this.drawManager.draw({ x: this.pos, y: CANVAS_HEIGHT - PLAYER_TOP });
   }
 
-  get centerX() {
+  checkDeathState(elapsedTime: number) {
+    if (this.deathTimer === undefined) return;
+    this.deathTimer += elapsedTime;
+    if (this.deathTimer > 5000) this.deathTimer = undefined;
+  }
+
+  get centerX(): number | undefined {
+    if (this.isDead) return undefined;
     return this.pos + PLAYER_WIDTH / 2;
+  }
+  get isDead() {
+    return this.deathTimer !== undefined;
   }
 }

@@ -17,9 +17,9 @@ function App() {
   });
 
   const [attractMode, setAttractMode] = useState<boolean>();
-  const playingRef = useRef(false);
   const [refresh, setRefresh] = useState(0);
   const audioPlayingRef = useRef(false);
+  const playingRef = useRef(false);
 
   const handleKeyDown = () => {
     if (audioPlayingRef.current === true) return;

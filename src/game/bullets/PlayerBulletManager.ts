@@ -24,9 +24,12 @@ export class PlayerBulletManager {
     });
   }
 
-  update(elapsedTime: number, keys: Keys, playerCenterX: number) {
-    const shoot = this.checkAttractShoot(elapsedTime);
-    if (keys.shoot || shoot) {
+  update(elapsedTime: number, keys: Keys, playerCenterX?: number) {
+    if (playerCenterX === undefined) {
+      return (this.bullets.length = 0);
+    }
+    const attractShoot = this.checkAttractShoot(elapsedTime);
+    if (keys.shoot || attractShoot) {
       const a = new Audio("assets/Ship Shot.wav");
       a.volume = 0.1;
       a.play();
