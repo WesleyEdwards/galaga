@@ -32,10 +32,8 @@ export const BULLET_HEIGHT = 16;
 
 export const OPPONENT_BULLET_SPEED = 0.4;
 
-
 export const OPPONENT_WIDTH = 32;
 export const OPPONENT_HEIGHT = 32;
-
 
 export const entranceInterval = 100
 
