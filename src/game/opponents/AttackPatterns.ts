@@ -9,16 +9,18 @@ export function getAttackPath(currPos: Coordinates) {
     if (currPos.x < 250) leftAttackPattern(path);
     else rightAttackPattern(path);
     path.push(currPos);
-    return generatePointsOnBezierCurve(path, 50);
+    return generatePointsOnBezierCurve(path, 75);
 }
 
 function hop(pos: Coordinates, path: Coordinates[]) {
-    path.push({x: pos.x, y: pos.y - 5});
-    path.push({x: pos.x, y: pos.y - 10});
     path.push({x: pos.x, y: pos.y - 15});
-    path.push({x: pos.x, y: pos.y - 10});
-    path.push({x: pos.x, y: pos.y - 5});
-    path.push({x: pos.x, y: pos.y});
+    path.push({x: pos.x, y: pos.y - 30});
+    path.push({x: pos.x, y: pos.y - 45});
+    path.push({x: pos.x + 15, y: pos.y - 60});
+    path.push({x: pos.x + 30, y: pos.y - 45});
+    path.push({x: pos.x + 45, y: pos.y - 30});
+    path.push({x: pos.x + 30, y: pos.y - 15});
+    path.push({x: pos.x + 15, y: pos.y});
 }
 
 function leftAttackPattern(path: Coordinates[]) {
@@ -29,6 +31,7 @@ function leftAttackPattern(path: Coordinates[]) {
     for (let i = 0; i < 3; i++) {
         path.push({x: path[path.length - 1].x + magX * i, y: path[path.length - 1].y + magY * i});
     }
+    // ChatGPT came up with these points
     path.push({ x: convX * 125, y: convY * 150 });
     path.push({ x: convX * 140, y: convY * 200 });
     path.push({ x: convX * 170, y: convY * 250 });
