@@ -13,6 +13,8 @@ import { DrawManager } from "../helpers/DrawManager";
 export class PlayerBulletManager {
   bullets: PlayerBullet[] = [];
   drawManager: DrawManager;
+  shotsFired: number;
+  opponentsHit: number;
   constructor(context: CanvasRenderingContext2D) {
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
       srcX: 313,
@@ -20,10 +22,13 @@ export class PlayerBulletManager {
       srcWidth: 3,
       srcHeight: 8,
       });
+      this.shotsFired = 0;
+      this.opponentsHit = 0;
   }
 
   update(elapsedTime: number, keys: Keys, playerCenterX: number) {
     if (keys.shoot) {
+      this.shotsFired++;
       const a = new Audio("assets/Ship Shot.wav");
       a.volume = 0.1;
       a.play();
@@ -62,6 +67,7 @@ export class PlayerBulletManager {
           bullet.pos.y < opp.pos.y + OPPONENT_WIDTH
         ) {
           hitOpponents.push(opp);
+          this.opponentsHit++;
           this.bullets.splice(this.bullets.indexOf(bullet), 1);
         }
       });
