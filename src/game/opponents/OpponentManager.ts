@@ -1,3 +1,4 @@
+import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { Opponent } from "./Opponent";
 
 export class OpponentManager {
@@ -11,10 +12,13 @@ export class OpponentManager {
   private enemyOffset = -50;
   private breathingFlag = false;
   private breathing = false;
-  attackerCount = 0;
+  private attackerCount = 0;
+  private attackerTimer = 0;
+  private bulletManager: OpponentBulletManager;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager) {
     this.context = context;
+    this.bulletManager = bulletManager;
   }
 
   addOpponent(opponent: Opponent) {
@@ -28,18 +32,18 @@ export class OpponentManager {
   handleHit(opp: Opponent) {
     const died = opp.handleHit();
     if (died) {
+      const opponent = this.opponents[this.opponents.indexOf(opp)];
       this.opponents.splice(this.opponents.indexOf(opp), 1);
     }
   }
 
   chooseAttacker() {
     if (this.opponents.length > this.attackerCount) {
-      this.attackerCount++;
       let index = Math.floor(Math.random() * this.opponents.length);
       while (this.opponents[index].state === "attack") {
         index = Math.floor(Math.random() * this.opponents.length);
       }
-      this.opponents[index].state = "attack";
+      this.opponents[index].startAttackRun();
       return this.opponents[index];
     }
   }
@@ -61,14 +65,15 @@ export class OpponentManager {
 
   update(elapsedTime: number) {
     this.spriteTimer += elapsedTime;
+    //Drifting
     if (!this.breathing) {
       this.enemyDriftTimer += elapsedTime;
-
       this.enemyOffset += this.enemyDriftDirection * 0.05 * elapsedTime;
       if (this.enemyDriftTimer >= 2000) {
         this.enemyDriftDirection *= -1;
         this.enemyDriftTimer = 0;
       }
+    //Breathing
     } else if (!this.breathingFlag) {
       if (Math.abs(this.enemyOffset) < 1) {
         this.enemyOffset = 0;
@@ -81,9 +86,35 @@ export class OpponentManager {
           0.05 * elapsedTime * (this.enemyOffset / Math.abs(this.enemyOffset));
       }
     }
+    //Sprite animation
     if (this.spriteTimer >= 500) {
       this.spriteIndex = (this.spriteIndex + 1) % 2;
       this.spriteTimer = 0;
+    }
+
+    if (this.breathing) {
+      this.attackerCount = this.opponents.filter((opp) => opp.state === "attack").length;
+      this.attackerTimer += elapsedTime;
+      if ((this.attackerCount < 2 && this.attackerTimer >= 1000)) {
+        this.attackerTimer = 0;
+        const opp = this.chooseAttacker();
+        if (opp) {
+          this.bulletManager.addBullet(opp);
+          opp.shotsFired++;
+        }
+      } else {
+        const attackers = this.opponents.filter((opp) => opp.state === "attack");        
+        attackers.forEach((opp) => {
+          if (opp.shotsFired == 1 && opp.shotTimer >= 100) {
+            this.bulletManager.addBullet(opp);
+            opp.shotsFired++;
+          } else if (opp.shotsFired == 2 && opp.shotTimer >= 4100) {
+            this.bulletManager.addBullet(opp);
+            opp.shotsFired = 1;
+            opp.shotTimer = 0;
+          }
+        });
+      }
     }
 
     this.opponents.forEach((opp) => {

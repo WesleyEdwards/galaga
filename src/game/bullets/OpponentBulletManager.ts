@@ -49,6 +49,15 @@ export class OpponentBulletManager{
       this.drawManager.draw(bullet.pos);
     });
   }
+
+  addBullet(opp: Opponent) {
+    this.bullets.push(
+      new OpponentBullet({
+        x: opp.centerX - BULLET_WIDTH / 2,
+        y: opp.pos.y + OPPONENT_HEIGHT,
+      })
+    );
+  }
   
   checkPlayerCollision(player: Player): boolean {
     let collision = false;
