@@ -16,17 +16,18 @@ export function generateWaves(
   opponentManager: OpponentManager,
   index: number
 ): wave[] {
-  const waveOne1 = new wave(stageOneTrailInfo[0], opponentManager, 0);
-  const waveTwo1 = new wave(stageOneTrailInfo[1], opponentManager, 2500);
-  const waveThree1 = new wave(stageOneTrailInfo[2], opponentManager, 6000);
-  const waveFour1 = new wave(stageOneTrailInfo[3], opponentManager, 10_000);
-  const waveFive1 = new wave(stageOneTrailInfo[4], opponentManager, 14_000);
+  const waveOne1 = new wave(stageOneTrailInfo[0], opponentManager, 2_000);
+  const waveTwo1 = new wave(stageOneTrailInfo[1], opponentManager, 4_500);
+  const waveThree1 = new wave(stageOneTrailInfo[2], opponentManager, 8_000);
+  const waveFour1 = new wave(stageOneTrailInfo[3], opponentManager, 12_000);
+  const waveFive1 = new wave(stageOneTrailInfo[4], opponentManager, 16_000);
 
-  const waveOne2 = new wave(stageTwoTrailInfo[0], opponentManager, 0);
-  const waveTwo2 = new wave(stageTwoTrailInfo[1], opponentManager, 2500);
-  const waveThree2 = new wave(stageTwoTrailInfo[2], opponentManager, 6000);
-  const waveFour2 = new wave(stageTwoTrailInfo[3], opponentManager, 10_000);
-  const waveFive2 = new wave(stageTwoTrailInfo[4], opponentManager, 14_000);
+  const waveOne2 = new wave(stageTwoTrailInfo[0], opponentManager, 2_000);
+  const waveTwo2 = new wave(stageTwoTrailInfo[1], opponentManager, 4_500);
+  const waveThree2 = new wave(stageTwoTrailInfo[2], opponentManager, 8_000);
+  const waveFour2 = new wave(stageTwoTrailInfo[3], opponentManager, 12_000);
+  const waveFive2 = new wave(stageTwoTrailInfo[4], opponentManager, 16_000);
+
 
   const wavesByStage = [
     [waveOne1, waveTwo1, waveThree1, waveFour1, waveFive1],

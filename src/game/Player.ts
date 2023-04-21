@@ -92,6 +92,6 @@ export class Player {
   }
 
   get endGame() {
-    return this.lives === 0;
+    return this.lives === 1;
   }
 }

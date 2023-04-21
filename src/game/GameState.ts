@@ -6,7 +6,7 @@ import {
 } from "./helpers/constants";
 import { addEventListeners } from "./helpers/utils";
 import { Player } from "./Player";
-import { Keys } from "./helpers/types";
+import { GameStateStatus, Keys } from "./helpers/types";
 import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
@@ -25,7 +25,7 @@ export class GameState {
   private waveManager: WaveManager;
   private particleManager: ParticleManager;
   private context: CanvasRenderingContext2D;
-  private state: "playing" | "gameOver" = "playing";
+  private state: GameStateStatus = { status: "playing" };
 
   constructor(context: CanvasRenderingContext2D, attract: boolean) {
     if (!attract) addEventListeners(this.keys);
@@ -33,8 +33,15 @@ export class GameState {
     this.player = new Player(context, attract);
     this.playerBulletManager = new PlayerBulletManager(context, attract);
     this.opponentBulletManager = new OpponentBulletManager(context);
-    this.opponentManager = new OpponentManager(context, this.opponentBulletManager, this.player);
-    this.waveManager = new WaveManager(this.opponentManager, this.opponentBulletManager);
+    this.opponentManager = new OpponentManager(
+      context,
+      this.opponentBulletManager,
+      this.player
+    );
+    this.waveManager = new WaveManager(
+      this.opponentManager,
+      this.opponentBulletManager
+    );
     this.particleManager = new ParticleManager(context);
     this.context = context;
   }
@@ -50,37 +57,43 @@ export class GameState {
     }
     if (paused) return;
 
-    
-    this.playerBulletManager.update(elapsedTime, this.keys, this.player.centerX);
+    this.playerBulletManager.update(
+      elapsedTime,
+      this.keys,
+      this.player.centerX
+    );
     this.opponentManager.update(elapsedTime);
     this.waveManager.update(elapsedTime);
     this.particleManager.update(elapsedTime);
-    
-    if (this.state === "gameOver") return;
+
+    if (this.state.status === "gameOver") {
+      this.state.deathTimer += elapsedTime;
+      if (this.state.deathTimer > 5000) {
+        this.state = { status: "done" };
+        uiFunctions.handleWin();
+      }
+      return;
+    }
 
     const opponentsHit = this.playerBulletManager.checkOpponentCollision(
       this.opponentManager.opponents
     );
     if (opponentsHit.length > 0) {
       opponentsHit.forEach((opp) => {
-        uiFunctions.incrementScore(opp.score)
+        uiFunctions.incrementScore(opp.score);
         this.particleManager.opponentDeath(opp);
         this.opponentManager.handleHit(opp);
       });
     }
-    const playerHitByBullet = this.opponentBulletManager.checkPlayerCollision(this.player);
-    const playerHitByOpponent = this.opponentManager.checkPlayerCollision(this.player);
-    const justDied = playerHitByBullet || playerHitByOpponent
+    const playerHitByBullet = this.opponentBulletManager.checkPlayerCollision(
+      this.player
+    );
+    const playerHitByOpponent = this.opponentManager.checkPlayerCollision(
+      this.player
+    );
+    const justDied = playerHitByBullet || playerHitByOpponent;
 
-    if (justDied) {
-      this.particleManager.playerDeath(this.player.centerX!)
-      uiFunctions.playerDeath();
-    }
-    this.player.update(this.keys, elapsedTime, justDied);
-    
-    if (this.player.endGame) {
-      this.state = "gameOver";
-    }
+    this.updatePlayer(justDied, elapsedTime);
   }
 
   drawAll() {
@@ -91,9 +104,29 @@ export class GameState {
     this.opponentManager.draw();
     this.particleManager.draw();
 
+    if (this.state.status === "gameOver") {
+      displayWords("Game Over", this.context);
+    }
     if (this.waveManager.displayStageNumber) {
       displayWords(`Stage ${this.waveManager.stageIndex + 1}`, this.context);
     }
   }
 
+  updatePlayer(justDied: boolean, elapsedTime: number) {
+    if (justDied) {
+      this.particleManager.playerDeath(this.player.centerX!);
+      if (this.player.endGame) {
+        this.setGameStatusState("gameOver");
+      }
+    }
+    this.player.update(this.keys, elapsedTime, justDied);
+  }
+
+  setGameStatusState(status: "playing" | "gameOver" | "done") {
+    if (status === "gameOver") {
+      this.state = { status: "gameOver", deathTimer: 0 };
+      return;
+    }
+    this.state = { status };
+  }
 }
