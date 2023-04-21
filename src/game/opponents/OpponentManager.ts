@@ -33,14 +33,12 @@ export class OpponentManager {
     const died = opp.handleHit();
     if (died) {
       const opponent = this.opponents[this.opponents.indexOf(opp)];
-      if (opponent.state === "attack") this.attackerCount--;
       this.opponents.splice(this.opponents.indexOf(opp), 1);
     }
   }
 
   chooseAttacker() {
     if (this.opponents.length > this.attackerCount) {
-      this.attackerCount++;
       let index = Math.floor(Math.random() * this.opponents.length);
       while (this.opponents[index].state === "attack") {
         index = Math.floor(Math.random() * this.opponents.length);
@@ -81,7 +79,7 @@ export class OpponentManager {
         this.enemyOffset = 0;
         this.breathingFlag = true;
         this.opponents.forEach((opp) => {
-          if (opp.state !== "attack") opp.state = "breathe-in";
+          opp.state = "breathe-in";
         });
       } else {
         this.enemyOffset -=
@@ -95,8 +93,17 @@ export class OpponentManager {
     }
 
     if (this.breathing) {
+      this.opponents.forEach((opp) => {
+        if (this.breathingFlag && opp.state !== "attack" && opp.state !== "breathe-in" && opp.state !== "breathe-out") {
+          
+          
+          
+          
+        }
+      });
+      this.attackerCount = this.opponents.filter((opp) => opp.state === "attack").length;
       this.attackerTimer += elapsedTime;
-      if (this.attackerCount < 2 && this.attackerTimer >= 1000) {
+      if ((this.attackerCount < 2 && this.attackerTimer >= 1000)) {
         this.attackerTimer = 0;
         const opp = this.chooseAttacker();
         if (opp) {

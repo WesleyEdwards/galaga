@@ -111,12 +111,6 @@ export class Opponent {
         else this.secondaryState = "breathe-in";
       }
     }
-    console.log(this.state);
-    
-    console.log(this.breathingOffsetX);
-    console.log(this.breathingOffsetY);
-    
-    
   }
 
   handleHit(): boolean {
