@@ -131,6 +131,7 @@ export class Opponent {
 
   startAttackRun() {
     this.secondaryState = this.state;
+    this.speed = 300 / 1000;
     this.state = "attack";
   }
 
