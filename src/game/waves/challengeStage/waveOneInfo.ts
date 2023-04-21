@@ -31,15 +31,18 @@ function pathOne(destination: Coordinates) {
         { x: convX * 300, y: convY * 30},
         { x: convX * 230, y: convY * 320},
         { x: convX * 180, y: convY * 375},
-        { x: convX * 130, y: convY * 390},
-        { x: convX * 75, y: convY * 385},
-        { x: convX * 50, y: convY * 370},
-        { x: convX * 65, y: convY * 330},
-        { x: convX * 130, y: convY * 300},
+        { x: convX * 150, y: convY * 395},
+        { x: convX * 130, y: convY * 420},
+        { x: convX * 100, y: convY * 365},
+        { x: convX * 80, y: convY * 330},
+        { x: convX * 50, y: convY * 315},
+        { x: convX * 65, y: convY * 300},
+        { x: convX * 130, y: convY * 270},
         { x: convX * 210, y: convY * 255},
+        { x: convX * 230, y: convY * 265},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }
@@ -50,15 +53,18 @@ function pathTwo(destination: Coordinates) {
         { x: convX * 200, y: convY * 30},
         { x: convX * 270, y: convY * 320},
         { x: convX * 320, y: convY * 375},
-        { x: convX * 370, y: convY * 390},
-        { x: convX * 425, y: convY * 385},
-        { x: convX * 450, y: convY * 370},
-        { x: convX * 435, y: convY * 330},
-        { x: convX * 370, y: convY * 300},
+        { x: convX * 350, y: convY * 395},
+        { x: convX * 370, y: convY * 420},
+        { x: convX * 400, y: convY * 365},
+        { x: convX * 420, y: convY * 330},
+        { x: convX * 450, y: convY * 315},
+        { x: convX * 435, y: convY * 300},
+        { x: convX * 370, y: convY * 270},
         { x: convX * 290, y: convY * 255},
+        { x: convX * 270, y: convY * 265},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }

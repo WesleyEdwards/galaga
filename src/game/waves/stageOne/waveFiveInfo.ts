@@ -33,8 +33,8 @@ function path(destination: Coordinates) {
         { x: convX * 320, y: convY * 375},
         { x: convX * 270, y: convY * 320},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }

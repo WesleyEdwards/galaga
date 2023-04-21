@@ -37,8 +37,8 @@ function innerBeePath(destination: Coordinates) {
         { x: convX * 180, y: convY * 375},
         { x: convX * 230, y: convY * 320},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }
@@ -56,8 +56,8 @@ function outerBeePath(destination: Coordinates) {
         { x: convX * 220, y: convY * 405},
         { x: convX * 280, y: convY * 340},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }

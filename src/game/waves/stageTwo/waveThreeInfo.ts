@@ -42,8 +42,8 @@ function innerButterflyPath(destination: Coordinates) {
       { x: convX * 250, y: convY * 185},
       { x: convX * 250, y: convY * 165},
   ]
+  pts.push(destination);
   const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-  smoothCurve.push(destination);
   smoothCurve.push({x: destination.x, y: destination.y + 1});
   return smoothCurve;
 }
@@ -64,8 +64,8 @@ function outerButterflyPath(destination: Coordinates) {
         { x: convX * 200, y: convY * 185},
         { x: convX * 200, y: convY * 165},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }
