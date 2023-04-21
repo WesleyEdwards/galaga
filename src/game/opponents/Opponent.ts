@@ -11,6 +11,7 @@ import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
   private drawManager: DrawManager;
+  private prevPos = { x: 0, y: 0 };
   pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
@@ -54,6 +55,8 @@ export class Opponent {
     this.activePath = path;
   }
   update(timeStamp: number) {
+    this.prevPos.x = this.pos.x;
+    this.prevPos.y = this.pos.y;
     // Follow path, if it exists
     if (this.state === "entrance") {
       this.followPath(timeStamp, () => {this.state = "stationary";});
@@ -67,7 +70,7 @@ export class Opponent {
         this.pathIndex = 0;
       }
       this.followPath(timeStamp, () => {
-        this.activePath = [];
+        this.activePath.length = 0;
         this.pathIndex = 0;
         this.state = this.secondaryState;
         this.secondaryState = "";
@@ -91,7 +94,7 @@ export class Opponent {
       } else {
         this.breathTimer = 0;
         if (this.state === "breathe-in") this.state = "breathe-out";
-        else this.secondaryState = "breathe-out";
+        this.secondaryState = "breathe-out";
       }
     }
     if (this.state === "breathe-out" || this.secondaryState === "breathe-out") {
@@ -108,9 +111,12 @@ export class Opponent {
       } else {
         this.breathTimer = 0;
         if (this.state === "breathe-out") this.state = "breathe-in";
-        else this.secondaryState = "breathe-in";
+        this.secondaryState = "breathe-in";
       }
     }
+
+    // if (this.prevPos.x == this.pos.x && this.prevPos.y == this.pos.y) console.log("no movement: " + this.state);
+    
   }
 
   handleHit(): boolean {

@@ -93,14 +93,6 @@ export class OpponentManager {
     }
 
     if (this.breathing) {
-      this.opponents.forEach((opp) => {
-        if (this.breathingFlag && opp.state !== "attack" && opp.state !== "breathe-in" && opp.state !== "breathe-out") {
-          
-          
-          
-          
-        }
-      });
       this.attackerCount = this.opponents.filter((opp) => opp.state === "attack").length;
       this.attackerTimer += elapsedTime;
       if ((this.attackerCount < 2 && this.attackerTimer >= 1000)) {
