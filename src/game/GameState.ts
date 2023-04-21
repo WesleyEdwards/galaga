@@ -29,7 +29,7 @@ export class GameState {
     if (!attract) addEventListeners(this.keys);
 
     this.player = new Player(context, attract);
-    this.playerBulletManager = new PlayerBulletManager(context);
+    this.playerBulletManager = new PlayerBulletManager(context, attract);
     this.opponentBulletManager = new OpponentBulletManager(context);
     this.opponentManager = new OpponentManager(context, this.opponentBulletManager);
     this.waveManager = new WaveManager(this.opponentManager, this.opponentBulletManager);

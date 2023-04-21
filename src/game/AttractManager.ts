@@ -7,7 +7,7 @@ export class AttractManager {
     this.totalTime += elapsedTime;
   }
 
-  getCurrentMoving(): Direction {
+  get currentMoving(): Direction {
     if (this.totalTime < 500) return "right";
     if (this.totalTime < 1000) return "left";
     return "none";

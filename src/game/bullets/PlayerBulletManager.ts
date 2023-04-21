@@ -13,17 +13,20 @@ import { DrawManager } from "../helpers/DrawManager";
 export class PlayerBulletManager {
   bullets: PlayerBullet[] = [];
   drawManager: DrawManager;
-  constructor(context: CanvasRenderingContext2D) {
+  private attractShootTimer: number | undefined;
+  constructor(context: CanvasRenderingContext2D, attract: boolean) {
+    this.attractShootTimer = attract ? 0 : undefined;
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
       srcX: 313,
       srcY: 122,
       srcWidth: 3,
       srcHeight: 8,
-      });
+    });
   }
 
   update(elapsedTime: number, keys: Keys, playerCenterX: number) {
-    if (keys.shoot) {
+    const shoot = this.checkAttractShoot(elapsedTime);
+    if (keys.shoot || shoot) {
       const a = new Audio("assets/Ship Shot.wav");
       a.volume = 0.1;
       a.play();
@@ -49,6 +52,16 @@ export class PlayerBulletManager {
     this.bullets.forEach((bullet) => {
       this.drawManager.draw(bullet.pos);
     });
+  }
+
+  checkAttractShoot(elapsedTime: number): boolean {
+    if (this.attractShootTimer === undefined) return false;
+    this.attractShootTimer += elapsedTime;
+    if (this.attractShootTimer > 500) {
+      this.attractShootTimer = 0;
+      return true;
+    }
+    return false;
   }
 
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {

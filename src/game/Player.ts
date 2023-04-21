@@ -30,8 +30,7 @@ export class Player {
   update(keys: Keys, elapsedTime: number) {
     if (this.attract) {
       this.attract.update(elapsedTime);
-      const currentMove = this.attract.getCurrentMoving();
-      this.movePlayer(currentMove, elapsedTime);
+      this.movePlayer(this.attract.currentMoving, elapsedTime);
     }
 
     if (keys.left) {
