@@ -10,9 +10,9 @@ import BreakoutMenu from "./BreakoutMenu";
 import { GameButton } from "./GameButton";
 import { GameInfo, initGameInfo, Page } from "./Types";
 import { MenuBar } from "./MenuBar";
-import { fetchImage } from "../utils/miscFunctions";
 import { enterGamePlay } from "../game/main";
 import { CANVAS_WIDTH } from "../game/helpers/constants";
+import { fetchImage } from "../utils/images";
 
 export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
   setPlaying: setRootPlaying,

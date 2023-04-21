@@ -5,9 +5,9 @@ import { GameEntry } from "./components/GameEntry";
 import { useEffect, useRef, useState } from "react";
 import { CANVAS_WIDTH } from "./game/helpers/constants";
 import { MenuBar } from "./components/MenuBar";
-import { fetchImage } from "./utils/miscFunctions";
 import { enterGamePlay } from "./game/main";
 import { emptyGameFunctions } from "./game/helpers/utils";
+import { fetchImage } from "./utils/images";
 
 function App() {
   const darkTheme = createTheme({
@@ -89,7 +89,7 @@ function App() {
             }}
           >
             <div style={{ width: `${CANVAS_WIDTH}px` }}>
-              {attractMode && <div id="empty-root"></div>}
+              <div id="empty-root"></div>
               <MenuBar
                 exitGame={() => {
                   setAttractMode(false);

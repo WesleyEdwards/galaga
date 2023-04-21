@@ -14,6 +14,7 @@ import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
 import { OpponentBulletManager } from "./bullets/OpponentBulletManager";
 import { WaveManager } from "./waves/WaveManager";
 import { ParticleManager } from "./particles/ParticleManager";
+import { displayWords, drawBackground } from "../utils/images";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
@@ -83,19 +84,16 @@ export class GameState {
   }
 
   drawAll() {
-    this.drawBackground();
+    drawBackground(this.context);
     this.player.draw();
     this.playerBulletManager.draw();
     this.opponentBulletManager.draw();
     this.opponentManager.draw();
     this.particleManager.draw();
+
+    if (this.waveManager.displayStageNumber) {
+      displayWords(`Stage ${this.waveManager.stageIndex + 1}`, this.context);
+    }
   }
 
-  drawBackground() {
-    this.context.fillStyle = colorPalette.background;
-    this.context.strokeStyle = colorPalette.border;
-    this.context.lineWidth = CANVAS_BORDER;
-    this.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    this.context.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  }
 }
