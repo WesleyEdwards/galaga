@@ -19,8 +19,8 @@ export class Player {
   private deathTimer: number | undefined = undefined; // undefined if playing
   private lives: number = 2;
 
-  constructor(context: CanvasRenderingContext2D, attract: boolean) {
-    if (attract) this.attract = new AttractManager();
+  constructor(context: CanvasRenderingContext2D, attract?: AttractManager) {
+    this.attract = attract;
     this.drawManager = new DrawManager(context, PLAYER_WIDTH, PLAYER_WIDTH, {
       srcX: 109,
       srcY: 1,
@@ -33,8 +33,8 @@ export class Player {
     this.checkDeathState(elapsedTime, justDied);
 
     if (this.attract) {
-      this.attract.update(elapsedTime);
-      this.movePlayer(this.attract.currentMoving, elapsedTime);
+      this.attract.update(elapsedTime, this.centerX);
+      this.movePlayer(this.attract.direction, elapsedTime);
     }
 
     if (keys.left) {

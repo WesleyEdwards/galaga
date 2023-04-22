@@ -59,3 +59,6 @@ export const initialBgParticles: BgParticle[] = new Array(100)
     onWin: () => {},
     toggleModal: () => {},
   }
+
+
+  

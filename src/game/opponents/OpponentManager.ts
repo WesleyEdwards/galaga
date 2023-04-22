@@ -1,4 +1,5 @@
 import { Player } from "../Player";
+import { getRandomNumber, randomNumbers } from "../attractModeInof";
 import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { CANVAS_HEIGHT, OPPONENT_WIDTH, OPPONENT_HEIGHT, PLAYER_BOTTOM, PLAYER_TOP, PLAYER_WIDTH } from "../helpers/constants";
 import { Opponent } from "./Opponent";
@@ -18,7 +19,7 @@ export class OpponentManager {
   private attackerTimer = 0;
   private bulletManager: OpponentBulletManager;
 
-  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager, player: Player) {
+  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager) {
     this.context = context;
     this.bulletManager = bulletManager;
   }

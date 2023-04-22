@@ -65,7 +65,7 @@ export class PlayerBulletManager {
   checkAttractShoot(elapsedTime: number): boolean {
     if (this.attractShootTimer === undefined) return false;
     this.attractShootTimer += elapsedTime;
-    if (this.attractShootTimer > 500) {
+    if (this.attractShootTimer > 200) {
       this.attractShootTimer = 0;
       return true;
     }

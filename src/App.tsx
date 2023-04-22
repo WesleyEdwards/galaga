@@ -34,9 +34,11 @@ function App() {
   };
 
   const possiblyAttract = () => {
-    if (!gameContent) return;
     if (playingRef.current) return;
-    enterGamePlay({ gameContent, ...emptyGameFunctions }, true);
+    const content: HTMLImageElement = gameContent as HTMLImageElement;
+    setTimeout(() => {
+      enterGamePlay({ gameContent: content, ...emptyGameFunctions }, true);
+    }, 30);
   };
 
   function playAudio() {
@@ -53,15 +55,13 @@ function App() {
       if (playingRef.current) return;
       setAttractMode(true);
       possiblyAttract();
-    }, 10_000);
+    }, 500);
+    // }, 10_000);
 
     return () => clearTimeout(cleanup);
   }, [attractMode]);
 
   useEffect(() => {
-    asyncFetchGameContent().then((content) => {
-      setGameContent(content);
-    });
     window.addEventListener("click", handleKeyDown);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousemove", handleMouseDown);
@@ -77,6 +77,14 @@ function App() {
       window.location.reload();
     }
   }, [refresh]);
+
+  useEffect(() => {
+    console.log("fetching game content");
+    asyncFetchGameContent().then((content) => {
+      console.log(content);
+      setGameContent(content);
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={darkTheme}>

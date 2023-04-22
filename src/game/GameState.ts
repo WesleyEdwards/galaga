@@ -2,6 +2,7 @@ import { initialKeyStatus } from "./helpers/constants";
 import { addEventListeners } from "./helpers/utils";
 import { Player } from "./Player";
 import { GameStateStatus, Keys } from "./helpers/types";
+import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
@@ -10,6 +11,7 @@ import { WaveManager } from "./waves/WaveManager";
 import { ParticleManager } from "./particles/ParticleManager";
 import { displayWords, drawBackground } from "../utils/images";
 import { addStatsToStorage } from "../utils/miscFunctions";
+import { AttractManager } from "./AttractManager";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
@@ -25,14 +27,17 @@ export class GameState {
   constructor(context: CanvasRenderingContext2D, attract: boolean) {
     if (!attract) addEventListeners(this.keys);
 
-    this.player = new Player(context, attract);
     this.playerBulletManager = new PlayerBulletManager(context, attract);
     this.opponentBulletManager = new OpponentBulletManager(context);
     this.opponentManager = new OpponentManager(
       context,
-      this.opponentBulletManager,
-      this.player
+      this.opponentBulletManager
     );
+
+    const attractMan = attract
+      ? new AttractManager(this.opponentManager)
+      : undefined;
+    this.player = new Player(context, attractMan);
     this.waveManager = new WaveManager(
       this.opponentManager,
       this.opponentBulletManager
