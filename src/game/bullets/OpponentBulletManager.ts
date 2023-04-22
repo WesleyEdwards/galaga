@@ -1,18 +1,17 @@
 import {
-    BULLET_HEIGHT,
-    BULLET_WIDTH,
-    CANVAS_HEIGHT,
-    OPPONENT_HEIGHT,
-    PLAYER_BOTTOM,
-    PLAYER_TOP,
-    PLAYER_WIDTH,
-  } from "../helpers/constants";
+  BULLET_HEIGHT,
+  BULLET_WIDTH,
+  CANVAS_HEIGHT,
+  OPPONENT_HEIGHT,
+  PLAYER_BOTTOM,
+  PLAYER_TOP,
+  PLAYER_WIDTH,
+} from "../helpers/constants";
 import { DrawManager } from "../helpers/DrawManager";
 import { Opponent } from "../opponents/Opponent";
-import { Player } from "../Player";
 import { OpponentBullet } from "./OpponentBullet";
 
-export class OpponentBulletManager{
+export class OpponentBulletManager {
   bullets: OpponentBullet[] = [];
   drawManager: DrawManager;
   constructor(context: CanvasRenderingContext2D) {
@@ -33,7 +32,6 @@ export class OpponentBulletManager{
         })
       );
     }
-
 
     this.bullets.forEach((bullet) => {
       bullet.update(elapsedTime);
@@ -58,19 +56,19 @@ export class OpponentBulletManager{
       })
     );
   }
-  
-  checkPlayerCollision(player: Player): boolean {
-    let collision = false;
+
+  checkPlayerCollision(playerPosX?: number): boolean {
+    if (!playerPosX) return false;
     this.bullets.forEach((bullet) => {
       if (
         bullet.pos.y >= CANVAS_HEIGHT - PLAYER_TOP &&
         bullet.pos.y - BULLET_HEIGHT <= CANVAS_HEIGHT - PLAYER_BOTTOM &&
-        bullet.pos.x >= player.centerX - PLAYER_WIDTH / 2 &&
-        bullet.pos.x <= player.centerX + PLAYER_WIDTH / 2
-      ){
-        collision = true;
+        bullet.pos.x >= playerPosX - PLAYER_WIDTH / 2 &&
+        bullet.pos.x <= playerPosX + PLAYER_WIDTH / 2
+      ) {
+        return true;
       }
     });
-    return collision;
+    return false;
   }
 }

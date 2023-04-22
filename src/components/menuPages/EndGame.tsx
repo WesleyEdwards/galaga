@@ -33,7 +33,7 @@ export const EndGame: FC<EndGameProps> = (props) => {
     <Stack width="100%" justifyContent="center" gap="2rem">
       <ScreenHeader
         title={win ? "You Win!" : "You Lose"}
-        backToMenu={() => onBack("menu")}
+        backToMenu={() => window.location.reload()}
       />
       {(() => {
         if (scores.every((s) => s.score > score) && scores.length >= 10) {
@@ -45,7 +45,7 @@ export const EndGame: FC<EndGameProps> = (props) => {
               <GameButton
                 sx={{ alignSelf: "center" }}
                 text="Main Menu"
-                onClick={() => onBack("menu")}
+                onClick={() => window.location.reload()}
               />
             </>
           );

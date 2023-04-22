@@ -86,10 +86,10 @@ export class GameState {
       });
     }
     const playerHitByBullet = this.opponentBulletManager.checkPlayerCollision(
-      this.player
+      this.player.centerX
     );
     const playerHitByOpponent = this.opponentManager.checkPlayerCollision(
-      this.player
+      this.player.centerX
     );
     const justDied = playerHitByBullet || playerHitByOpponent;
 
