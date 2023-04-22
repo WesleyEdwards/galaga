@@ -7,7 +7,7 @@ import { CANVAS_WIDTH } from "./game/helpers/constants";
 import { MenuBar } from "./components/MenuBar";
 import { enterGamePlay } from "./game/main";
 import { emptyGameFunctions } from "./game/helpers/utils";
-import { fetchImage } from "./utils/images";
+import { asyncFetchGameContent } from "./utils/images";
 
 function App() {
   const darkTheme = createTheme({
@@ -18,6 +18,7 @@ function App() {
 
   const [attractMode, setAttractMode] = useState<boolean>();
   const [refresh, setRefresh] = useState(0);
+  const [gameContent, setGameContent] = useState<HTMLImageElement | null>(null);
   const audioPlayingRef = useRef(false);
   const playingRef = useRef(false);
 
@@ -33,10 +34,9 @@ function App() {
   };
 
   const possiblyAttract = () => {
+    if (!gameContent) return;
     if (playingRef.current) return;
-    fetchImage().then((image) => {
-      enterGamePlay({ bgImage: image, ...emptyGameFunctions }, true);
-    });
+    enterGamePlay({ gameContent, ...emptyGameFunctions }, true);
   };
 
   function playAudio() {
@@ -59,6 +59,9 @@ function App() {
   }, [attractMode]);
 
   useEffect(() => {
+    asyncFetchGameContent().then((content) => {
+      setGameContent(content);
+    });
     window.addEventListener("click", handleKeyDown);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousemove", handleMouseDown);

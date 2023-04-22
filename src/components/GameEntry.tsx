@@ -12,7 +12,7 @@ import { GameInfo, initGameInfo, Page } from "./Types";
 import { MenuBar } from "./MenuBar";
 import { enterGamePlay } from "../game/main";
 import { CANVAS_WIDTH } from "../game/helpers/constants";
-import { fetchImage } from "../utils/images";
+import { asyncFetchGameContent } from "../utils/images";
 
 export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
   setPlaying: setRootPlaying,
@@ -21,6 +21,8 @@ export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
   const [canvasRef, setCanvasRef] = useState(true);
   const [gameInfo, setGameInfo] = useState<GameInfo>({ ...initGameInfo });
   const [initialPage, setInitialPage] = useState<Page>("menu");
+
+  const [gameContent, setGameContent] = useState<HTMLImageElement | null>(null);
 
   const [modal, setModal] = useState(false);
 
@@ -56,15 +58,14 @@ export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
   }, [play]);
 
   useEffect(() => {
+    if (!gameContent) return;
     if (canvasRef && play) {
-      fetchImage().then((image) => {
-        enterGamePlay({
-          decrementLife,
-          addScore,
-          onWin,
-          bgImage: image,
-          toggleModal: () => setModal((prev) => !prev),
-        });
+      enterGamePlay({
+        decrementLife,
+        addScore,
+        onWin,
+        gameContent,
+        toggleModal: () => setModal((prev) => !prev),
       });
     }
   }, [canvasRef, play]);
@@ -74,6 +75,12 @@ export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
       onLose();
     }
   }, [gameInfo.lives]);
+
+  useEffect(() => {
+    asyncFetchGameContent().then((content) => {
+      setGameContent(content);
+    });
+  }, []);
 
   return (
     <>

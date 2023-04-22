@@ -4,11 +4,11 @@ import { colorPalette } from "../game/helpers/drawingHelpers";
 export const life_image =
   "https://user-images.githubusercontent.com/97990557/232162608-c3dd6a55-fba6-42f4-a4a8-888ee9fd9139.png";
 
-export function fetchImage(): Promise<HTMLImageElement> {
+export function asyncFetchGameContent(): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src =
-      "https://user-images.githubusercontent.com/97990557/221115615-a28fc95a-755b-452b-9699-0d0b12edcb42.JPG";
+      "./assets/galaga-sprites.png";
     image.onload = () => resolve(image);
     image.onerror = () => reject();
   });

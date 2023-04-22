@@ -33,7 +33,7 @@ export type EnterGameProps = {
   addScore: (score: number) => void;
   onWin: () => void;
   toggleModal: () => void;
-  bgImage: HTMLImageElement;
+  gameContent: HTMLImageElement;
 };
 
 export type UpdateUiFunctions = {

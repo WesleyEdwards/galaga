@@ -1,13 +1,7 @@
-import {
-  CANVAS_BORDER,
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
-  initialKeyStatus,
-} from "./helpers/constants";
+import { initialKeyStatus } from "./helpers/constants";
 import { addEventListeners } from "./helpers/utils";
 import { Player } from "./Player";
 import { GameStateStatus, Keys } from "./helpers/types";
-import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
@@ -94,7 +88,10 @@ export class GameState {
     );
     const justDied = playerHitByBullet || playerHitByOpponent;
     if (justDied) {
-      addStatsToStorage(this.playerBulletManager.shotsFired, this.playerBulletManager.opponentsHit)
+      addStatsToStorage(
+        this.playerBulletManager.shotsFired,
+        this.playerBulletManager.opponentsHit
+      );
       uiFunctions.playerDeath();
     }
 
