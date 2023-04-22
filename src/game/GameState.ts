@@ -70,6 +70,7 @@ export class GameState {
       this.state.deathTimer += elapsedTime;
       if (this.state.deathTimer > 5000) {
         this.state = { status: "done" };
+        // localStorage.setItem("shotsFired", this.playerBulletManager.sh;
         uiFunctions.handleWin();
       }
       return;
@@ -92,6 +93,9 @@ export class GameState {
       this.player
     );
     const justDied = playerHitByBullet || playerHitByOpponent;
+    if (justDied) {
+      uiFunctions.playerDeath();
+    }
 
     this.updatePlayer(justDied, elapsedTime);
   }
