@@ -55,8 +55,7 @@ function App() {
       if (playingRef.current) return;
       setAttractMode(true);
       possiblyAttract();
-    }, 500);
-    // }, 10_000);
+    }, 10_000);
 
     return () => clearTimeout(cleanup);
   }, [attractMode]);

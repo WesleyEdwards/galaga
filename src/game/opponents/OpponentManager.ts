@@ -1,5 +1,3 @@
-import { Player } from "../Player";
-import { getRandomNumber, randomNumbers } from "../attractModeInof";
 import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { CANVAS_HEIGHT, OPPONENT_WIDTH, OPPONENT_HEIGHT, PLAYER_BOTTOM, PLAYER_TOP, PLAYER_WIDTH } from "../helpers/constants";
 import { Opponent } from "./Opponent";

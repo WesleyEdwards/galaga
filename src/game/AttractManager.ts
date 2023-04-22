@@ -37,11 +37,11 @@ export class AttractManager {
     this.direction = this.placeWithMoreOpponents(playerCenter);
   }
 
-  inLineWithPlayer(playerCenter: number, opponent: Opponent): boolean {
+  private inLineWithPlayer(playerCenter: number, opponent: Opponent): boolean {
     return Math.abs(playerCenter - opponent.centerX) < 2;
   }
 
-  placeWithMoreOpponents(playerCenter: number): Direction {
+  private placeWithMoreOpponents(playerCenter: number): Direction {
     const left = this.opponentMan.opponents.filter(
       (opp) => opp.centerX < playerCenter
     ).length;
