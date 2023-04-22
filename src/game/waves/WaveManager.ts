@@ -1,5 +1,5 @@
 import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
-import { MAX_WAVES } from "../helpers/constants";
+import { MAX_STAGES } from "../helpers/constants";
 import { OpponentManager } from "../opponents/OpponentManager";
 import { generateWaves } from "./AllWaves";
 import { wave } from "./Wave";
@@ -48,7 +48,7 @@ export class WaveManager {
       this.currentWave == this.allWaves.length
     ) {
       this.stageIndex++;
-      if (this.stageIndex > MAX_WAVES - 1) this.stageIndex = 0;
+      if (this.stageIndex > MAX_STAGES - 1) this.stageIndex = 0;
       this.currentWave = 0;
       this.allWaves = generateWaves(this.opponentManager, this.stageIndex);
       this.activeWaves = [];
@@ -78,6 +78,18 @@ export class WaveManager {
     ) {
       this.isBreathing = true;
       this.opponentManager.startBreathing();
+    }
+
+    if (this.stageIndex == 2) {
+      const oppsToRemove = [];
+      for (let i = 0; i < this.opponentManager.opponents.length; i++) {
+        if (this.opponentManager.opponents[i].state !== "entrance") {
+          oppsToRemove.push(i);
+        }
+      }
+      oppsToRemove.forEach((index) => {
+        this.opponentManager.opponents.splice(index, 1);
+      });
     }
   }
 

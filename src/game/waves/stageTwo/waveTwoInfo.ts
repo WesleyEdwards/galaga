@@ -41,8 +41,8 @@ function butterflyPath(destination: Coordinates) {
       { x: convX * 250, y: convY * 185},
       { x: convX * 250, y: convY * 165},
   ]
+  pts.push(destination);
   const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-  smoothCurve.push(destination);
   smoothCurve.push({x: destination.x, y: destination.y + 1});
   return smoothCurve;
 }
@@ -63,8 +63,8 @@ function bossGalagaPath(destination: Coordinates) {
         { x: convX * 300, y: convY * 185},
         { x: convX * 300, y: convY * 165},
     ]
+    pts.push(destination);
     const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
-    smoothCurve.push(destination);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }
