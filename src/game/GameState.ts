@@ -15,6 +15,7 @@ import { OpponentBulletManager } from "./bullets/OpponentBulletManager";
 import { WaveManager } from "./waves/WaveManager";
 import { ParticleManager } from "./particles/ParticleManager";
 import { displayWords, drawBackground } from "../utils/images";
+import { addStatsToStorage } from "../utils/miscFunctions";
 
 export class GameState {
   private keys: Keys = initialKeyStatus;
@@ -92,6 +93,10 @@ export class GameState {
       this.player.centerX
     );
     const justDied = playerHitByBullet || playerHitByOpponent;
+    if (justDied) {
+      addStatsToStorage(this.playerBulletManager.shotsFired, this.playerBulletManager.opponentsHit)
+      uiFunctions.playerDeath();
+    }
 
     this.updatePlayer(justDied, elapsedTime);
   }

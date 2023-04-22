@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import {
   addScoreToStorage,
   getScoresFromStorage,
+  getStatistics,
 } from "../../utils/miscFunctions";
 import { GameButton } from "../GameButton";
 import { ScreenProps } from "../Types";
@@ -20,6 +21,7 @@ export const EndGame: FC<EndGameProps> = (props) => {
   const scores = getScoresFromStorage();
   const [name, setName] = useState<string>("");
   const [error, setError] = useState<string>();
+  const { shotsFired, opponentsHit, hitRatio} = getStatistics();
 
   const saveScore = () => {
     if (!name) return setError("Please enter a name");
@@ -52,6 +54,10 @@ export const EndGame: FC<EndGameProps> = (props) => {
         }
         return (
           <>
+            <Typography variant="body1" textAlign="center">
+              You fired {shotsFired} shots and hit {opponentsHit} opponents for a
+              hit ratio of {hitRatio}
+            </Typography>
             <Typography variant="body1" textAlign="center">
               You got a high score of {score}! Enter your name below to save it
             </Typography>
