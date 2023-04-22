@@ -78,9 +78,7 @@ function App() {
   }, [refresh]);
 
   useEffect(() => {
-    console.log("fetching game content");
     asyncFetchGameContent().then((content) => {
-      console.log(content);
       setGameContent(content);
     });
   }, []);
