@@ -30,11 +30,13 @@ export function generateWaves(
   const waveFive2 = new wave(stageTwoTrailInfo[4], opponentManager, 14_000);
 
   const waveOne3 = new wave(stageThreeTrailInfo[0], opponentManager, 0);
+  const waveFour3 = new wave(stageThreeTrailInfo[1], opponentManager, 10_000);
+  const waveFive3 = new wave(stageThreeTrailInfo[2], opponentManager, 14_000);
 
   const wavesByStage = [
     [waveOne1, waveTwo1, waveThree1, waveFour1, waveFive1],
     [waveOne2, waveTwo2, waveThree2, waveFour2, waveFive2],
-    [waveOne3],
+    [waveOne3, waveFour3, waveFive3],
   ];
 
   return wavesByStage[index];
