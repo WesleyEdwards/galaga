@@ -15,7 +15,6 @@ export class Opponent {
   private pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
-  private audio = new Audio();
   private attackPath: Coordinates[] = [];
   private activePath: Coordinates[] = [];
   private breathingOffsetX = 0;
@@ -114,8 +113,6 @@ export class Opponent {
         this.secondaryState = "breathe-in";
       }
     }
-
-    // if (this.prevPos.x == this.pos.x && this.prevPos.y == this.pos.y) console.log("no movement: " + this.state);
     
   }
 

@@ -28,11 +28,6 @@ export function addEventListeners(keys: Keys) {
   });
 }
 
-export function debounceLog(val: any) {
-  if (generateRandomInt(0, 100) === 1) {
-    console.log(val);
-  }
-}
 
 export function generateRandomInt(min: number, max: number): number {
   return Math.floor(min + Math.random() * (max - min + 1));
@@ -51,3 +46,14 @@ export const initialBgParticles: BgParticle[] = new Array(100)
     const y = generateRandomInt(0, CANVAS_HEIGHT);
     return new BgParticle({ x, y }, "white");
   });
+
+
+  export const emptyGameFunctions = {
+    decrementLife: () => {},
+    addScore: () => {},
+    onWin: () => {},
+    toggleModal: () => {},
+  }
+
+
+  

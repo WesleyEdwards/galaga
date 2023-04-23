@@ -85,7 +85,6 @@ function beePath(destination: Coordinates) {
   smoothCurve.push({ x: destination.x, y: destination.y + 1 });
   return smoothCurve;
 }
-
 export const waveOneInfo: WaveInfo = [
   {
     start: beeStart,

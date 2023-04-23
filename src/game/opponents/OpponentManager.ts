@@ -1,4 +1,3 @@
-import { Player } from "../Player";
 import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
 import { CANVAS_HEIGHT, OPPONENT_WIDTH, OPPONENT_HEIGHT, PLAYER_BOTTOM, PLAYER_TOP, PLAYER_WIDTH } from "../helpers/constants";
 import { Opponent } from "./Opponent";
@@ -17,12 +16,10 @@ export class OpponentManager {
   private attackerCount = 0;
   private attackerTimer = 0;
   private bulletManager: OpponentBulletManager;
-  private player: Player;
 
-  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager, player: Player) {
+  constructor(context: CanvasRenderingContext2D, bulletManager: OpponentBulletManager) {
     this.context = context;
     this.bulletManager = bulletManager;
-    this.player = player;
   }
 
   addOpponent(opponent: Opponent) {
@@ -67,13 +64,14 @@ export class OpponentManager {
     return true;
   }
 
-  checkPlayerCollision(player: Player): boolean {
+  checkPlayerCollision(playerPosX?: number): boolean {
+    if (!playerPosX) return false;
     let collision = false;
     this.opponents.forEach((opp) => {
       const playerTop = CANVAS_HEIGHT - PLAYER_TOP
       const playerBottom = CANVAS_HEIGHT - PLAYER_BOTTOM;
-      const playerRight = player.centerX + PLAYER_WIDTH / 2;
-      const playerLeft = player.centerX - PLAYER_WIDTH / 2;
+      const playerRight = playerPosX + PLAYER_WIDTH / 2;
+      const playerLeft = playerPosX - PLAYER_WIDTH / 2;
 
       const oppTop = opp.pos.y;
       const oppBottom = opp.pos.y + OPPONENT_HEIGHT;
