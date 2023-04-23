@@ -1,11 +1,13 @@
+import { OPPONENT_BULLET_SPEED } from "../helpers/constants";
 import { Coordinates } from "../helpers/types";
-import { Bullet } from "./Bullet";
 
-export class OpponentBullet extends Bullet {
+export class OpponentBullet {
+  pos: Coordinates;
   constructor(pos: Coordinates) {
-    super(pos);
+    this.pos = pos;
   }
+
   update(timeStamp: number) {
-    super.update(timeStamp, 1)
+    this.pos.y += OPPONENT_BULLET_SPEED * timeStamp;
   }
 }

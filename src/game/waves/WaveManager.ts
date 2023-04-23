@@ -1,5 +1,5 @@
 import { OpponentBulletManager } from "../bullets/OpponentBulletManager";
-import { MAX_WAVES } from "../helpers/constants";
+import { MAX_STAGES } from "../helpers/constants";
 import { OpponentManager } from "../opponents/OpponentManager";
 import { generateWaves } from "./AllWaves";
 import { wave } from "./Wave";
@@ -13,9 +13,11 @@ export class WaveManager {
   opponentManager: OpponentManager;
   opponentBulletManager: OpponentBulletManager;
   isBreathing: boolean = false;
-  displayStageNumber: boolean = true;
 
-  constructor(opponentManager: OpponentManager, opponentBulletManager: OpponentBulletManager) {
+  constructor(
+    opponentManager: OpponentManager,
+    opponentBulletManager: OpponentBulletManager
+  ) {
     this.opponentManager = opponentManager;
     this.opponentBulletManager = opponentBulletManager;
     this.stageIndex = 0;
@@ -26,10 +28,16 @@ export class WaveManager {
 
   update(elapsedTime: number) {
     this.stageElapsedTime += elapsedTime;
-    if (this.stageElapsedTime >= 20_000 && this.opponentManager.attackerCount < 2) {
-      const attacker = this.opponentManager.chooseAttacker();
-      if (attacker) {
-        this.opponentBulletManager.update(elapsedTime, attacker)
+    //Check entering waves for attacks
+    if (this.activeWaves.length > 0 && this.stageIndex == 1) {
+      const currentAttackers =
+        this.activeWaves[this.activeWaves.length - 1].getAttackers();
+      if (currentAttackers.length > 0) {
+        currentAttackers.forEach((attacker) => {
+          this.opponentBulletManager.update(elapsedTime, attacker);
+        });
+      } else {
+        this.opponentBulletManager.update(elapsedTime);
       }
     } else {
       this.opponentBulletManager.update(elapsedTime);
@@ -39,9 +47,8 @@ export class WaveManager {
       this.opponentManager.opponents.length === 0 &&
       this.currentWave == this.allWaves.length
     ) {
-      this.displayStageNumber = true;
       this.stageIndex++;
-      if (this.stageIndex > MAX_WAVES - 1) this.stageIndex = 0;
+      if (this.stageIndex > MAX_STAGES - 1) this.stageIndex = 0;
       this.currentWave = 0;
       this.allWaves = generateWaves(this.opponentManager, this.stageIndex);
       this.activeWaves = [];
@@ -50,28 +57,17 @@ export class WaveManager {
       this.opponentManager.resetState();
     }
 
-    //TODO: If a new stage just began, show stage number
-    if (this.displayStageNumber) {
-      if (this.stageElapsedTime > 2000) {
-        this.displayStageNumber = false;
-        this.stageElapsedTime = 0;
-      } else {
-        // console.log(`Stage ${this.stageIndex + 1}`);
-      }
-    } else {
-      for (let i = this.currentWave; i < this.allWaves.length; i++) {
-        if (this.stageElapsedTime > this.allWaves[i].startTime) {
-          this.activeWaves.push(this.allWaves[i]);
-          this.currentWave++;
-        }
-      }
-
-      for (let i = 0; i < this.activeWaves.length; i++) {
-        this.activeWaves[i].update(elapsedTime);
+    //If a new stage just began, show stage number
+    for (let i = this.currentWave; i < this.allWaves.length; i++) {
+      if (this.stageElapsedTime > this.allWaves[i].startTime) {
+        this.activeWaves.push(this.allWaves[i]);
+        this.currentWave++;
       }
     }
-
-    //TODO: If last enemy is in place, start breathing
+    this.activeWaves.forEach((wave) => {
+      wave.update(elapsedTime);
+    });
+    //Breathing
     if (
       !this.isBreathing &&
       this.currentWave == this.allWaves.length &&
@@ -83,5 +79,21 @@ export class WaveManager {
       this.isBreathing = true;
       this.opponentManager.startBreathing();
     }
+
+    if (this.stageIndex == 2) {
+      const oppsToRemove = [];
+      for (let i = 0; i < this.opponentManager.opponents.length; i++) {
+        if (this.opponentManager.opponents[i].state !== "entrance") {
+          oppsToRemove.push(i);
+        }
+      }
+      oppsToRemove.forEach((index) => {
+        this.opponentManager.opponents.splice(index, 1);
+      });
+    }
+  }
+
+  get displayStageNumber(): boolean {
+    return this.stageElapsedTime < 2000;
   }
 }

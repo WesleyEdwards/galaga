@@ -24,3 +24,9 @@ export type OpponentType = "bee" | "butterfly" | "bossGalaga";
 export type Path = Coordinates[];
 
 export type OpponentState = "entrance" | "stationary" | "breathe-in" | "breathe-out" | "attack";
+
+
+export type GameStateStatus =
+  | { status: "playing" }
+  | { status: "gameOver"; deathTimer: number }
+  | { status: "done" };

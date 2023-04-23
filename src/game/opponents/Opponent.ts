@@ -6,20 +6,30 @@ import {
   OpponentType,
   Path,
 } from "../helpers/types";
+import { getAttackPath } from "./AttackPatterns";
 import { opponentSprites } from "./opponentStats";
 
 export class Opponent {
   private drawManager: DrawManager;
+  private prevPos = { x: 0, y: 0 };
   private pathIndex = 0;
   private speed: number;
   private breathTimer = 0;
   private audio = new Audio();
+  private attackPath: Coordinates[] = [];
+  private activePath: Coordinates[] = [];
+  private breathingOffsetX = 0;
+  private breathingOffsetY = 0;
+  private secondaryState: OpponentState | "" = "";
+  shotsFired = 0;
+  shotTimer = 0;
   type: OpponentType;
   lives = 1;
   path: Coordinates[];
-  state: OpponentState;
+  state: OpponentState | "";
   pos: Coordinates = {} as Coordinates;
   restingPosX: number;
+  restingPosY: number;
   constructor(
     context: CanvasRenderingContext2D,
     pos: Coordinates,
@@ -40,68 +50,73 @@ export class Opponent {
     this.path = path;
     this.state = "entrance";
     this.restingPosX = path[path.length - 1].x;
+    this.restingPosY = path[path.length - 1].y;
     if (oppType === "bossGalaga") this.lives = 2;
+    this.activePath = path;
   }
   update(timeStamp: number) {
+    this.prevPos.x = this.pos.x;
+    this.prevPos.y = this.pos.y;
     // Follow path, if it exists
-    if (this.pathIndex < this.path.length - 1 && this.state === "entrance") {
-      let distTraveled = this.speed * timeStamp;
-      let distRemaining = computeDistance(
-        this.pos,
-        this.path[this.pathIndex + 1]
-      );
-
-      if (distTraveled > distRemaining) {
-        distTraveled -= distRemaining;
-        this.pos.x = this.path[this.pathIndex + 1].x;
-        this.pos.y = this.path[this.pathIndex + 1].y;
-        this.pathIndex++;
-      }
-
-      if (this.pathIndex < this.path.length - 1) {
-        let dirX = this.path[this.pathIndex + 1].x - this.pos.x;
-        let dirY = this.path[this.pathIndex + 1].y - this.pos.y;
-        const dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
-        dirX /= dirMag;
-        dirY /= dirMag;
-        const moveX = distTraveled * dirX;
-        const moveY = distTraveled * dirY;
-        this.pos.x += moveX;
-        this.pos.y += moveY;
-      }
-      //In final position
-      if (
-        this.pos.x == this.path[this.path.length - 1].x &&
-        this.pos.y == this.path[this.path.length - 1].y
-      ) {
-        this.state = "stationary";
-      }
+    if (this.state === "entrance") {
+      this.followPath(timeStamp, () => {this.state = "stationary";});
+      
     } else if (this.state === "attack") {
-      //attack
-      this.pos.x = this.restingPosX;
-    } else if (this.state === "breathe-in") {
-      if (this.breathTimer < 2000) {
-        const posX = this.pos.x + OPPONENT_WIDTH / 2;
-        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x += ((posX - 250) / 250) * 0.3;
-        this.pos.y += (posY / 250) * 0.4;
-        this.breathTimer += timeStamp;
-      } else {
-        this.breathTimer = 0;
-        this.state = "breathe-out";
+      
+      this.shotTimer += timeStamp;
+      if (this.attackPath.length === 0) {
+        this.attackPath = getAttackPath(this.pos);
+        this.activePath = this.attackPath;
+        this.pathIndex = 0;
       }
-    } else if (this.state === "breathe-out") {
+      this.followPath(timeStamp, () => {
+        this.activePath.length = 0;
+        this.pathIndex = 0;
+        this.state = this.secondaryState;
+        this.secondaryState = "";
+        this.pos.x = this.restingPosX + this.breathingOffsetX;
+        this.pos.y = this.restingPosY + this.breathingOffsetY;
+        
+      });
+      
+    } 
+    if (this.state === "breathe-in" || this.secondaryState === "breathe-in") {
       if (this.breathTimer < 2000) {
-        const posX = this.pos.x + OPPONENT_WIDTH / 2;
-        const posY = this.pos.y + OPPONENT_HEIGHT / 2;
-        this.pos.x -= ((posX - 250) / 250) * 0.3;
-        this.pos.y -= (posY / 250) * 0.4;
+        const posX = this.restingPosX + OPPONENT_WIDTH / 2;
+        const posY = this.restingPosY + OPPONENT_HEIGHT / 2;
+        this.breathingOffsetX += ((posX - 250) / 250) * 0.3;
+        this.breathingOffsetY += (posY / 250) * 0.4;
+        if (this.state == "breathe-in") {
+          this.pos.x = this.restingPosX + this.breathingOffsetX;
+          this.pos.y = this.restingPosY + this.breathingOffsetY;
+        }
         this.breathTimer += timeStamp;
       } else {
         this.breathTimer = 0;
-        this.state = "breathe-in";
+        if (this.state === "breathe-in") this.state = "breathe-out";
+        this.secondaryState = "breathe-out";
       }
     }
+    if (this.state === "breathe-out" || this.secondaryState === "breathe-out") {
+      if (this.breathTimer < 2000) {
+        const posX = this.restingPosX + OPPONENT_WIDTH / 2;
+        const posY = this.restingPosY + OPPONENT_HEIGHT / 2;
+        this.breathingOffsetX -= ((posX - 250) / 250) * 0.3;
+        this.breathingOffsetY -= (posY / 250) * 0.4;
+        if (this.state == "breathe-out") {
+          this.pos.x = this.restingPosX + this.breathingOffsetX;
+          this.pos.y = this.restingPosY + this.breathingOffsetY;
+        }
+        this.breathTimer += timeStamp;
+      } else {
+        this.breathTimer = 0;
+        if (this.state === "breathe-out") this.state = "breathe-in";
+        this.secondaryState = "breathe-in";
+      }
+    }
+
+    // if (this.prevPos.x == this.pos.x && this.prevPos.y == this.pos.y) console.log("no movement: " + this.state);
+    
   }
 
   handleHit(): boolean {
@@ -115,7 +130,40 @@ export class Opponent {
   }
 
   startAttackRun() {
+    this.secondaryState = this.state;
+    this.speed = 300 / 1000;
     this.state = "attack";
+  }
+
+  followPath(timeStamp: number, onCompletion: () => void) {
+    if (this.pathIndex < this.activePath.length - 1) {
+      let distTraveled = this.speed * timeStamp;
+      let distRemaining = computeDistance(
+        this.pos,
+        this.activePath[this.pathIndex + 1]
+      );
+  
+      if (distTraveled > distRemaining) {
+        distTraveled -= distRemaining;
+        this.pos.x = this.activePath[this.pathIndex + 1].x;
+        this.pos.y = this.activePath[this.pathIndex + 1].y;
+        this.pathIndex++;
+      }
+  
+      if (this.pathIndex < this.activePath.length - 1) {
+        let dirX = this.activePath[this.pathIndex + 1].x - this.pos.x;
+        let dirY = this.activePath[this.pathIndex + 1].y - this.pos.y;
+        const dirMag = Math.sqrt(dirX * dirX + dirY * dirY);
+        dirX /= dirMag;
+        dirY /= dirMag;
+        const moveX = distTraveled * dirX;
+        const moveY = distTraveled * dirY;
+        this.pos.x += moveX;
+        this.pos.y += moveY;
+      } else {
+        onCompletion();
+      }
+    }
   }
   
   draw(spriteIndex: number) {
@@ -128,8 +176,8 @@ export class Opponent {
     return this.pos.x + OPPONENT_WIDTH / 2;
   }
   get rotation() {
-    if (this.pathIndex < this.path.length - 1 && this.path.length != 0) {
-      return getAngle(this.pos, this.path[this.pathIndex + 1]);
+    if (this.pathIndex < this.activePath.length - 1 && this.activePath.length != 0) {
+      return getAngle(this.pos, this.activePath[this.pathIndex + 1]);
     }
     return 0;
   }

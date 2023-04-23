@@ -13,17 +13,28 @@ import { DrawManager } from "../helpers/DrawManager";
 export class PlayerBulletManager {
   bullets: PlayerBullet[] = [];
   drawManager: DrawManager;
-  constructor(context: CanvasRenderingContext2D) {
+  private attractShootTimer: number | undefined;
+  shotsFired: number;
+  opponentsHit: number;
+  constructor(context: CanvasRenderingContext2D, attract: boolean) {
+    this.attractShootTimer = attract ? 0 : undefined;
     this.drawManager = new DrawManager(context, BULLET_WIDTH, BULLET_HEIGHT, {
       srcX: 313,
       srcY: 122,
       srcWidth: 3,
       srcHeight: 8,
       });
+      this.shotsFired = 0;
+      this.opponentsHit = 0;
   }
 
-  update(elapsedTime: number, keys: Keys, playerCenterX: number) {
-    if (keys.shoot) {
+  update(elapsedTime: number, keys: Keys, playerCenterX?: number) {
+    if (playerCenterX === undefined) {
+      return (this.bullets.length = 0);
+    }
+    const attractShoot = this.checkAttractShoot(elapsedTime);
+    if (keys.shoot || attractShoot) {
+      this.shotsFired++;
       const a = new Audio("assets/Ship Shot.wav");
       a.volume = 0.1;
       a.play();
@@ -51,6 +62,16 @@ export class PlayerBulletManager {
     });
   }
 
+  checkAttractShoot(elapsedTime: number): boolean {
+    if (this.attractShootTimer === undefined) return false;
+    this.attractShootTimer += elapsedTime;
+    if (this.attractShootTimer > 200) {
+      this.attractShootTimer = 0;
+      return true;
+    }
+    return false;
+  }
+
   checkOpponentCollision(opponents: Opponent[]): Opponent[] {
     const hitOpponents: Opponent[] = [];
     this.bullets.forEach((bullet) => {
@@ -62,6 +83,7 @@ export class PlayerBulletManager {
           bullet.pos.y < opp.pos.y + OPPONENT_WIDTH
         ) {
           hitOpponents.push(opp);
+          this.opponentsHit++;
           this.bullets.splice(this.bullets.indexOf(bullet), 1);
         }
       });

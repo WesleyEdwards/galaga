@@ -1,3 +1,4 @@
+import { CANVAS_HEIGHT, PLAYER_TOP } from "../helpers/constants";
 import { Coordinates, OpponentType } from "../helpers/types";
 import { initialBgParticles, oppColors } from "../helpers/utils";
 import { Opponent } from "../opponents/Opponent";
@@ -46,9 +47,12 @@ export class ParticleManager {
     }
   }
 
-  playerDeath(pos: Coordinates) {
+  playerDeath(centerX: number) {
     for (let i = 0; i < 40; i++) {
-      const particle = new Particle(pos, "#ffffff");
+      const particle = new Particle(
+        { x: centerX, y: CANVAS_HEIGHT - PLAYER_TOP },
+        "white"
+      );
       this.particles.push(particle);
     }
   }

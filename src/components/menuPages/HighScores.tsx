@@ -16,7 +16,10 @@ export const HighScores: FC<ScreenProps> = ({ onBack }) => {
 
   return (
     <Stack>
-      <ScreenHeader title="High Scores" backToMenu={() => onBack("menu")} />
+      <ScreenHeader
+        title="High Scores"
+        backToMenu={() => window.location.reload()}
+      />
       {highScores.length > 0 ? (
         <Stack width="20rem" alignSelf="center">
           {highScores.map((scoreRecord, i) => (
