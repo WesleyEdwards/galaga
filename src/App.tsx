@@ -23,9 +23,9 @@ function App() {
   const playingRef = useRef(false);
 
   const handleKeyDown = () => {
+    setRefresh((refresh) => refresh + 1);
     if (audioPlayingRef.current === true) return;
     playAudio();
-    setRefresh((refresh) => refresh + 1);
     audioPlayingRef.current = true;
   };
 
