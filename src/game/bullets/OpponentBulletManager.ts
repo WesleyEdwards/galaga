@@ -59,16 +59,17 @@ export class OpponentBulletManager {
 
   checkPlayerCollision(playerPosX?: number): boolean {
     if (!playerPosX) return false;
-    this.bullets.forEach((bullet) => {
+    for(let i = 0; i < this.bullets.length; i++) {
+      const bullet = this.bullets[i];
       if (
         bullet.pos.y >= CANVAS_HEIGHT - PLAYER_TOP &&
         bullet.pos.y - BULLET_HEIGHT <= CANVAS_HEIGHT - PLAYER_BOTTOM &&
         bullet.pos.x >= playerPosX - PLAYER_WIDTH / 2 &&
         bullet.pos.x <= playerPosX + PLAYER_WIDTH / 2
-      ) {
-        return true;
+        ) {
+        return true
       }
-    });
+    }
     return false;
   }
 }

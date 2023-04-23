@@ -115,7 +115,8 @@ export class GameState {
       displayWords("Game Over", this.context);
     }
     if (this.waveManager.displayStageNumber) {
-      displayWords(`Stage ${this.waveManager.stageIndex + 1}`, this.context);
+      const text = this.waveManager.stageIndex ===2 ? "Challenging Stage" : `Stage ${this.waveManager.stageIndex + 1}`;
+      displayWords(text, this.context);
     }
   }
 
