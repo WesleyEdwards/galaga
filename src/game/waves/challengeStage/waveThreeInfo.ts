@@ -6,7 +6,7 @@ import { WaveInfo } from "../AllWaves";
 const { x: convX, y: convY } = getConversions();
 
 
-const beeOneStart = { x: convX * 500 + OPPONENT_WIDTH, y: convY * 480 };
+const beeOneStart = { x: convX * 500 + OPPONENT_WIDTH, y: convY * 450 };
 const beeOneEnd = [
   { x: convX * -OPPONENT_WIDTH, y: convY * -OPPONENT_HEIGHT },
   { x: convX * -OPPONENT_WIDTH, y: convY * -OPPONENT_HEIGHT },
@@ -22,7 +22,7 @@ const beeOnePaths = beeOneEnd.map((end) => pathOne(end));
 
 function pathOne(destination: Coordinates) {
     const pts = [
-        { x: convX * 400, y: convY * 470},
+        { x: convX * 400, y: convY * 450},
         { x: convX * 300, y: convY * 430},
         { x: convX * 250, y: convY * 400},
         { x: convX * 180, y: convY * 350},
