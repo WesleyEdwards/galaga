@@ -40,7 +40,7 @@ function pathOne(destination: Coordinates) {
         { x: convX * 450, y: convY * 100},
     ]
     pts.push(destination);
-    const smoothCurve =  generatePointsOnBezierCurve(pts, 15);
+    const smoothCurve =  generatePointsOnBezierCurve(pts, 25);
     smoothCurve.push({x: destination.x, y: destination.y + 1});
     return smoothCurve;
 }
