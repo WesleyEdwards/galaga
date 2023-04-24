@@ -49,7 +49,6 @@ export const initialBgParticles: BgParticle[] = new Array(100)
 
 
   export const emptyGameFunctions = {
-    decrementLife: () => {},
     addScore: () => {},
     onWin: () => {},
     toggleModal: () => {},

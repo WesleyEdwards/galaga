@@ -7,7 +7,7 @@ import { CANVAS_WIDTH } from "./game/helpers/constants";
 import { MenuBar } from "./components/MenuBar";
 import { enterGamePlay } from "./game/main";
 import { emptyGameFunctions } from "./game/helpers/utils";
-import { asyncFetchGameContent } from "./utils/images";
+import { asyncFetchGameContent, life_image } from "./utils/images";
 
 function App() {
   const darkTheme = createTheme({
@@ -19,6 +19,7 @@ function App() {
   const [attractMode, setAttractMode] = useState<boolean>();
   const [refresh, setRefresh] = useState(0);
   const [gameContent, setGameContent] = useState<HTMLImageElement | null>(null);
+  const [lives, setLives] = useState(2);
   const audioPlayingRef = useRef(false);
   const playingRef = useRef(false);
 
@@ -37,7 +38,14 @@ function App() {
     if (playingRef.current) return;
     const content: HTMLImageElement = gameContent as HTMLImageElement;
     setTimeout(() => {
-      enterGamePlay({ gameContent: content, ...emptyGameFunctions }, true);
+      enterGamePlay(
+        {
+          gameContent: content,
+          decrementLife: () => setLives((prev) => prev - 1),
+          ...emptyGameFunctions,
+        },
+        true
+      );
     }, 30);
   };
 
@@ -82,6 +90,11 @@ function App() {
       setGameContent(content);
     });
   }, []);
+  useEffect(() => {
+    if (lives === 0) {
+      window.location.reload();
+    }
+  }, [lives]);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -98,15 +111,19 @@ function App() {
           >
             <div style={{ width: `${CANVAS_WIDTH}px` }}>
               <div id="empty-root"></div>
-              <MenuBar
-                exitGame={() => {
-                  setAttractMode(false);
-                }}
-                gameInfo={{
-                  lives: 2,
-                  score: 0,
-                }}
-              />
+              {new Array(lives).fill(null).map((_, i) => (
+                <img
+                  src={life_image}
+                  style={{
+                    objectFit: "contain",
+                    imageRendering: "pixelated",
+                  }}
+                  alt="heart"
+                  width="50px"
+                  height="50px"
+                  key={i}
+                />
+              ))}
             </div>
           </div>
         ) : (
