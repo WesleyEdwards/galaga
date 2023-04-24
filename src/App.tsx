@@ -19,7 +19,7 @@ function App() {
   const [attractMode, setAttractMode] = useState<boolean>();
   const [refresh, setRefresh] = useState(0);
   const [gameContent, setGameContent] = useState<HTMLImageElement | null>(null);
-  const [lives, setLives] = useState(2);
+  const [lives, setLives] = useState(3);
   const audioPlayingRef = useRef(false);
   const playingRef = useRef(false);
 
@@ -111,7 +111,7 @@ function App() {
           >
             <div style={{ width: `${CANVAS_WIDTH}px` }}>
               <div id="empty-root"></div>
-              {new Array(lives).fill(null).map((_, i) => (
+              {new Array(lives > 0 ? lives - 1 : 0).fill(null).map((_, i) => (
                 <img
                   src={life_image}
                   style={{

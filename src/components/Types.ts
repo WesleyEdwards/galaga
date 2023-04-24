@@ -4,7 +4,7 @@ export type GameInfo = {
 };
 
 export const initGameInfo: GameInfo = {
-  lives: 2,
+  lives: 3,
   score: 0,
 };
 

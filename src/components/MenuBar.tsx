@@ -22,19 +22,21 @@ export const MenuBar: FC<MenuBarProps> = (props) => {
           display: "flex",
         }}
       >
-        {new Array(gameInfo.lives).fill(null).map((_, i) => (
-          <img
-            src={life_image}
-            style={{
-              objectFit: "contain",
-              imageRendering: "pixelated",
-            }}
-            alt="heart"
-            width="50px"
-            height="50px"
-            key={i}
-          />
-        ))}
+        {new Array(gameInfo.lives > 0 ? gameInfo.lives - 1 : 0)
+          .fill(null)
+          .map((_, i) => (
+            <img
+              src={life_image}
+              style={{
+                objectFit: "contain",
+                imageRendering: "pixelated",
+              }}
+              alt="heart"
+              width="50px"
+              height="50px"
+              key={i}
+            />
+          ))}
       </div>
       <Typography>Pause: Esc</Typography>
       <Typography

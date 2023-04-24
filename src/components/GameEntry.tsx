@@ -49,7 +49,6 @@ export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
     setInitialPage(state);
   };
 
-  const onLose = () => exitGame("lose");
   const onWin = () => exitGame("win");
 
   useEffect(() => {
@@ -69,12 +68,6 @@ export const GameEntry: FC<{ setPlaying: (p: boolean) => void }> = ({
       });
     }
   }, [canvasRef, play]);
-
-  useEffect(() => {
-    if (gameInfo.lives === 0) {
-      onLose();
-    }
-  }, [gameInfo.lives]);
 
   useEffect(() => {
     asyncFetchGameContent().then((content) => {

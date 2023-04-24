@@ -2,7 +2,6 @@ import { initialKeyStatus } from "./helpers/constants";
 import { addEventListeners } from "./helpers/utils";
 import { Player } from "./Player";
 import { GameStateStatus, Keys } from "./helpers/types";
-import { colorPalette } from "./helpers/drawingHelpers";
 import { UpdateUiFunctions } from "../components/Types";
 import { OpponentManager } from "./opponents/OpponentManager";
 import { PlayerBulletManager } from "./bullets/PlayerBulletManager";
@@ -115,7 +114,10 @@ export class GameState {
       displayWords("Game Over", this.context);
     }
     if (this.waveManager.displayStageNumber) {
-      const text = this.waveManager.stageIndex ===2 ? "Challenging Stage" : `Stage ${this.waveManager.stageIndex + 1}`;
+      const text =
+        this.waveManager.stageIndex === 2
+          ? "Challenging Stage"
+          : `Stage ${this.waveManager.stageIndex + 1}`;
       displayWords(text, this.context);
     }
   }
