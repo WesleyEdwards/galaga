@@ -12,7 +12,7 @@
 
 ## About
 
-This app was created using Vite. The menu was created with React.js.
+This app was created using Vite. The menu was created with React.js. Hosted at WesleyEdwards.github.io/galaga
 
 ## Dynamic Loading
 - in the `images.ts` file, there is a function that asynchronously loads the sprites and content needed when the page is loaded.
